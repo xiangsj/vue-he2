@@ -1,0 +1,248 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    min-width: 320px;
+    height: 100%;
+    ul,
+    li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+//重写MINT UI 样式
+.mint-indicator-wrapper {
+    z-index: 999;
+}
+
+.text-center {
+    text-align: center;
+}
+
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    height: 100%;
+}
+
+.home {
+    // border: 1px solid blue;
+    height: 100%;
+    >.index {
+        // border: 1px solid blue;
+        ul.nav {
+            // border: 1px solid red;
+            margin: 12px 45px;
+            >li {
+                width: 25%;
+                float: left;
+                margin-bottom: 15px;
+                >img {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 8px;
+                    border: 1px solid #eee;
+                }
+                >div {
+                    margin-top: 1px;
+                }
+            }
+            &:after {
+                content: "";
+                display: table;
+                height: 0;
+                clear: both;
+            }
+        }
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            color: #ccc;
+        }
+    }
+    .inputRight {
+        // border-bottom: 1px solid #d9d9d9;
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#d9d9d9), color-stop(50%, #d9d9d9), color-stop(50%, transparent));
+        background-image: linear-gradient(0deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+        background-size: 100% 1px;
+        background-repeat: no-repeat;
+        background-position: bottom;
+        .mint-cell-value {
+            input.mint-field-core {
+                text-align: right;
+                padding-right: 10px;
+            }
+        }
+    }
+}
+
+.scrollList {
+    position: absolute;
+    left: 0;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    >li {
+        // border: 1px solid blue;
+        font-size: 15px;
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+    }
+}
+
+img.logo {
+    // border: 1px solid red;
+    // display: none;
+    margin: 0 auto;
+    width: 100%;
+    height: 80px;
+}
+
+.navbar {
+    // border: 2px solid red;
+    border-bottom: 3px solid #f9f9f9;
+    .mint-tab-item-label {
+        font-size: 15px;
+    }
+}
+
+.search {
+    // border: 1px solid red;
+    .tabContent {
+        // border: 1px solid red;
+        margin-top: 30px;
+        min-height: 280px;
+        position: relative;
+        >div.mint-cell {
+            // border-bottom: 1px solid red;
+            .mint-cell-value {
+                display: inline-block;
+                width: 70%;
+                text-align: right;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .overHidden {
+            border: 1px solid red; // max-width: 50%;
+        }
+        .text-center {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 15px;
+            .mint-button {
+                width: 100px;
+                margin: 0 10px;
+                height: 36px; // padding-top: 8px;
+                // padding-bottom: 8px;
+            }
+        }
+    }
+}
+
+.selectBrand {
+    // border: 1px solid red;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: #fff;
+}
+
+.tableWrap {
+    margin: 10px;
+    table {
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+        td {
+            word-break: break-all;
+        }
+    }
+    table.hasBorder {
+        // margin: 0 10px;
+        td {
+            border: 1px solid #F5F5F5;
+            padding: 5px 10px;
+            &:first-child {
+                color: #666;
+            }
+        }
+    }
+    table.noBorder {
+        // border: 1px solid blue;
+        tr {
+            border-top: 1px solid #f9f9f9;
+            &:first-child {
+                border-top: none;
+            }
+        }
+        td {
+            padding: 5px 10px 5px 0;
+            .listPic {
+                width: 88px;
+                height: 88px;
+                border-radius: 4px;
+            }
+            .noPic {
+                // border: 1px solid red;
+                height: 88px;
+                line-height: 88px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                width: 88px;
+                color: #999;
+            }
+            &:first-child {
+                color: #666;
+            }
+        }
+    }
+    table.detailOnly {
+        // border: 1px solid red;
+        margin-bottom: 20px;
+        caption {
+            margin: 0 30px 6px 0;
+            >span {
+                // background: red;
+                float: left;
+                width: 50%;
+                img {
+                    width: 122px;
+                    height: 122px;
+                    border-radius: 4px;
+                }
+            }
+            .noPic {
+                // border: 1px solid red;
+                float: left;
+                width: 50%;
+                color: #999;
+            }
+        }
+        tr {
+            td {
+                padding: 5px 10px;
+                word-wrap: break-word;
+                &:first-child {
+                    color: #666;
+                }
+            }
+        }
+    }
+}
+
+.getMore {
+    height: 30px;
+    line-height: 20px;
+}
