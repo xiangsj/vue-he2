@@ -3,44 +3,12 @@
         <div class="text-center">
             <img class="logo" :src="getLogoUrl()">
         </div>
-        <mt-navbar class="navbar" v-model="selected">
-            <mt-tab-item :id="item.Name" v-for="(item,index) in tabsFixed" :key="'a'+index" v-if="item.IsShow">{{item.Name}}</mt-tab-item>
-            <!-- <mt-tab-item id="2">编号</mt-tab-item>
-            <mt-tab-item id="3">Vin码</mt-tab-item> -->
-            <mt-tab-item :id="'tab'+item.FID" v-for="(item,index) in tabsMore" :key="'b'+index">{{item.ShowCaption}}</mt-tab-item>
-        </mt-navbar>
-
-        <!-- tab-container -->
-        <mt-tab-container v-model="selected">
-            <mt-tab-container-item :id="item.Name" v-for="(item,index) in tabsFixed" :key="'a'+index" v-if="item.IsShow">
-                <!-- <search-body-1 :mSortNo="mSortNo"></search-body-1> -->
-                <component :mSortNo="mSortNo" v-bind:is="'search-body-' + parseInt(index+1)"></component>  
-            </mt-tab-container-item>
-
-            <!-- <mt-tab-container-item id="2">
-                <search-body-2 :mSortNo="mSortNo"></search-body-2>
-            </mt-tab-container-item>
-
-            <mt-tab-container-item id="3">
-                <search-body-3 :mSortNo="mSortNo"></search-body-3>
-            </mt-tab-container-item> -->
-
-            <mt-tab-container-item :id="'tab'+item.FID" v-for="(item,index) in tabsMore" :key="'b'+index">
-                <search-body-4 :mSortNo="mSortNo" :itemData="item"></search-body-4>
-            </mt-tab-container-item>
-        </mt-tab-container>
 
     </div>
 </template>
 
 <script>
 import { getCookie } from "@/libs/utils.js";
-
-import searchBody1 from './searchBody1'
-import searchBody2 from './searchBody2'
-import searchBody3 from './searchBody3'
-import searchBody4 from './searchBody4'
-
 import { Indicator } from 'mint-ui';
 export default {
     name: 'search',
@@ -70,7 +38,6 @@ export default {
             return getCookie("logoUrl");
         },
         getTabsFixed(){
-            // /api/MainSearchTitle?weiXinCode=gh_6297f82da263
             this.$http.get('/api/MainSearchTitle', {params:{}}).then(res => {
                 // console.log(" 自定义导航 ")
                 // console.log(res.DataList)
@@ -98,10 +65,7 @@ export default {
         },
     },
     components: {
-        'search-body-1': searchBody1,
-        'search-body-2': searchBody2,
-        'search-body-3': searchBody3,
-        'search-body-4': searchBody4,
+
     }
 }
 </script>
