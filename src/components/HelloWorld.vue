@@ -1,7 +1,7 @@
 <template>
   <div class="hello text-center">
     <h1>{{ msg }}</h1>
-    <router-link to="/home/index/?weiXinCode=gh_6297f82da266">Go to index</router-link>
+    <router-link to="/home/index/?token=7241DCA3-DA40-4AF9-86B0-D9AC30115764">Go to index</router-link>
 <!-- 
     <h2>Essential Links</h2>
     <mt-button @click.native="handleClick">toast</mt-button>
@@ -23,44 +23,54 @@ export default {
   },
   created(){
     // setCookie("userName", "bb");
+
+    // this.$http.get('/api/TokenCheck', { params: {token:"7241DCA3-DA40-4AF9-86B0-D9AC30115764"} }).then(res => {
+    //     // console.log(JSON.parse(res.data))
+    //     console.log(res.data)
+    //     // this.msg = res.msg;
+    //     // success callback
+    //   }, res => {
+    //     // error callback
+    //   });
+
   },
   methods: {
-    set: function(name, value, days) {
+    // set: function(name, value, days) {
 
-      var d = new Date;
+    //   var d = new Date;
 
-      d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
+    //   d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
 
-      window.document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+    //   window.document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
 
-    },
+    // },
 
-    get: function(name) {
+    // get: function(name) {
 
-      var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    //   var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
 
-      return v ? v[2] : null;
+    //   return v ? v[2] : null;
 
-    },
+    // },
 
-    delete: function(name) {
+    // delete: function(name) {
 
-      this.set(name, '', -1);
+    //   this.set(name, '', -1);
 
-    },
-    handleClick: function() {
-      this.$toast('Hello world!')
-    },
-    apiGet() {
-      this.$http.get('/api/ProdSort', { params: {} }).then(res => {
-        // console.log(JSON.parse(res.data))
-        // this.msg = res.msg;
-        // success callback
-      }, res => {
-        // error callback
-      });
+    // },
+    // handleClick: function() {
+    //   this.$toast('Hello world!')
+    // },
+    // apiGet() {
+    //   this.$http.get('/api/ProdSort', { params: {} }).then(res => {
+    //     // console.log(JSON.parse(res.data))
+    //     // this.msg = res.msg;
+    //     // success callback
+    //   }, res => {
+    //     // error callback
+    //   });
 
-    }
+    // }
   }
 }
 </script>
