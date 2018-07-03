@@ -13,9 +13,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'index',
+      component: index,
+      meta: {keepAlive: true}
     },
+    // {
+    //   path: '/',
+    //   name: 'HelloWorld',
+    //   component: HelloWorld
+    // },
     {
       path: '/login',
       name: 'login',
@@ -26,12 +32,6 @@ export default new Router({
       name: 'home',
       component: home,
       children: [
-        {
-          path: 'index',
-          name: 'index',
-          component: index,
-          meta: {keepAlive: true}
-        },
         {
           path: 'search/:id',
           name: 'search',

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
 Vue.prototype.$http = axios
-// import router from '../router/index'
 import { MessageBox } from 'mint-ui';
 
 //http request 请求头拦截器
@@ -13,9 +12,9 @@ axios.interceptors.request.use(config => {
   //排除此接口，其他自动加上 cookie
   if (config.url !== "/api/Login") {
     let code = getCookie("code");
-    if (!code) {
-      MessageBox('未授权', '请授权后重新打开此页');
-    }
+    // if (!code) {
+    //   MessageBox('未授权', '请授权后重新打开此页');
+    // }
     //请求方式
     let method = config.method.toLowerCase();
     if (method === 'get' || method === 'delete') {
