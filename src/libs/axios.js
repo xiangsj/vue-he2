@@ -10,16 +10,16 @@ import { getCookie } from "@/libs/utils.js";
 axios.interceptors.request.use(config => {
   // console.log(config)
   //排除此接口，其他自动加上 cookie
-  if (config.url !== "/api/Login") {
-    let code = getCookie("code");
-    // if (!code) {
-    //   MessageBox('未授权', '请授权后重新打开此页');
-    // }
+  if (config.url !== "/api/TokenCheck") {
+    let token = getCookie("token");
+    if (!token) {
+      MessageBox('no token', '请重新获取手机令牌');
+    }
     //请求方式
     let method = config.method.toLowerCase();
     if (method === 'get' || method === 'delete') {
       Object.assign(config.params, {
-        "weiXinCode": code
+        "token": token
       });
     }
   }

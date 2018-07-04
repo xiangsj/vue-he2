@@ -5,9 +5,9 @@
         </div>
 
         <div style="margin:2px 0 20px;">
-            <div @click="popupVisible = true">
+            <div @click="selectAccount()">
                 <mt-cell title="账套" is-link value="请选择账套">
-                    <span v-if="account != ''">{{account}}</span>
+                    <span v-if="accountName != ''">{{accountName}}</span>
                 </mt-cell>
             </div>
 
@@ -17,65 +17,109 @@
         </div>
 
         <div class="btns text-center">
-            <mt-button size="small" type="primary" @click="submit()">登录</mt-button>
+            <mt-button size="small" type="primary" @click="toLogin()">登录</mt-button>
             <mt-button size="small" type="default" @click="reset()">重置</mt-button>
         </div>
 
-<mt-popup
-  v-model="popupVisible" position="right">
-  ...
-</mt-popup>
+        <mt-popup v-model="popupVisible" position="right" class="modelRight">
+            <div class="">
+                <mt-radio title="" align="right" v-model="popupVal" :options="popupArr"> </mt-radio>
+
+                <div class="buttonFoot">
+                    <mt-button size="large" type="primary" @click="surePopup()">确定</mt-button>
+                </div>
+            </div>
+        </mt-popup>
     </div>
 </template>
 
 <script>
 import { setTitle, setCookie } from "@/libs/utils.js";
+// import { Popup } from 'mint-ui';
 
+// Vue.component(Popup.name, Popup);
 export default {
     name: 'home',
     data() {
         return {
-            account: '',
-            username: 'admin',
-            pwd: 'admin',
-            popupVisible: false
+            accountName: '',
+            username: 'lwp',
+            pwd: '888888',
+
+            popupVisible: false,
+            popupArr: [],
+            popupVal: '1'
         }
     },
     created() {
         setTitle(" 用户登录 ")
     },
     methods: {
-        selectAccount(){},
-        reset() {
-            this.username = this.pwd = '';
+        surePopup(){
+            this.popupVisible = false;
+            this.popupArr.forEach((item)=>{
+                if(item.value == this.popupVal){
+                    this.accountName = item.label;
+                }
+            });
         },
-        submit() {
+        selectAccount() {
+            this.$http.get('/api/DealerComPany', { params: {} }).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    let list = res.data.DataList;
+                    if (list === 0) { return }
+                    let newArr = [];
+                    list.forEach((item,index)=>{
+                        newArr.push({
+                            value:item.Fid+'',
+                            label:item.CompanyName
+                        })
+                    });
+                    this.popupArr = newArr;
+                    this.popupVisible = true;
+                } else {
+                    this.$toast(res.data.message);
+                }
+            }, res => { });
+        },
+        reset() {
+            this.username = this.pwd = ''
+        },
+        toLogin() {
+            if (this.accountName === '') {
+                this.$toast("请选择帐套")
+                return;
+            }
             if (this.username === '') {
-                Toast("请输入用户名")
+                this.$toast("请输入用户名")
                 return;
             }
             if (this.pwd === '') {
-                Toast("请输入密码")
+                this.$toast("请输入密码")
                 return;
             }
             let data = {
-                username: this.username,
+                fid: this.popupVal,
+                loginUser: this.username,
                 pwd: this.pwd
             }
-            Indicator.open();
-            this.$http.get('/api/User', { params: data }).then(res => {
-                // console.log(res)
-                Indicator.close();
-                setCookie("username", this.username);
-
-                if (res.status == 'E') {
-                    Toast(res.message);
+            this.$http.get('/api/Login', { params: data }).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    console.log(res)
                 } else {
-                    this.$emit("loginSuccess")
+                    this.$toast(res.data.message);
                 }
-            }, res => {
-                // error callback
-            });
+
+                // // console.log(res)
+                // Indicator.close();
+                // setCookie("username", this.username);
+
+                // if (res.status == 'E') {
+                //     Toast(res.message);
+                // } else {
+                //     this.$emit("loginSuccess")
+                // }
+            }, res => {});
         }
     }
 }

@@ -15,6 +15,8 @@ import axios from './libs/axios'
 
 Vue.config.productionTip = false
 
+
+
 let _global = {
   status: 'S'
 }
