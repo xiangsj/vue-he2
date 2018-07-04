@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { setCookie, getCookie, clearCookie, setTitle } from "@/libs/utils.js";
+
 export default {
     name: 'index',
     data() {
@@ -18,14 +20,17 @@ export default {
         }
     },
     created() {
-        // this.tokenCheck();
+        clearCookie();
     },
     methods: {
         handleClick() {
             this.$http.get('/api/TokenCheck', { params: { token: this.inputToken } }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
-                    console.log(res.data)
-                    console.log(this.GLOBAL.status)
+                    // console.log(res.data)
+                    // console.log(this.GLOBAL.status)
+                    if (res.data.DataList.length === 0) { return; }
+                    setCookie("token", this.inputToken);
+                    this.$router.push("/login");
                 } else {
                     this.$toast(res.data.message);
                 }
@@ -37,7 +42,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .index {
     padding: 10px 0;
     >.text-center {
