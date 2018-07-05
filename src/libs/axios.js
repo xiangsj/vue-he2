@@ -8,12 +8,16 @@ import { MessageBox } from 'mint-ui';
 import { getCookie } from "@/libs/utils.js";
 // console.log(getCookie("code"))
 axios.interceptors.request.use(config => {
-  // console.log(config)
+  
   //排除此接口，其他自动加上 cookie
   if (config.url !== "/api/TokenCheck") {
     let token = getCookie("token");
     if (!token) {
-      MessageBox('no token', '请重新获取手机令牌');
+      // MessageBox('no token', '请重新获取手机令牌');
+      MessageBox.alert('no token').then(action => {
+        self.location.href="/";
+      });
+      return;
     }
     //请求方式
     let method = config.method.toLowerCase();

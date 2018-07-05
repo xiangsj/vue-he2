@@ -1,42 +1,52 @@
 <template>
     <div class="homeMain">
         <header>
-            <span>欢迎admin登录</span>
-            <span class="pull-right">帐套：魂牵梦萦</span>
+            <span>欢迎<span style="color:#222;font-weight:bold">{{account.loginUser}}</span>登录</span>
+            <span class="pull-right">帐套：{{account.resultString}}</span>
         </header>
         <section>
             <ul>
-                <li>aaaa</li>
-                <li>aaaa</li><br>
-                <li>aaaa</li>
+                <li @click="$router.push('/home/orderSearch')">订单查询</li>
+                <li>销售下单</li><br>
+                <li>库存查询</li>
             </ul>
         </section>
         <footer>
-            <mt-button size="large">退出</mt-button>
+            <mt-button size="large" @click="loginOut()">退出</mt-button>
         </footer>
     </div>
 </template>
 
 <script>
+import { getCookie, removeCookie, clearCookie, setTitle } from "@/libs/utils.js";
+
 export default {
     name: 'homeMain',
     data() {
         return {
-
+            account: JSON.parse(getCookie('account'))
         }
     },
     created() {
-
+        // let account = JSON.parse(getCookie('account'))
+        // console.log(account)
+        console.log(this.account)
+        console.log(this.account)
     },
     methods: {
-
+        loginOut(){
+            removeCookie('account');
+            this.$router.push("/login");
+        }
     }
 }
 </script>
 
 <style lang="less">
 .homeMain{
+    // border: 1px solid red;
     background-color: #f7f8f9;
+    height: 100%;
     section{
         >ul{
             // border:1px solid red;
@@ -48,7 +58,7 @@ export default {
                 width: 120px;
                 height: 120px;
                 line-height: 120px;
-                font-size: 28px;
+                font-size: 20px;
                 border-radius: 4px;
                 text-align: center;
                 margin: 8px;

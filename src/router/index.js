@@ -5,7 +5,8 @@ import index from '@/pages/index'
 import login from '@/pages/login'
 
 import home from '@/pages/home/index'
-import homeMain from '@/pages/home/main'
+import main from '@/pages/home/main'
+import orderSearch from '@/pages/home/orderSearch'
 import search from '@/pages/search'
 
 Vue.use(Router)
@@ -27,10 +28,17 @@ export default new Router({
       name: 'home',
       component: home,
       children: [
+        
         {
           path: 'main',
-          name: 'homeMain',
-          component: homeMain,
+          name: 'main',
+          component: main,
+          meta: {keepAlive: true}
+        },
+        {
+          path: 'orderSearch',
+          name: 'orderSearch',
+          component: orderSearch,
           meta: {keepAlive: true}
         },
         {

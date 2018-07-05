@@ -55,10 +55,10 @@ export default {
         setTitle(" 用户登录 ")
     },
     methods: {
-        surePopup(){
+        surePopup() {
             this.popupVisible = false;
-            this.popupArr.forEach((item)=>{
-                if(item.value == this.popupVal){
+            this.popupArr.forEach((item) => {
+                if (item.value == this.popupVal) {
                     this.accountName = item.label;
                 }
             });
@@ -69,10 +69,10 @@ export default {
                     let list = res.data.DataList;
                     if (list === 0) { return }
                     let newArr = [];
-                    list.forEach((item,index)=>{
+                    list.forEach((item, index) => {
                         newArr.push({
-                            value:item.Fid+'',
-                            label:item.CompanyName
+                            value: item.Fid + '',
+                            label: item.CompanyName
                         })
                     });
                     this.popupArr = newArr;
@@ -105,21 +105,17 @@ export default {
             }
             this.$http.get('/api/Login', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
-                    console.log(res)
+                    // console.log(res.data)
+                    let toCookie = res.data.DataList
+                    toCookie.loginUser = this.username
+                    toCookie.resultString = res.data.resultString
+                    console.log(toCookie)
+                    setCookie("account", toCookie);
+                    this.$router.push("/home/main");
                 } else {
                     this.$toast(res.data.message);
                 }
-
-                // // console.log(res)
-                // Indicator.close();
-                // setCookie("username", this.username);
-
-                // if (res.status == 'E') {
-                //     Toast(res.message);
-                // } else {
-                //     this.$emit("loginSuccess")
-                // }
-            }, res => {});
+            }, res => { });
         }
     }
 }
