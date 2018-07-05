@@ -9,21 +9,6 @@
 
 <script>
 export default {
-    name: 'home',
-    data() {
-        return {
-
-        }
-    },
-    created() {
-
-    },
-    methods: {
-
-    }
+    name: 'home'
 }
 </script>
-
-<style lang="less">
-
-</style>

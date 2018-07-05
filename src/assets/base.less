@@ -4,6 +4,7 @@ body {
     font-size: 13px;
     min-width: 320px;
     height: 100%;
+    // background-color: #f7f8f9;
     ul,
     li {
         list-style: none;
@@ -11,7 +12,13 @@ body {
         margin: 0;
     }
 }
-
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #222;
+    height: 100%;
+}
 //重写MINT UI 样式
 .mint-indicator-wrapper {
     z-index: 999;
@@ -20,14 +27,10 @@ body {
 .text-center {
     text-align: center;
 }
-
-#app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #222;
-    height: 100%;
+.pull-right{
+    float: right;
 }
+
 
 .inputRight {
     background-image: -webkit-gradient(linear, left bottom, left top, from(#d9d9d9), color-stop(50%, #d9d9d9), color-stop(50%, transparent));
