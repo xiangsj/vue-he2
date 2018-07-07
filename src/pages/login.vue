@@ -24,7 +24,6 @@
         <mt-popup v-model="popupVisible" position="right" class="modelRight">
             <div class="">
                 <mt-radio title="" align="right" v-model="popupVal" :options="popupArr"> </mt-radio>
-
                 <div class="buttonFoot">
                     <mt-button size="large" type="primary" @click="surePopup()">确定</mt-button>
                 </div>

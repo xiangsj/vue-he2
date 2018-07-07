@@ -6,7 +6,7 @@ import login from '@/pages/login'
 
 import home from '@/pages/home/index'
 import main from '@/pages/home/main'
-import orderSearch from '@/pages/home/orderSearch'
+import orderSearch from '@/pages/home/orderSearch/index'
 import search from '@/pages/search'
 
 Vue.use(Router)
