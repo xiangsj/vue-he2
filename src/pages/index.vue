@@ -1,7 +1,7 @@
 <template>
     <div class="index">
         <div class="text-center">欢迎使用耐喜软件手机APP</div>
-        <mt-field class="inputRight" label="手机令牌" placeholder="请输入手机令牌信息" v-model="inputToken"></mt-field>
+        <mt-field class="inputRight" label="手机令牌" placeholder="请输入手机令牌" v-model="inputToken"></mt-field>
         <div class="sure">
             <mt-button @click.native="handleClick" type="primary" size="large">确定</mt-button>
         </div>
@@ -42,11 +42,13 @@ export default {
 
 <style lang="less" scoped>
 .index {
-    padding: 10px 0;
+    // padding: 10px 0;
     >.text-center {
-        font-size: 28px;
+        font-size: 23px;
         font-weight: bold;
         padding: 10px 0;
+        border-bottom: 15px solid #f7f8f9;
+        margin-bottom: 10px;
     }
     .sure {
         margin: 55px 15px 0;

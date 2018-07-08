@@ -22,6 +22,11 @@
         </div>
 
         <mt-popup v-model="popupVisible" position="right" class="modelRight">
+            <mt-header title="选择帐套">
+                <router-link to="" slot="left">
+                    <mt-button icon="back" @click="popupVisible = false">返回</mt-button>
+                </router-link>
+            </mt-header>
             <div class="">
                 <mt-radio title="" align="right" v-model="popupVal" :options="popupArr"> </mt-radio>
                 <div class="buttonFoot">
@@ -63,6 +68,7 @@ export default {
             });
         },
         selectAccount() {
+            this.popupVisible = true
             this.$http.get('/api/DealerComPany', { params: {} }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     let list = res.data.DataList;
@@ -74,8 +80,7 @@ export default {
                             label: item.CompanyName
                         })
                     });
-                    this.popupArr = newArr;
-                    this.popupVisible = true;
+                    this.popupArr = newArr
                 } else {
                     this.$toast(res.data.message);
                 }
@@ -97,8 +102,9 @@ export default {
                 this.$toast("请输入密码")
                 return;
             }
+            let fid = this.popupVal
             let data = {
-                fid: this.popupVal,
+                fid: fid,
                 loginUser: this.username,
                 pwd: this.pwd
             }
@@ -108,6 +114,7 @@ export default {
                     let toCookie = res.data.DataList
                     toCookie.loginUser = this.username
                     toCookie.resultString = res.data.resultString
+                    toCookie.fid = fid
                     console.log(toCookie)
                     setCookie("account", toCookie);
                     this.$router.push("/home/main");
@@ -124,13 +131,15 @@ export default {
 .login {
     .title {
         text-align: center;
-        font-size: 28px;
-        padding: 15px 0;
+        font-size: 25px;
+        padding: 10px 0;
         color: #26a2ff;
         >div {
+            border-top: 15px solid #f7f8f9;
             font-size: 18px;
             color: #222;
-            margin-top: 20px;
+            margin-top: 10px;
+            padding-top: 12px;
         }
     }
     .btns {

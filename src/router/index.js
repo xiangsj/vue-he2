@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
+
 import index from '@/pages/index'
 import login from '@/pages/login'
 
 import home from '@/pages/home/index'
 import main from '@/pages/home/main'
+
 import orderSearch from '@/pages/home/orderSearch/index'
-import search from '@/pages/search'
+import orderSearchList from '@/pages/home/orderSearch/list'
+import orderSearchDetail from '@/pages/home/orderSearch/detail'
 
 Vue.use(Router)
 
@@ -28,26 +30,31 @@ export default new Router({
       name: 'home',
       component: home,
       children: [
-        
         {
           path: 'main',
           name: 'main',
           component: main,
-          meta: {keepAlive: true}
+          meta: { keepAlive: true }
         },
         {
           path: 'orderSearch',
           name: 'orderSearch',
           component: orderSearch,
-          meta: {keepAlive: true}
+          meta: { keepAlive: true }
         },
         {
-          path: 'search/:id',
-          name: 'search',
-          component: search,
-          meta: {keepAlive: true}
-        },        
-    ]
+          path: 'orderSearchList/:string',
+          name: 'orderSearchList',
+          component: orderSearchList,
+          meta: { keepAlive: true }
+        },
+        {
+          path: 'orderSearchDetail/:string',
+          name: 'orderSearchDetail',
+          component: orderSearchDetail,
+          meta: { keepAlive: true }
+        },
+      ]
     }
   ]
 })

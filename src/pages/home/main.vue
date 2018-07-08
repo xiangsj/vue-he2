@@ -1,14 +1,30 @@
 <template>
     <div class="homeMain">
         <header>
-            <span>欢迎<span style="color:#222;font-weight:bold">{{account.loginUser}}</span>登录</span>
+            <span>欢迎
+                <span style="color:#222;font-weight:bold">{{account.loginUser}}</span>登录</span>
             <span class="pull-right">帐套：{{account.resultString}}</span>
         </header>
         <section>
             <ul>
-                <li @click="$router.push('/home/orderSearch')">订单查询</li>
-                <li>销售下单</li><br>
-                <li>库存查询</li>
+                <li @click="$router.push('/home/orderSearch')">
+                    <span>
+                        <i class="iconfont icon-order-search"></i>
+                    </span>
+                    <div>订单查询</div>
+                </li>
+                <li>
+                    <span style="background:#6e05d6">
+                        <i class="iconfont icon-place-order"></i>
+                    </span>
+                    <div>销售下单</div>
+                </li><br>
+                <li>
+                    <span style="background:#008cee">
+                        <i class="iconfont icon-stock-search"></i>
+                    </span>
+                    <div>库存查询</div>
+                </li>
             </ul>
         </section>
         <footer>
@@ -34,7 +50,7 @@ export default {
         console.log(this.account)
     },
     methods: {
-        loginOut(){
+        loginOut() {
             removeCookie('account');
             this.$router.push("/login");
         }
@@ -43,40 +59,58 @@ export default {
 </script>
 
 <style lang="less">
-.homeMain{
+.homeMain {
     // border: 1px solid red;
     background-color: #f7f8f9;
     height: 100%;
-    section{
-        >ul{
+    section {
+        >ul {
             // border:1px solid red;
             text-align: center;
             width: 280px;
             margin: 0 auto;
-            >li{
+            >li {
                 float: left;
                 width: 120px;
                 height: 120px;
-                line-height: 120px;
-                font-size: 20px;
-                border-radius: 4px;
+                font-size: 15px;
+                border-radius: 6px;
                 text-align: center;
                 margin: 8px;
                 background: #fff;
                 margin-right: 10px;
-                color:#313033;
+                color: #606266;
+                >span {
+                    display: inline-block;
+                    margin: 15px auto 8px;
+                    width: 60px;
+                    height: 60px;
+                    line-height: 60px;
+                    text-align: center;
+                    border-radius: 50%;
+                    background: #f60;
+                    color: #fff;
+                    i {
+                        font-size: 30px;
+                    }
+                }
             }
         }
     }
-    header{
-        padding: 20px;
+    header {
+        padding: 13px 15px;
+        margin-bottom: 7px;
+        background: #fff;
     }
-    footer{
+    footer {
         position: fixed;
         left: 0;
         right: 0;
         bottom: 0;
-        padding: 15px;
+        padding: 12px;
+        button {
+            background: #fff;
+        }
     }
 }
 </style>

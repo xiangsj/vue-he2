@@ -26,6 +26,16 @@ axios.interceptors.request.use(config => {
         "token": token
       });
     }
+  }else{
+    // log('jjjjjjjjjjjj')
+    // let account = getCookie("account");
+    // if (!account) {
+    //   // MessageBox('no token', '请重新获取手机令牌');
+    //   MessageBox.alert('no account').then(action => {
+    //     self.location.href="/";
+    //   });
+    //   return;
+    // }
   }
   return config;
 }, error => {
