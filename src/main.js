@@ -1,4 +1,4 @@
-import utils from './libs/utils'
+import { setTitle, getCookie } from './libs/utils'
 import Vue from 'vue'
 
 import App from './App'
@@ -12,6 +12,12 @@ Vue.use(MintUI)
 import { Toast, MessageBox } from 'mint-ui';
 Vue.prototype.$toast = Toast;
 Vue.prototype.$messageBox = MessageBox;
+Vue.prototype.$setTitle = setTitle;
+Vue.prototype.$getCookie = getCookie;
+
+import Moment from 'moment'
+Vue.prototype.$moment = Moment;
+
 
 import axios from './libs/axios'
 

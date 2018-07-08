@@ -9,7 +9,7 @@
             <dl v-for="(item,index) in listData" :key="index" @click="goDetail(item)">
                 <dt>{{item.ScNo}}</dt>
                 <dd>
-                    <span>{{item.CreateDate | formatDate}}</span>
+                    <span>{{$moment(item.CreateDate).format('YYYY-MM-DD')}}</span>
                     <span style="color:#303133">{{item.BriefName}}</span>
                 </dd>
                 <dd>
@@ -27,9 +27,6 @@
 </template>
 
 <script>
-import { getCookie } from "@/libs/utils.js";
-import moment from 'moment'
-
 export default {
     name: 'orderSearchList',
     props: {
@@ -37,15 +34,10 @@ export default {
     data() {
         return {
             obj: {},
-            account: JSON.parse(getCookie('account')),
+            account: JSON.parse(this.$getCookie('account')),
             pageIndex: 1,
             pageSize: 15,
             listData: []
-        }
-    },
-    filters: {
-        formatDate: function(value) {
-            return moment(value).format('YYYY-MM-DD')
         }
     },
     created() {
@@ -53,7 +45,7 @@ export default {
     },
     methods: {
         goDetail(item) {
-            console.log(item)
+            // console.log(item)
             let url = '/home/orderSearchDetail/' + JSON.stringify({ scNo: item.ScNo });
             this.$router.push(url)
         },

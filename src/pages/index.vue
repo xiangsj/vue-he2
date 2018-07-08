@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { setCookie, getCookie, clearCookie, setTitle } from "@/libs/utils.js";
+import { setCookie, clearCookie } from "@/libs/utils.js";
 
 export default {
     name: 'index',

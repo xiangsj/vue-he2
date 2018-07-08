@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { getCookie } from "@/libs/utils.js";
-
 export default {
     name: 'selectUser',
     model: {
@@ -42,7 +40,7 @@ export default {
             isMore: false,//false 为开启加载更多
             loading: false,
             popupVisible: false,
-            account: JSON.parse(getCookie('account')),
+            account: JSON.parse(this.$getCookie('account')),
             popupArr: [],
             currentObj: this.msg // 当前选中项
         }

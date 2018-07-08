@@ -4,7 +4,7 @@
             <div>用户登录</div>
         </div>
 
-        <div style="margin:2px 0 20px;">
+        <div style="margin:2px 0 50px;">
             <div @click="selectAccount()">
                 <mt-cell title="账套" is-link value="请选择账套">
                     <span v-if="accountName != ''">{{accountName}}</span>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { setTitle, setCookie } from "@/libs/utils.js";
+import { setCookie } from "@/libs/utils.js";
 // import { Popup } from 'mint-ui';
 
 // Vue.component(Popup.name, Popup);
@@ -56,7 +56,7 @@ export default {
         }
     },
     created() {
-        setTitle(" 用户登录 ")
+        this.$setTitle('用户登录')
     },
     methods: {
         surePopup() {

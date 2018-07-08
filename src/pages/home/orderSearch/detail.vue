@@ -11,14 +11,12 @@
 </template>
 
 <script>
-import { getCookie } from "@/libs/utils.js";
-
 export default {
     name: 'orderSearchDetail',
     data() {
         return {
             obj: {},
-            account: JSON.parse(getCookie('account')),
+            account: JSON.parse(this.$getCookie('account')),
             detailData: {}
         }
     },

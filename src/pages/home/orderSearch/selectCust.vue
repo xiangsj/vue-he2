@@ -36,8 +36,6 @@
 </template>
 
 <script>
-import { getCookie } from "@/libs/utils.js";
-
 export default {
     name: 'selectCust',
     model: {
@@ -52,7 +50,7 @@ export default {
             isMore: true,//false 为开启加载更多
             loading: true,
             popupVisible: false,
-            account: JSON.parse(getCookie('account')),
+            account: JSON.parse(this.$getCookie('account')),
             inputValue: '', // 搜索关键字
             pageIndex: 1,
             pageSize: 20,

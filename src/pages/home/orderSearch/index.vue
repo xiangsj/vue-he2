@@ -9,12 +9,12 @@
         <section style="margin-top:15px;">
             <div @click="$refs.pickerBegin.open()">
                 <mt-cell title="开单日期（始）" is-link value="请选择">
-                    <span v-if="dateBegin != ''">{{dateBegin | formatDate}}</span>
+                    <span v-if="dateBegin != ''">{{dateBegin}}</span>
                 </mt-cell>
             </div>
             <div @click="$refs.pickerEnd.open()">
                 <mt-cell title="开单日期（终）" is-link value="请选择">
-                    <span v-if="dateEnd != ''">{{dateEnd | formatDate}}</span>
+                    <span v-if="dateEnd != ''">{{dateEnd}}</span>
                 </mt-cell>
             </div>
 
@@ -38,8 +38,8 @@
             <mt-button @click="clear()">清空</mt-button>
         </footer>
 
-        <mt-datetime-picker v-model="dateBegin" @confirm="handleConfirm" ref="pickerBegin" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
-        <mt-datetime-picker v-model="dateEnd" ref="pickerEnd" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+        <mt-datetime-picker v-model="dateBeginBak" @confirm="dateBegin = $moment(dateBeginBak).format('YYYY-MM-DD')" ref="pickerBegin" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+        <mt-datetime-picker v-model="dateEndBak" @confirm="dateEnd = $moment(dateEndBak).format('YYYY-MM-DD')" ref="pickerEnd" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
 
         <select-cust v-model="constObj" ref="pickerCust"></select-cust>
         <select-user v-model="userObj" ref="pickerUser"></select-user>
@@ -49,13 +49,14 @@
 <script>
 import selectCust from './selectCust'
 import selectUser from './selectUser'
-import moment from 'moment'
 export default {
     name: 'orderSearch',
     data() {
         return {
             dateBegin: '',
+            dateBeginBak: new Date(), // 初始值
             dateEnd: '',
+            dateEndBak: new Date(), // 初始值
             orderNum: 'NSC17',
             constObj: {
                 Fid: 0,
@@ -68,19 +69,9 @@ export default {
 
         }
     },
-    filters: {
-      formatDate: function (value) {
-        return moment(value).format('YYYY-MM-DD')
-      }
-    },
     methods: {
-        handleConfirm(val) {
-            // console.log(val)
-            // console.log(typeof val)
-        },
         clear() {
-            // this.dateBegin = this.dateEnd = this.orderNum = this.constObj.BriefName = this.userObj.CNEmpName = ''
-            this.orderNum = this.constObj.BriefName = this.userObj.CNEmpName = ''
+            this.dateBegin = this.dateEnd = this.orderNum = this.constObj.BriefName = this.userObj.CNEmpName = ''
             this.$toast("已清空")
         },
         submit() {
@@ -105,45 +96,19 @@ export default {
                 return
             }
             let data = {
-                beginCreateDate: moment(this.dateBegin).format('YYYY-MM-DD'),
-                endCreateDate: moment(this.dateEnd).format('YYYY-MM-DD'),
+                beginCreateDate: this.dateBegin,
+                endCreateDate: this.dateEnd,
                 scNo: this.orderNum,
                 custFid: this.constObj.Fid,
                 saleID: this.userObj.EmpID
             }
             let url = '/home/orderSearchList/' + JSON.stringify(data);
             this.$router.push(url)
-
-            // console.log(moment(this.dateBegin).format('YYYY-MM-DD'))
-            // let data = {
-            //     fid: this.account.fid,
-            //     beginCreateDate: moment(this.dateBegin).format('YYYY-MM-DD'),
-            //     pageIndex: this.pageIndex,
-            //     pageSize: this.pageSize
-            // }
-            // console.log(data)
-            // return
-            // this.$http.get('/api/SelectCustomer', { params: data }).then(res => {
-            //     if (res.data.status.toString() === this.GLOBAL.status) {
-            //         let data = res.data.DataList;
-            //         // console.log(list)
-            //         if (data.length === 0) {
-            //             this.loading = false;
-            //             this.isMore = true;
-            //             // this.pageIndex = 1
-            //             return;
-            //         }
-            //         this.popupArr = this.popupArr.concat(data);
-            //     } else {
-            //         this.$toast(res.data.message);
-            //     }
-            // }, res => { });
-
         }
     },
     components: {
         'select-cust': selectCust,
-        'select-user': selectUser,
+        'select-user': selectUser
     }
 }
 </script>

@@ -34,20 +34,17 @@
 </template>
 
 <script>
-import { getCookie, removeCookie, clearCookie, setTitle } from "@/libs/utils.js";
+import { removeCookie, clearCookie } from "@/libs/utils.js";
 
 export default {
     name: 'homeMain',
     data() {
         return {
-            account: JSON.parse(getCookie('account'))
+            account: JSON.parse(this.$getCookie('account'))
         }
     },
     created() {
-        // let account = JSON.parse(getCookie('account'))
-        // console.log(account)
-        console.log(this.account)
-        console.log(this.account)
+
     },
     methods: {
         loginOut() {
@@ -93,6 +90,9 @@ export default {
                     i {
                         font-size: 30px;
                     }
+                }
+                &:active{
+                    background:#f7f8f9;
                 }
             }
         }
