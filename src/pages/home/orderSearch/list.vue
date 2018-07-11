@@ -5,7 +5,7 @@
                 <mt-button icon="back" @click="$router.go(-1)">返回</mt-button>
             </router-link>
         </mt-header>
-        <section>
+        <section v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
             <dl v-for="(item,index) in listData" :key="index" @click="goDetail(item)">
                 <dt>{{item.ScNo}}</dt>
                 <dd>
@@ -22,6 +22,10 @@
                 <i class="iconfont icon-arrow-right"></i>
                 <!-- {{item}} -->
             </dl>
+            <div class="getMore text-center">
+                <span v-if="loading">努力加载中...</span>
+                <span v-else>没有更多了</span>
+            </div>
         </section>
     </div>
 </template>
@@ -29,14 +33,14 @@
 <script>
 export default {
     name: 'orderSearchList',
-    props: {
-    },
     data() {
         return {
+            isMore: true,//false 为开启加载更多
+            loading: true,
             obj: {},
             account: JSON.parse(this.$getCookie('account')),
             pageIndex: 1,
-            pageSize: 15,
+            pageSize: 5,
             listData: []
         }
     },
@@ -44,6 +48,36 @@ export default {
         this.getData()
     },
     methods: {
+        loadMore() {
+            console.log('iii')
+            this.pageIndex++
+            let data = {
+                fid: this.account.fid,
+                beginCreateDate: this.obj.beginCreateDate,
+                endCreateDate: this.obj.endCreateDate,
+                scNo: this.obj.scNo,
+                custFid: this.obj.custFid,
+                saleID: this.obj.saleID,
+                pageIndex: this.pageIndex,
+                pageSize: this.pageSize
+            }
+            console.log(data)
+            this.$http.get('/api/SearchOrders', { params: data }).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    let data = res.data.DataList;
+                    console.log(data)
+                    if (data.length === 0) {
+                        this.loading = false;
+                        this.isMore = true;
+                        // this.pageIndex = 1
+                        return;
+                    }
+                    this.listData = this.listData.concat(data);
+                } else {
+                    this.$toast(res.data.message);
+                }
+            }, res => { });
+        },
         goDetail(item) {
             // console.log(item)
             let url = '/home/orderSearchDetail/' + JSON.stringify({ scNo: item.ScNo });
@@ -54,7 +88,7 @@ export default {
             try {
                 obj = JSON.parse(this.$route.params.string);
                 this.obj = obj;
-                console.log(obj)
+                // console.log(obj)
             } catch (e) {
                 // console.log("nnn")
                 this.$messageBox.alert('参数有误，返回重新查询').then(action => {
@@ -64,11 +98,11 @@ export default {
             }
             let data = {
                 fid: this.account.fid,
-                beginCreateDate: obj.beginCreateDate,
-                endCreateDate: obj.endCreateDate,
-                scNo: obj.scNo,
-                custFid: obj.custFid,
-                saleID: obj.saleID,
+                beginCreateDate: this.obj.beginCreateDate,
+                endCreateDate: this.obj.endCreateDate,
+                scNo: this.obj.scNo,
+                custFid: this.obj.custFid,
+                saleID: this.obj.saleID,
                 pageIndex: this.pageIndex,
                 pageSize: this.pageSize
             }
@@ -84,6 +118,7 @@ export default {
                         });
                     } else {
                         this.listData = list
+                        this.isMore = false
                     }
                 } else {
                     this.$toast(res.data.message);
