@@ -2,7 +2,8 @@
     <div class="homeMain">
         <header>
             <span>欢迎
-                <span style="color:#222;font-weight:bold">{{account.loginUser}}</span>登录</span>
+                <span style="color:#222;font-weight:bold">{{account.CNEmpName}}</span> 登录
+            </span>
             <span class="pull-right">帐套：{{account.resultString}}</span>
         </header>
         <section>
@@ -44,7 +45,8 @@ export default {
         }
     },
     created() {
-                this.$setTitle('')
+        this.$setTitle('')
+        // log(this.account)
     },
     methods: {
         loginOut() {
@@ -91,8 +93,8 @@ export default {
                         font-size: 30px;
                     }
                 }
-                &:active{
-                    background:#f7f8f9;
+                &:active {
+                    background: #f7f8f9;
                 }
             }
         }

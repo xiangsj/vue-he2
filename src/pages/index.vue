@@ -45,10 +45,6 @@ export default {
                     } else {
                         this.$toast('令牌已禁用')
                     }
-                    // console.log(this.GLOBAL.status)
-                    // if (res.data.DataList.length === 0) { return; }
-                    // setCookie("token", this.inputToken);
-                    // this.$router.push("/login");
                 } else {
                     this.$toast(res.data.message);
                 }
@@ -57,8 +53,6 @@ export default {
         handleClick() {
             this.$http.get('/api/TokenCheck', { params: { token: this.inputToken } }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
-                    // console.log(res.data)
-                    // console.log(this.GLOBAL.status)
                     if (res.data.DataList.length === 0) { return; }
                     setCookie("token", this.inputToken);
                     this.$router.push("/login");

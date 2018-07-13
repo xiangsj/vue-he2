@@ -7,7 +7,7 @@
             </span>
         </div>
 
-        <div style="margin:2px 0 50px;">
+        <div style="margin:2px 0;">
             <div @click="selectAccount()">
                 <mt-cell title="账套" is-link value="请选择账套">
                     <span v-if="accountName != ''">{{accountName}}</span>
@@ -19,6 +19,9 @@
             <mt-field class="inputRight" label="密码" placeholder="请输入密码" type="password" v-model="pwd"></mt-field>
         </div>
 
+        <div class="savePWD text-center">
+            <label><input type="checkbox" v-model="isSave">记住用户名和密码</label>
+        </div>
         <div class="btns text-center">
             <mt-button size="small" type="primary" @click="toLogin()">登录</mt-button>
             <mt-button size="small" type="default" @click="reset()">退出</mt-button>
@@ -41,25 +44,52 @@
 </template>
 
 <script>
-import { setCookie, clearCookie } from "@/libs/utils.js";
+import { setCookie, removeCookie, clearCookie } from "@/libs/utils.js";
 
 export default {
     name: 'home',
     data() {
         return {
             accountName: '',
-            username: 'lwp',
-            pwd: '888888',
+            username: '',
+            pwd: '',
 
             popupVisible: false,
             popupArr: [],
-            popupVal: '1'
+            popupVal: '1',
+            isSave: false
         }
     },
     created() {
         this.$setTitle('用户登录')
+        this.getAccount()
+        // 账号显示出来
+        let userString = this.$getCookie('user')
+        // log(userString)
+        if (userString) {
+            let user = JSON.parse(userString)
+            if (!user.username || !user.pwd) { return }
+            // log(user)
+            this.isSave = true
+            this.username = user.username
+            this.pwd = user.pwd
+        }
     },
     methods: {
+        // 取第一个为默认放上
+        getAccount() {
+            this.$http.get('/api/DealerComPany', { params: {} }).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    let list = res.data.DataList;
+                    // console.log(list)
+                    if (list === 0) { return }
+                    this.popupVal = list[0].Fid + ''
+                    this.accountName = list[0].CompanyName
+                } else {
+                    this.$toast(res.data.message)
+                }
+            }, res => { });
+        },
         surePopup() {
             this.popupVisible = false;
             this.popupArr.forEach((item) => {
@@ -116,16 +146,27 @@ export default {
                     toCookie.loginUser = this.username
                     toCookie.resultString = res.data.resultString
                     toCookie.fid = fid
-                    console.log(toCookie)
+                    // console.log(toCookie)
                     setCookie("account", toCookie);
                     this.$router.push("/home/main");
+
+                    // 是否保存密码
+                    if (this.isSave) {
+                        let user = {
+                            username: this.username,
+                            pwd: this.pwd
+                        }
+                        setCookie("user", user);
+                    } else {
+                        removeCookie('user')
+                    }
                 } else {
                     this.$toast(res.data.message);
                 }
             }, res => { });
         },
         relogin() {
-            this.$messageBox.confirm('确定重置令牌?').then(action => {
+            this.$messageBox.confirm('重置令牌?').then(action => {
                 clearCookie();
                 this.$router.push('/');
             });
@@ -161,6 +202,15 @@ export default {
             color: #222;
             margin-top: 10px;
             padding-top: 12px;
+        }
+    }
+    .savePWD {
+        margin: 30px 0;
+        font-size: 14px;
+        input {
+            position: relative;
+            top: 2px;
+            margin-right: 5px;
         }
     }
     .btns {

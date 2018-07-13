@@ -57,7 +57,8 @@ export default {
             dateBeginBak: new Date(), // 初始值
             dateEnd: '',
             dateEndBak: new Date(), // 初始值
-            orderNum: 'NSC17',
+            // orderNum: 'NSC17',
+            orderNum: '',
             constObj: {
                 Fid: 0,
                 BriefName: ''
@@ -75,26 +76,26 @@ export default {
             this.$toast("已清空")
         },
         submit() {
-            if (this.dateBegin == '') {
-                this.$toast("请选择开单日期（始）")
-                return
-            }
-            if (this.dateEnd == '') {
-                this.$toast("请选择开单日期（终）")
-                return
-            }
-            if (this.orderNum == '') {
-                this.$toast("请输入订单号")
-                return
-            }
-            if (this.constObj.BriefName === '') {
-                this.$toast("请选择客户")
-                return
-            }
-            if (this.userObj.CNEmpName === '') {
-                this.$toast("请选择业务员")
-                return
-            }
+            // if (this.dateBegin == '') {
+            //     this.$toast("请选择开单日期（始）")
+            //     return
+            // }
+            // if (this.dateEnd == '') {
+            //     this.$toast("请选择开单日期（终）")
+            //     return
+            // }
+            // if (this.orderNum == '') {
+            //     this.$toast("请输入订单号")
+            //     return
+            // }
+            // if (this.constObj.BriefName === '') {
+            //     this.$toast("请选择客户")
+            //     return
+            // }
+            // if (this.userObj.CNEmpName === '') {
+            //     this.$toast("请选择业务员")
+            //     return
+            // }
             let data = {
                 beginCreateDate: this.dateBegin,
                 endCreateDate: this.dateEnd,
