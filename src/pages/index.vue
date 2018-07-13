@@ -16,13 +16,44 @@ export default {
     data() {
         return {
             inputToken: '7241DCA3-DA40-4AF9-86B0-D9AC30115764',
-            isOpenToken: true
+            isOpenToken: true,
+            token: this.$getCookie('token')
         }
     },
     created() {
-        clearCookie();
+        // clearCookie();
+        // log(this.token)
+        if (this.token && this.token !== '') {
+            this.checkToken()
+        }
     },
     methods: {
+        checkToken() {
+            this.$http.get('/api/TokenCheck', { params: { token: this.token } }).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status && res.data.DataList.length > 0) {
+                    // console.log(res.data.DataList)
+                    let obj = res.data.DataList[0]
+                    if (!obj.IsForbid) {
+                        let EndDate = new Date(obj.EndDate)
+                        // log(EndDate)
+                        // log(new Date())
+                        if (EndDate > new Date()) {
+                            this.$router.push("/login");
+                        } else {
+                            this.$toast('令牌已过期')
+                        }
+                    } else {
+                        this.$toast('令牌已禁用')
+                    }
+                    // console.log(this.GLOBAL.status)
+                    // if (res.data.DataList.length === 0) { return; }
+                    // setCookie("token", this.inputToken);
+                    // this.$router.push("/login");
+                } else {
+                    this.$toast(res.data.message);
+                }
+            }, res => { });
+        },
         handleClick() {
             this.$http.get('/api/TokenCheck', { params: { token: this.inputToken } }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {

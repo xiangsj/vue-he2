@@ -2,6 +2,9 @@
     <div class="login">
         <div class="title">耐喜软件手机端
             <div>用户登录</div>
+            <span class="relogin" @click="relogin()">
+                <i class="iconfont icon-token"></i>
+            </span>
         </div>
 
         <div style="margin:2px 0 50px;">
@@ -18,7 +21,7 @@
 
         <div class="btns text-center">
             <mt-button size="small" type="primary" @click="toLogin()">登录</mt-button>
-            <mt-button size="small" type="default" @click="reset()">重置</mt-button>
+            <mt-button size="small" type="default" @click="reset()">退出</mt-button>
         </div>
 
         <mt-popup v-model="popupVisible" position="right" class="modelRight">
@@ -38,10 +41,8 @@
 </template>
 
 <script>
-import { setCookie } from "@/libs/utils.js";
-// import { Popup } from 'mint-ui';
+import { setCookie, clearCookie } from "@/libs/utils.js";
 
-// Vue.component(Popup.name, Popup);
 export default {
     name: 'home',
     data() {
@@ -82,7 +83,7 @@ export default {
                     });
                     this.popupArr = newArr
                 } else {
-                    this.$toast(res.data.message);
+                    this.$toast(res.data.message)
                 }
             }, res => { });
         },
@@ -122,6 +123,12 @@ export default {
                     this.$toast(res.data.message);
                 }
             }, res => { });
+        },
+        relogin() {
+            this.$messageBox.confirm('确定重置令牌?').then(action => {
+                clearCookie();
+                this.$router.push('/');
+            });
         }
     }
 }
@@ -134,6 +141,20 @@ export default {
         font-size: 25px;
         padding: 10px 0;
         color: #26a2ff;
+        position: relative;
+        .relogin {
+            position: absolute;
+            width: 30px;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            top: 14px;
+            right: 15px;
+            i {
+                font-size: 22px;
+                color: #909399;
+            }
+        }
         >div {
             border-top: 15px solid #f7f8f9;
             font-size: 18px;
