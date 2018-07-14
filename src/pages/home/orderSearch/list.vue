@@ -36,11 +36,11 @@ export default {
     data() {
         return {
             isMore: true,//false 为开启加载更多
-            loading: true,
+            loading: false,
             obj: {},
             account: JSON.parse(this.$getCookie('account')),
             pageIndex: 1,
-            pageSize: 5,
+            pageSize: 10,
             listData: []
         }
     },
@@ -50,6 +50,7 @@ export default {
     methods: {
         loadMore() {
             console.log('iii')
+            this.loading = true
             this.pageIndex++
             let data = {
                 fid: this.account.fid,
@@ -64,10 +65,10 @@ export default {
             console.log(data)
             this.$http.get('/api/SearchOrders', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
+                    this.loading = false;
                     let data = res.data.DataList;
                     console.log(data)
                     if (data.length === 0) {
-                        this.loading = false;
                         this.isMore = true;
                         // this.pageIndex = 1
                         return;
@@ -84,6 +85,7 @@ export default {
             this.$router.push(url)
         },
         getData() {
+            this.loading = true
             let obj = {}
             try {
                 obj = JSON.parse(this.$route.params.string);
@@ -109,6 +111,7 @@ export default {
             // console.log(data)
             this.$http.get('/api/SearchOrders', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
+                    this.loading = false
                     let list = res.data.DataList;
                     // console.log(list)
                     if (list.length === 0) {
@@ -116,10 +119,13 @@ export default {
                         this.$messageBox.alert('没有查到数据，返回重新查询').then(action => {
                             this.$router.go(-1);
                         });
-                    } else {
-                        this.listData = list
+                        return
+                    } else if (list.length >= this.pageSize) {
+                        // 多于当前条数，接着再查
                         this.isMore = false
+                        console.log('mmm')
                     }
+                    this.listData = list
                 } else {
                     this.$toast(res.data.message);
                 }

@@ -34,25 +34,25 @@ export default new Router({
           path: 'main',
           name: 'main',
           component: main,
-          meta: { keepAlive: true }
+          meta: { keepAlive: false } // false为不缓存
         },
         {
           path: 'orderSearch',
           name: 'orderSearch',
           component: orderSearch,
-          meta: { keepAlive: true }
+          meta: { keepAlive: false } // false为不缓存
         },
         {
           path: 'orderSearchList/:string',
           name: 'orderSearchList',
           component: orderSearchList,
-          meta: { keepAlive: true }
+          meta: { keepAlive: false } // false为不缓存
         },
         {
           path: 'orderSearchDetail/:string',
           name: 'orderSearchDetail',
           component: orderSearchDetail,
-          meta: { keepAlive: true }
+          meta: { keepAlive: false } //false为不缓存
         },
       ]
     }
