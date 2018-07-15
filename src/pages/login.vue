@@ -7,7 +7,7 @@
             </span>
         </div>
 
-        <div style="margin:2px 0;">
+        <div class="bg-white" style="padding:12px 0;">
             <div @click="selectAccount()">
                 <mt-cell title="账套" is-link value="请选择账套">
                     <span v-if="accountName != ''">{{accountName}}</span>
@@ -177,7 +177,11 @@ export default {
 
 <style lang="less" scoped>
 .login {
+    // border: 1px solid red;
+    height: 100%;
+    background-color: #f7f8f9;
     .title {
+        background-color: #fff;
         text-align: center;
         font-size: 25px;
         padding: 10px 0;
@@ -197,7 +201,7 @@ export default {
             }
         }
         >div {
-            border-top: 15px solid #f7f8f9;
+            border-top: 1px solid #f7f8f9;
             font-size: 18px;
             color: #222;
             margin-top: 10px;

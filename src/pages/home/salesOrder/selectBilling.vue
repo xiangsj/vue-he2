@@ -1,5 +1,5 @@
 <template>
-    <div class="selectUser popupSelect">
+    <div class="selectBilling popupSelect">
         <mt-popup v-model="popupVisible" position="right" class="modelRight">
             <mt-header title="选择业务员">
                 <router-link to="" slot="left">
@@ -8,9 +8,9 @@
             </mt-header>
             <section v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
                 <ul class="dataList">
-                    <li v-for="(item,index) in popupArr" :key="index" @click="currentObj = item" :class="[currentObj.EmpID == item.EmpID ? 'active' : '']">
-                        {{item.CNEmpName}}
-                        <span class="icon" v-if="currentObj.EmpID == item.EmpID"><i class="iconfont icon-hook"></i></span>
+                    <li v-for="(item,index) in popupArr" :key="index" @click="currentObj = item" :class="[currentObj.ValueID == item.ValueID ? 'active' : '']">
+                        {{item.ValueName}}
+                        <span class="icon" v-if="currentObj.ValueID == item.ValueID"><i class="iconfont icon-hook"></i></span>
                     </li>
                 </ul>
                 <div class="getMore text-center">
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: 'selectUser',
+    name: 'selectBilling',
     model: {
         prop: 'msg',
         event: 'ee'
@@ -54,10 +54,10 @@ export default {
         },
         open() {
             this.popupVisible = true
-            this.$http.get('/api/SelectUser', { params: {fid: this.account.fid} }).then(res => {
+            this.$http.get('/api/CSITypSelect', { params: {fid: this.account.fid} }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     let list = res.data.DataList;
-                    // console.log(list)
+                    console.log(list)
                     this.popupArr = list
                 } else {
                     this.$toast(res.data.message);

@@ -11,6 +11,8 @@ import orderSearch from '@/pages/home/orderSearch/index'
 import orderSearchList from '@/pages/home/orderSearch/list'
 import orderSearchDetail from '@/pages/home/orderSearch/detail'
 
+import salesOrder from '@/pages/home/salesOrder/index'
+
 Vue.use(Router)
 
 export default new Router({
@@ -52,6 +54,12 @@ export default new Router({
           path: 'orderSearchDetail/:string',
           name: 'orderSearchDetail',
           component: orderSearchDetail,
+          meta: { keepAlive: false } //false为不缓存
+        },
+        {
+          path: 'salesOrder',
+          name: 'salesOrder',
+          component: salesOrder,
           meta: { keepAlive: false } //false为不缓存
         },
       ]

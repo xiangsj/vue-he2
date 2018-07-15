@@ -6,7 +6,8 @@
             </router-link>
         </mt-header>
 
-        <section style="margin-top:15px;">
+        <section>
+            <div class="bg-white" style="padding:10px 0">
             <div @click="$refs.pickerBegin.open()">
                 <mt-cell title="开单日期（始）" is-link value="请选择">
                     <span v-if="dateBegin != ''">{{dateBegin}}</span>
@@ -29,6 +30,7 @@
                 <mt-cell title="业务员" is-link value="请选择">
                     <span v-if="userObj.CNEmpName != ''">{{userObj.CNEmpName}}</span>
                 </mt-cell>
+            </div>
             </div>
 
         </section>
@@ -113,3 +115,26 @@ export default {
     }
 }
 </script>
+
+<style lang="less" scoped>
+.orderSearch {
+    // height: 100%;
+    section {
+        // border: 1px solid red;
+        background-color: #f7f8f9;
+        overflow: auto;
+        position: absolute;
+        left: 0;
+        top: 40px;
+        right: 0;
+        bottom: 62px;
+        padding-bottom: 30px;
+        >h2 {
+            padding: 11px 0; 
+            .iconfont {
+                font-size: 14px;
+            }
+        }
+    }
+}
+</style>

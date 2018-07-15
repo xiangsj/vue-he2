@@ -14,7 +14,7 @@
                     </span>
                     <div>订单查询</div>
                 </li>
-                <li>
+                <li @click="$router.push('/home/salesOrder')">
                     <span style="background:#6e05d6">
                         <i class="iconfont icon-place-order"></i>
                     </span>
