@@ -53,7 +53,7 @@
                 <mt-field class="inputRight" label="订单总金额" placeholder="请输入订单总金额" v-model="total"></mt-field>
             </div>
             <h2 class="text-center">
-                <mt-button size="small" type="primary" plain>添加配件
+                <mt-button @click="$router.push('/home/partSearch')" size="small" type="primary" plain>添加配件
                     <i class="iconfont icon-add-empty"></i>
                 </mt-button>
             </h2>

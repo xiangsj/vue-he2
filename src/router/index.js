@@ -12,6 +12,7 @@ import orderSearchList from '@/pages/home/orderSearch/list'
 import orderSearchDetail from '@/pages/home/orderSearch/detail'
 
 import salesOrder from '@/pages/home/salesOrder/index'
+import partSearch from '@/pages/home/salesOrder/partSearch/index'
 
 Vue.use(Router)
 
@@ -60,6 +61,12 @@ export default new Router({
           path: 'salesOrder',
           name: 'salesOrder',
           component: salesOrder,
+          meta: { keepAlive: false } //false为不缓存
+        },
+        {
+          path: 'partSearch',
+          name: 'partSearch',
+          component: partSearch,
           meta: { keepAlive: false } //false为不缓存
         },
       ]
