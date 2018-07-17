@@ -49,7 +49,7 @@ export default {
     },
     methods: {
         loadMore() {
-            console.log('iii')
+            // console.log('iii')
             this.loading = true
             this.pageIndex++
             let data = {
@@ -62,12 +62,12 @@ export default {
                 pageIndex: this.pageIndex,
                 pageSize: this.pageSize
             }
-            console.log(data)
+            // console.log(data)
             this.$http.get('/api/SearchOrders', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false;
                     let data = res.data.DataList;
-                    console.log(data)
+                    // console.log(data)
                     if (data.length === 0) {
                         this.isMore = true;
                         // this.pageIndex = 1
@@ -108,7 +108,7 @@ export default {
                 pageIndex: this.pageIndex,
                 pageSize: this.pageSize
             }
-            // console.log(data)
+            console.log(data)
             this.$http.get('/api/SearchOrders', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false

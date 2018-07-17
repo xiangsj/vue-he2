@@ -62,7 +62,7 @@ export default {
             // orderNum: 'NSC17',
             orderNum: '',
             constObj: {
-                Fid: 0,
+                Fid: '',
                 BriefName: ''
             },
             userObj: {

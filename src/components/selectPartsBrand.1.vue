@@ -46,7 +46,7 @@ export default {
       this.getData();
     },
     getData() {
-      // log(JSON.parse(this.$getCookie('account')))
+      log(JSON.parse(this.$getCookie('account')))
       let data = {
         fid: this.fid
       }

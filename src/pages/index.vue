@@ -52,6 +52,10 @@ export default {
             }, res => { });
         },
         handleClick() {
+            if (this.inputToken == '') {
+                this.$toast('请输入令牌');
+                return
+            }
             this.$http.get('/api/TokenCheck', { params: { token: this.inputToken } }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     if (res.data.DataList.length === 0) { return; }
