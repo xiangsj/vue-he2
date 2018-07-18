@@ -103,6 +103,7 @@ export default {
                 // console.log(obj)
             } catch (e) {
                 // console.log("nnn")
+                this.$toast('参数有误')
                 return;
             }
             let data = {
@@ -149,8 +150,7 @@ export default {
                 .value {
                     color: #303133;
                     float: right;
-                    width: 77%;
-                    // text-align: right;
+                    width: 77%; // text-align: right;
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
@@ -163,7 +163,7 @@ export default {
             padding: 8px 15px;
         }
         >dl {
-            background: #fff;            
+            background: #fff;
             padding: 8px 15px;
             position: relative;
             min-height: 58px;
@@ -178,7 +178,7 @@ export default {
                 left: 15px;
                 top: 50%;
                 margin-top: -27px;
-                i{
+                i {
                     font-size: 46px;
                     color: #909399;
                 }
@@ -187,11 +187,11 @@ export default {
                 margin-left: 66px;
                 padding-top: 6px;
                 line-height: 22px;
-                >div{
-                    clear: both;                    
+                >div {
+                    clear: both;
                 }
             }
-            &:last-child{
+            &:last-child {
                 border-bottom: none;
             }
         }

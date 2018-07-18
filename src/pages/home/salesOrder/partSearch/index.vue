@@ -8,8 +8,10 @@
 
         <section>
             <div class="bg-white" style="padding:10px 0">
-                <mt-field class="inputRight" label="编号" placeholder="请输入主机编号/厂家供货编号" v-model="no"></mt-field>
-                <mt-field class="inputRight" label="配件名称" placeholder="请输入配件名称" v-model="no"></mt-field>
+
+                <mt-field class="inputRight" label="编号" placeholder="请输入主机编号/厂家供货编号" v-model="search.no"></mt-field>
+
+                <mt-field class="inputRight" label="配件名称" placeholder="请输入配件名称" v-model="search.partName"></mt-field>
 
                 <div @click="$refs.pickerPartsBrand.open()">
                     <mt-cell title="配件品牌" is-link value="请选择配件品牌">
@@ -64,12 +66,12 @@ export default {
     name: 'partSearch',
     data() {
         return {
-            no: '',
             search: {
-                keywords: '',
+                no: '',
+                partName: '',
                 partsBrandObj: {
-                    Brand:'',
-                    BrandCode:''
+                    Brand: '',
+                    BrandCode: ''
                 },
                 carBrandObj: {
                     BrandID: '',
@@ -111,7 +113,39 @@ export default {
             }
         },
         submit() {
-
+            let data = {
+                itemNo: this.search.no,
+                itemCName: this.search.partName,
+                brand: this.search.partsBrandObj.Brand,
+                brandID: this.search.carBrandObj.BrandID,
+                vehicleID: this.search.carSeriesObj.VehicleID,
+                styleID: this.search.carStyleObj.StyleID
+            }
+            let url = './partList/' + JSON.stringify(data)
+            this.$router.push(url)
+        },
+        clear() {
+            this.$toast('已清空')
+            this.search = {
+                no: '',
+                partName: '',
+                partsBrandObj: {
+                    Brand: '',
+                    BrandCode: ''
+                },
+                carBrandObj: {
+                    BrandID: '',
+                    BrandName: '',
+                },
+                carSeriesObj: {
+                    VehicleID: '',
+                    VehicleName: '',
+                },
+                carStyleObj: {
+                    StyleID: '',
+                    StyleName: '',
+                }
+            }
         }
     },
     components: {
