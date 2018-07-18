@@ -1,7 +1,7 @@
 <template>
-    <div class="selectCarBrand popupSelect">
+    <div class="selectCarStyle popupSelect">
         <mt-popup v-model="popupVisible" position="right" class="modelRight">
-            <mt-header title="选择汽车品牌">
+            <mt-header title="选择汽车车型">
                 <router-link to="" slot="left">
                     <mt-button icon="back" @click="popupVisible = false">返回</mt-button>
                 </router-link>
@@ -16,19 +16,19 @@
                     </span>
                 </div>
                 <!-- <ul class="dataList">
-                        <li v-for="(item,index) in listData" :key="index" @click="currentObj = item" :class="[currentObj.Brand == item.Brand ? 'active' : '']">
-                            {{item.Brand}}
-                            <span class="icon" v-show="currentObj.Brand == item.Brand">
-                                <i class="iconfont icon-hook"></i>
-                            </span>
-                        </li>
-                    </ul> -->
+                                    <li v-for="(item,index) in listData" :key="index" @click="currentObj = item" :class="[currentObj.Brand == item.Brand ? 'active' : '']">
+                                        {{item.Brand}}
+                                        <span class="icon" v-show="currentObj.Brand == item.Brand">
+                                            <i class="iconfont icon-hook"></i>
+                                        </span>
+                                    </li>
+                                </ul> -->
                 <div class="listIndex" v-if="!loading">
                     <mt-index-list>
                         <mt-index-section v-for="(item,index) in navs" :key="index" :index="item.initials">
                             <div v-for="(item2,index2) in item.list" :key="index2" @click="currentObj = item2">
-                                <mt-cell :title="item2.BrandName">
-                                    <span class="icon" v-show="currentObj.BrandID == item2.BrandID">
+                                <mt-cell :title="item2.StyleName">
+                                    <span class="icon" v-show="currentObj.StyleID == item2.StyleID">
                                         <i class="iconfont icon-hook"></i>
                                     </span>
                                 </mt-cell>
@@ -50,7 +50,7 @@
 
 <script>
 export default {
-    name: 'selectCarBrand',
+    name: 'selectCarStyle',
     model: {
         prop: 'msg',
         event: 'ee'
@@ -69,7 +69,8 @@ export default {
             pageSize: 20,
             listData: [],
             currentObj: this.msg, // 当前选中项
-            navs: []
+            navs: [],
+            bravehicleIDndID: ''
         }
     },
     created() {
@@ -100,18 +101,28 @@ export default {
             //     }
             // }, res => { });
         },
-        open() {
-            // console.log(this.listData)
+        open(vehicleID) {
+            // console.log(vehicleID)
+            if (vehicleID == '') {
+                this.$toast("请先选择汽车车系")
+                return
+            }
+            if (vehicleID) {
+                this.vehicleID = vehicleID
+            }
             this.popupVisible = true
             this.loading = true
             if (this.pageIndex !== 1) { return }
             let data = {
                 fid: this.account.fid,
-                brandName: this.inputValue,
+                vehicleID: this.vehicleID,
+                styleName: this.inputValue,
                 pageIndex: this.pageIndex,
                 pageSize: this.pageSize
             }
-            this.$http.get('/api/CarBrandSelect', { params: data }).then(res => {
+            // log(this.vehicleID)
+            // log(data)
+            this.$http.get('/api/CarStyleSelect', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false
                     let list = res.data.DataList;

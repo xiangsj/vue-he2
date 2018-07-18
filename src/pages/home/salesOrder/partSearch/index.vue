@@ -23,6 +23,17 @@
                     </mt-cell>
                 </div>
 
+                <div @click="$refs.pickerCarSeries.open(search.carBrandObj.BrandID)">
+                    <mt-cell title="汽车车系" is-link value="请选择汽车车系">
+                        <span v-if="search.carSeriesObj.VehicleName != ''">{{search.carSeriesObj.VehicleName}}</span>
+                    </mt-cell>
+                </div>
+                <div @click="$refs.pickerCarStyle.open(search.carSeriesObj.VehicleID)">
+                    <mt-cell title="汽车车型" is-link value="请选择汽车车型">
+                        <span v-if="search.carStyleObj.StyleName != ''">{{search.carStyleObj.StyleName}}</span>
+                    </mt-cell>
+                </div>
+
             </div>
         </section>
 
@@ -31,10 +42,14 @@
             <mt-button @click="clear()">清空</mt-button>
         </footer>
 
-        <!-- 选配件品牌 -->
+        <!-- 配件品牌 -->
         <select-parts-brand v-model="search.partsBrandObj" ref="pickerPartsBrand"></select-parts-brand>
 
         <select-car-brand v-model="search.carBrandObj" ref="pickerCarBrand"></select-car-brand>
+
+        <select-car-series v-model="search.carSeriesObj" ref="pickerCarSeries"></select-car-series>
+
+        <select-car-style v-model="search.carStyleObj" ref="pickerCarStyle"></select-car-style>
 
     </div>
 </template>
@@ -42,7 +57,8 @@
 <script>
 import selectPartsBrand from './selectPartsBrand'
 import selectCarBrand from './selectCarBrand'
-
+import selectCarSeries from './selectCarSeries'
+import selectCarStyle from './selectCarStyle'
 
 export default {
     name: 'partSearch',
@@ -59,11 +75,11 @@ export default {
                     BrandID: '',
                     BrandName: '',
                 },
-                tree: {
+                carSeriesObj: {
                     VehicleID: '',
                     VehicleName: '',
                 },
-                SN: {
+                carStyleObj: {
                     StyleID: '',
                     StyleName: '',
                 }
@@ -100,7 +116,9 @@ export default {
     },
     components: {
         'select-parts-brand': selectPartsBrand,
-        'select-car-brand': selectCarBrand
+        'select-car-brand': selectCarBrand,
+        'select-car-series': selectCarSeries,
+        'select-car-style': selectCarStyle
     }
 }
 </script>
