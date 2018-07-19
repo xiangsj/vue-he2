@@ -13,14 +13,13 @@
                     <i v-else class="iconfont icon-pic"></i>
                 </dt>
                 <dd>
-                    <div>
-                        {{item.ProvItemNo}}/{{item.EngineNo}}
-                        <span class="pull-right">
-                            <!-- {{item.SaleQty}} {{item.C_Unit}} * {{item.SalePrice}} -->
-                        </span>
-                    </div>
+                    <div> {{item.ProvItemNo}}/{{item.EngineNo}} </div>
                     <div>
                         {{item.Item_C_Name}}、 {{item.Item_C_Spec}}、 {{item.Brand}}、 {{item.UseInCarBrief}}、 {{item.WHName}}
+                    </div>
+                    <div>
+                        <span v-if="item.SaleQty">{{item.SaleQty}} {{item.C_Unit}} </span>
+                        <span v-if="item.SalePrice">/ {{item.SalePrice}}</span>
                     </div>
                 </dd>
             </dl>
@@ -77,7 +76,7 @@ export default {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false
                     let backList = res.data.DataList;
-                    // console.log(backList)
+                    console.log(backList)
                     if (backList.length === 0) {
                         this.$messageBox.alert('暂无数据，返回重新查询').then(action => {
                             this.$router.go(-1);
@@ -135,6 +134,9 @@ export default {
                 >div {
                     clear: both;
                 }
+            }
+            &:active {
+                background-color: #eee;
             }
         }
     }
