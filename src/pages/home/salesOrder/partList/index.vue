@@ -22,6 +22,13 @@
                         <span v-if="item.SalePrice">/ {{item.SalePrice}}</span>
                     </div>
                 </dd>
+                <label>
+                    <input type="checkbox" v-model="checkedVal" :value="item">
+                    <span>
+                        <i class="iconfont no icon-hook-round"></i>
+                        <i class="iconfont yes icon-hook-round"></i>
+                    </span>
+                </label>
             </dl>
             <div class="getMore text-center">
                 <span v-if="loading">努力加载中...</span>
@@ -41,10 +48,11 @@ export default {
     name: 'partList',
     data() {
         return {
+            checkedVal: [],
             loading: false,
             obj: {},
             account: JSON.parse(this.$getCookie('account')),
-            listData: {}
+            listData: []
         }
     },
     created() {
@@ -91,6 +99,8 @@ export default {
         },
         submit() {
             log('sssure')
+            log(this.checkedVal)
+            this.$router.push('/home/partAdd')
         }
     }
 }
@@ -104,7 +114,7 @@ export default {
         right: 0;
         bottom: 60px;
         left: 0;
-        overflow: auto; // padding-bottom: 25px;
+        overflow: auto;
         background: #f7f8f9;
         >dl {
             background: #fff;
@@ -112,8 +122,45 @@ export default {
             position: relative;
             min-height: 58px;
             border-bottom: 1px solid #eee;
+            position: relative;
+            label {
+                // border: 1px solid blue;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                padding-right: 15px;
+                input {
+                    display: none;
+                    &+span {
+                        >i {
+                            font-size: 22px;
+                            &.no {
+                                color: #ddd;
+                            }
+                            &.yes {
+                                color: #008cee;
+                                display: none;
+                            }
+                        }
+                    }
+                    &:checked+span {
+                        >i {
+                            &.no {
+                                display: none;
+                            }
+                            &.yes {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+            }
             >dt {
-                // background: #eee;
                 width: 55px;
                 height: 55px;
                 line-height: 55px;
@@ -136,7 +183,7 @@ export default {
                 }
             }
             &:active {
-                background-color: #eee;
+                background-color: #f9f9f9;
             }
         }
     }
