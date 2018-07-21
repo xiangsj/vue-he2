@@ -20,7 +20,7 @@
                     </span>
                     <div>销售下单</div>
                 </li><br>
-                <li>
+                <li @click="$router.push('/home/stockQuery/search')">
                     <span style="background:#008cee">
                         <i class="iconfont icon-stock-search"></i>
                     </span>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { removeCookie, clearCookie } from "@/libs/utils.js";
+import { removeCookie } from "@/libs/utils.js";
 
 export default {
     name: 'homeMain',

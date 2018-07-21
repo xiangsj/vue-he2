@@ -16,6 +16,10 @@ import partSearch from '@/pages/home/salesOrder/partSearch/index'
 import partList from '@/pages/home/salesOrder/partList/index'
 import partAdd from '@/pages/home/salesOrder/partAdd/index'
 
+import stockQuery from '@/pages/home/stockQuery/index'
+import stockQuerySearch from '@/pages/home/stockQuery/search'
+import stockQueryList from '@/pages/home/stockQuery/list'
+
 Vue.use(Router)
 
 export default new Router({
@@ -82,6 +86,26 @@ export default new Router({
           name: 'partAdd',
           component: partAdd,
           meta: { keepAlive: false } //false为不缓存
+        },
+        {
+          path: 'stockQuery',
+          name: 'stockQuery',
+          component: stockQuery,
+          meta: { keepAlive: false }, //false为不缓存
+          children: [
+            {
+              path: 'search',
+              name: 'search',
+              component: stockQuerySearch,
+              meta: { keepAlive: false } //false为不缓存
+            },
+            {
+              path: 'list',
+              name: 'list',
+              component: stockQueryList,
+              meta: { keepAlive: false } //false为不缓存
+            }
+          ]
         },
       ]
     }

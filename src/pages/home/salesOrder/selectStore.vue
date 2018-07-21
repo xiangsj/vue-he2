@@ -8,13 +8,13 @@
             </mt-header>
             <section v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
                 <!-- <div class="pupupSearch">
-                    <form action="">
-                    <input v-model="inputValue" type="search" placeholder="请输入客户名称、地址、电话">
-                    </form>
-                    <span class="icon" @click="searchCust()">
-                        <i class="iconfont icon-search"></i>
-                    </span>
-                </div> -->
+                        <form action="">
+                        <input v-model="inputValue" type="search" placeholder="请输入客户名称、地址、电话">
+                        </form>
+                        <span class="icon" @click="searchCust()">
+                            <i class="iconfont icon-search"></i>
+                        </span>
+                    </div> -->
                 <ul class="dataList">
                     <li v-for="(item,index) in popupArr" :key="index" @click="currentObj = item" :class="[currentObj.FID == item.FID ? 'active' : '']">
                         {{item.BriefName}}
@@ -120,6 +120,7 @@ export default {
                     if (list.length === 0) {
                         this.$messageBox.alert('没有查到数据，返回重新查询').then(action => {
                             this.popupVisible = false
+                            this.inputValue = '' // 清空搜索
                         });
                         return
                     } else if (list.length >= this.pageSize) {

@@ -119,6 +119,7 @@ export default {
                     if (list.length === 0) {
                         this.$messageBox.alert('没有查到数据，返回重新查询').then(action => {
                             this.popupVisible = false
+                            this.inputValue = '' // 清空搜索
                         });
                         return
                     }
