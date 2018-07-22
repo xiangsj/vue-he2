@@ -1,72 +1,94 @@
 <template>
     <div class="salesOrder">
         <mt-header title="销售下单">
-            <router-link to="" slot="left">
-                <mt-button icon="back" @click="$router.go(-1)">返回</mt-button>
+            <router-link to="/home/main" slot="left">
+                <mt-button icon="back">返回</mt-button>
             </router-link>
         </mt-header>
 
         <section>
-             <div class="bg-white" style="padding:10px 0">
+            <div class="bg-white">
 
                 <div @click="$refs.pickerCust.open()">
-                    <mt-cell title="客户" is-link value="请选择">
-                        <span v-if="constObj.BriefName !== ''">{{constObj.BriefName}}</span>
+                    <mt-cell class="required" title="客户" is-link value="请选择">
+                        <span class="value" v-if="custObj.BriefName !== ''">{{custObj.BriefName}}</span>
                     </mt-cell>
                 </div>
-                <div @click="$refs.pickerStore.open(constObj.Fid)" class="hasInput">
+                <div @click="$refs.pickerStore.open(custObj.Fid)" class="hasInput">
                     <mt-cell title="销往门店" is-link value="请选择">
                         <!-- <input type="text" placeholder="请选择或输入" :value="storeObj.Departement" v-on:click.stop.prevent> -->
-                        <span v-if="storeObj.Departement !== ''">{{storeObj.Departement}}</span>
+                        <span class="value" v-if="storeObj.Departement !== ''">{{storeObj.Departement}}</span>
                     </mt-cell>
                 </div>
-                <mt-field class="inputRight" label="客户联系人" placeholder="请输入客户联系人" v-model="storeObj.FullName"></mt-field>
+                <mt-field class="inputRight required" label="客户联系人" placeholder="请输入客户联系人" v-model="storeObj.FullName"></mt-field>
                 <mt-field class="inputRight" label="客户电话" placeholder="请输入客户电话" v-model="storeObj.Tel"></mt-field>
                 <mt-field class="inputRight" label="送货地址" placeholder="请输入送货地址" v-model="storeObj.Addr"></mt-field>
                 <div @click="$refs.pickerBilling.open()">
-                    <mt-cell title="开票类型" is-link value="请选择">
-                        <span v-if="billingObj.ValueName !== ''">{{billingObj.ValueName}}</span>
+                    <mt-cell class="required" title="开票类型" is-link value="请选择">
+                        <span class="value" v-if="billingObj.ValueName !== ''">{{billingObj.ValueName}}</span>
                     </mt-cell>
                 </div>
                 <div @click="$refs.pickerSend.open()" class="hasInput">
-                    <mt-cell title="发运方式" is-link value="请选择">
+                    <mt-cell class="required" title="发运方式" is-link value="请选择">
                         <!-- <input type="text" placeholder="请选择或输入" :value="sendObj.ValueName" v-on:click.stop.prevent> -->
-                        <span v-if="sendObj.ValueName !== ''">{{sendObj.ValueName}}</span>
+                        <span class="value" v-if="sendObj.ValueName !== ''">{{sendObj.ValueName}}</span>
                     </mt-cell>
                 </div>
                 <div @click="$refs.pickerPayment.open()">
-                    <mt-cell title="付款方式" is-link value="请选择">
-                        <span v-if="paymentObj.ValueName !== ''">{{paymentObj.ValueName}}</span>
+                    <mt-cell class="required" title="付款方式" is-link value="请选择">
+                        <span class="value" v-if="paymentObj.ValueName !== ''">{{paymentObj.ValueName}}</span>
                     </mt-cell>
                 </div>
                 <div @click="$refs.pickerUser.open()">
-                    <mt-cell title="业务员" is-link value="请选择">
-                        <span v-if="userObj.CNEmpName != ''">{{userObj.CNEmpName}}</span>
+                    <mt-cell class="required" title="业务员" is-link value="请选择">
+                        <span class="value" v-if="userObj.CNEmpName != ''">{{userObj.CNEmpName}}</span>
                     </mt-cell>
                 </div>
                 <div @click="$refs.pickerBegin.open()">
-                    <mt-cell title="开单日期" is-link value="请选择">
-                        <span v-if="dateBegin != ''">{{dateBegin}}</span>
+                    <mt-cell class="required" title="开单日期" is-link value="请选择">
+                        <span class="value" v-if="dateBegin != ''">{{dateBegin}}</span>
                     </mt-cell>
                 </div>
                 <mt-field class="inputRight" label="备注" placeholder="请输入备注" v-model="mark"></mt-field>
                 <mt-field class="inputRight" label="订单总金额" placeholder="请输入订单总金额" v-model="total"></mt-field>
             </div>
             <h2 class="text-center">
-                <mt-button @click="$router.push('/home/partSearch')" size="small" type="primary" plain>添加配件
+                <mt-button @click="goAddPart()" size="small" type="primary" plain>添加配件
                     <i class="iconfont icon-add-empty"></i>
                 </mt-button>
             </h2>
-            <!-- <div class="bg-white">
-                    sss
-                </div> -->
+            <div class="bg-white partsList">
+                <dl v-for="(item,index) in partsAdd" :key="index">
+                    <div class="btns">
+                        <span @click="removeThis(index)">
+                            <i class="iconfont icon-remove"></i>
+                        </span>
+                        <span @click="editThis(index)">
+                            <i class="iconfont icon-edit"></i>
+                        </span>
+                    </div>
+                    <dt>
+                        <img v-if="item.mSmallPic" :src="item.mSmallPic">
+                        <i v-else class="iconfont icon-pic"></i>
+                    </dt>
+                    <dd>
+                        <div>
+                            {{item.ProvItemNo}}/{{item.EngineNo}}
+                        </div>
+                        <div>
+                            {{item.Item_C_Name}}、 {{item.Item_C_Spec}}
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+
         </section>
 
         <footer class="btnFooter">
             <mt-button type="primary" @click="submit()">保存</mt-button>
         </footer>
 
-        <select-cust v-model="constObj" ref="pickerCust"></select-cust>
+        <select-cust v-model="custObj" ref="pickerCust"></select-cust>
         <select-store v-model="storeObj" ref="pickerStore"></select-store>
         <select-billing v-model="billingObj" ref="pickerBilling"></select-billing>
         <select-send v-model="sendObj" ref="pickerSend"></select-send>
@@ -78,6 +100,8 @@
 </template>
 
 <script>
+import { setCookie } from "@/libs/utils.js";
+
 import selectCust from '../orderSearch/selectCust'
 import selectStore from './selectStore'
 import selectBilling from './selectBilling'
@@ -89,7 +113,7 @@ export default {
     name: 'salesOrder',
     data() {
         return {
-            constObj: {
+            custObj: {
                 Fid: '',
                 BriefName: ''
             },
@@ -122,13 +146,99 @@ export default {
             dateBeginBak: new Date(), // 初始值
             mark: '',
             total: '',
+            partsAdd: [
+                { ProvItemNo: 'TEST111' },
+                { ProvItemNo: 'TEST222' }
+            ],
+            account: JSON.parse(this.$getCookie('account')),
+            user: JSON.parse(this.$getCookie('user'))
         }
     },
     created() {
+        // console.log('salesorder start 可在这清空data')
     },
     methods: {
         submit() {
+            if (this.custObj.Fid == '') {
+                this.$toast('请选择客户')
+                return
+            }
+            if (this.storeObj.FullName == '') {
+                this.$toast('客户联系人不能为空')
+                return
+            }
+            if (this.billingObj.ValueID == '') {
+                this.$toast('开票类型不能为空')
+                return
+            }
+            if (this.sendObj.ValueID == '') {
+                this.$toast('发运方式不能为空')
+                return
+            }
+            if (this.paymentObj.ValueID == '') {
+                this.$toast('付款方式不能为空')
+                return
+            }
+            if (this.dateBegin == '') {
+                this.$toast('开单不能为空')
+                return
+            }
 
+            // let data = {
+            //     fid: this.account.fid,
+            //     dataList: {
+            //         Head: {
+            //             ScNo: "111"
+            //         }                    
+            //     },
+            //     empId: this.user.username
+            // }
+            // this.$http.get('/api/SaveSalesOrder', { params: data }).then(res => {
+            //     if (res.data.status.toString() === this.GLOBAL.status) {
+            //         // let list = res.data.DataList;
+            //         // console.log(list)
+            //     } else {
+            //         this.$toast(res.data.message);
+            //     }
+            // }, res => { });
+        },
+        goAddPart() {
+            if (this.custObj.Fid == '') {
+                this.$toast('请选择客户')
+                return
+            } else {
+                // console.log(this.custObj)
+                setCookie("custObj", this.custObj);
+            }
+            this.$router.push('/home/partSearch')
+        },
+        showParts() {
+            log(this.$getCookie('partsObj'))
+        },
+        removeThis(index) {
+            this.$messageBox.confirm('确定移除这个配件吗?', '').then(action => {
+                this.partsAdd.splice(index, 1)
+            }).catch(() => { });
+        },
+        editThis(index) {
+            this.$router.push('/home/partAdd')
+        },
+        clearData() {
+            this.custObj = {
+                Fid: '',
+                BriefName: ''
+            }
+            this.storeObj = {
+                FID: '',
+                Addr: '',
+                Departement: '',
+                FullName: '',
+                Tel: ''
+            }
+            this.billingObj = {
+                ValueID: '',
+                ValueName: ''
+            }
         }
     },
     components: {
@@ -138,6 +248,16 @@ export default {
         'select-send': selectSend,
         'select-payment': selectPayment,
         'select-user': selectUser,
+    },
+    watch: {
+        '$route'(to, from) {
+            if (from.name === 'partAdd') {
+                // log("000jjjjlkl")
+                this.showParts()
+            } else {
+                this.clearData()
+            }
+        }
     }
 }
 </script>
@@ -156,9 +276,73 @@ export default {
         bottom: 62px;
         padding-bottom: 30px;
         >h2 {
-            padding: 11px 0; 
+            padding: 11px 0;
             .iconfont {
                 font-size: 14px;
+            }
+        }
+        .partsList {
+            >dl {
+                background: #fff;
+                padding: 8px 15px;
+                position: relative;
+                min-height: 58px;
+                border-bottom: 1px solid #eee;
+                .btns {
+                    // border:1px solid red;
+                    position: absolute;
+                    top: 3px;
+                    right: 10px;
+                    bottom: 3px;
+                    >span {
+                        // border:1px solid blue;
+                        display: block;
+                        width: 30px;
+                        height: 30px;
+                        line-height: 30px;
+                        text-align: center;
+                        margin: 3px 0;
+                        border-radius: 50%;
+                        i {
+                            font-size: 23px;
+                        }
+                        .icon-remove {
+                            color: red;
+                        }
+                        .icon-edit {
+                            color: #008cee;
+                        }
+                        &:active {
+                            background: #ddd;
+                        }
+                    }
+                }
+                >dt {
+                    // background: #eee;
+                    width: 55px;
+                    height: 55px;
+                    line-height: 55px;
+                    text-align: center;
+                    position: absolute;
+                    left: 15px;
+                    top: 50%;
+                    margin-top: -27px;
+                    i {
+                        font-size: 46px;
+                        color: #909399;
+                    }
+                }
+                >dd {
+                    margin-left: 66px;
+                    padding-top: 6px;
+                    line-height: 22px;
+                    >div {
+                        clear: both;
+                    }
+                }
+                &:last-child {
+                    border-bottom: none;
+                }
             }
         }
     }

@@ -100,6 +100,10 @@ export default {
         submit() {
             log('sssure')
             log(this.checkedVal)
+            if(this.checkedVal.length === 0){
+                this.$toast('请选择配件')
+                return
+            }
             this.$router.push('/home/partAdd')
         }
     }

@@ -7,10 +7,10 @@
             </span>
         </div>
 
-        <div class="bg-white" style="padding:12px 0;">
+        <div class="bg-white">
             <div @click="selectAccount()">
                 <mt-cell title="账套" is-link value="请选择账套">
-                    <span v-if="accountName != ''">{{accountName}}</span>
+                    <span class="value" v-if="accountName != ''">{{accountName}}</span>
                 </mt-cell>
             </div>
 
@@ -166,10 +166,10 @@ export default {
             }, res => { });
         },
         relogin() {
-            this.$messageBox.confirm('重置令牌?').then(action => {
+            this.$messageBox.confirm('确定重置令牌？','').then(action => {
                 clearCookie();
                 this.$router.push('/');
-            });
+            }).catch(() => {});
         }
     }
 }

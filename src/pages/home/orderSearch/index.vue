@@ -10,12 +10,12 @@
             <div class="bg-white" style="padding:10px 0">
             <div @click="$refs.pickerBegin.open()">
                 <mt-cell title="开单日期（始）" is-link value="请选择">
-                    <span v-if="dateBegin != ''">{{dateBegin}}</span>
+                    <span class="value" v-if="dateBegin != ''">{{dateBegin}}</span>
                 </mt-cell>
             </div>
             <div @click="$refs.pickerEnd.open()">
                 <mt-cell title="开单日期（终）" is-link value="请选择">
-                    <span v-if="dateEnd != ''">{{dateEnd}}</span>
+                    <span class="value" v-if="dateEnd != ''">{{dateEnd}}</span>
                 </mt-cell>
             </div>
 
@@ -23,12 +23,12 @@
 
             <div @click="$refs.pickerCust.open()">
                 <mt-cell title="客户名称" is-link value="请选择">
-                    <span v-if="constObj.BriefName !== ''">{{constObj.BriefName}}</span>
+                    <span class="value" v-if="custObj.BriefName !== ''">{{custObj.BriefName}}</span>
                 </mt-cell>
             </div>
             <div @click="$refs.pickerUser.open()">
                 <mt-cell title="业务员" is-link value="请选择">
-                    <span v-if="userObj.CNEmpName != ''">{{userObj.CNEmpName}}</span>
+                    <span class="value" v-if="userObj.CNEmpName != ''">{{userObj.CNEmpName}}</span>
                 </mt-cell>
             </div>
             </div>
@@ -43,7 +43,7 @@
         <mt-datetime-picker v-model="dateBeginBak" @confirm="dateBegin = $moment(dateBeginBak).format('YYYY-MM-DD')" ref="pickerBegin" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
         <mt-datetime-picker v-model="dateEndBak" @confirm="dateEnd = $moment(dateEndBak).format('YYYY-MM-DD')" ref="pickerEnd" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
 
-        <select-cust v-model="constObj" ref="pickerCust"></select-cust>
+        <select-cust v-model="custObj" ref="pickerCust"></select-cust>
         <select-user v-model="userObj" ref="pickerUser"></select-user>
     </div>
 </template>
@@ -61,7 +61,7 @@ export default {
             dateEndBak: new Date(), // 初始值
             // orderNum: 'NSC17',
             orderNum: '',
-            constObj: {
+            custObj: {
                 Fid: '',
                 BriefName: ''
             },
@@ -74,7 +74,7 @@ export default {
     },
     methods: {
         clear() {
-            this.dateBegin = this.dateEnd = this.orderNum = this.constObj.BriefName = this.userObj.CNEmpName = ''
+            this.dateBegin = this.dateEnd = this.orderNum = this.custObj.BriefName = this.userObj.CNEmpName = ''
             this.$toast("已清空")
         },
         submit() {
@@ -90,7 +90,7 @@ export default {
             //     this.$toast("请输入订单号")
             //     return
             // }
-            // if (this.constObj.BriefName === '') {
+            // if (this.custObj.BriefName === '') {
             //     this.$toast("请选择客户")
             //     return
             // }
@@ -102,7 +102,7 @@ export default {
                 beginCreateDate: this.dateBegin,
                 endCreateDate: this.dateEnd,
                 scNo: this.orderNum,
-                custFid: this.constObj.Fid,
+                custFid: this.custObj.Fid,
                 saleID: this.userObj.EmpID
             }
             let url = '/home/orderSearchList/' + JSON.stringify(data);

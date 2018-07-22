@@ -13,8 +13,8 @@ import orderSearchDetail from '@/pages/home/orderSearch/detail'
 
 import salesOrder from '@/pages/home/salesOrder/index'
 import partSearch from '@/pages/home/salesOrder/partSearch/index'
-import partList from '@/pages/home/salesOrder/partList/index'
-import partAdd from '@/pages/home/salesOrder/partAdd/index'
+import partList from '@/pages/home/salesOrder/partSearch/partList'
+import partAdd from '@/pages/home/salesOrder/partSearch/partAdd'
 
 import stockQuery from '@/pages/home/stockQuery/index'
 import stockQuerySearch from '@/pages/home/stockQuery/search'
@@ -67,7 +67,7 @@ export default new Router({
           path: 'salesOrder',
           name: 'salesOrder',
           component: salesOrder,
-          meta: { keepAlive: false } //false为不缓存
+          meta: { keepAlive: true } //false为不缓存
         },
         {
           path: 'partSearch',
@@ -100,7 +100,7 @@ export default new Router({
               meta: { keepAlive: false } //false为不缓存
             },
             {
-              path: 'list',
+              path: 'list/:string',
               name: 'list',
               component: stockQueryList,
               meta: { keepAlive: false } //false为不缓存

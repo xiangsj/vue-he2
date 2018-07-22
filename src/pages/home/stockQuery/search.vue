@@ -10,7 +10,7 @@
             <div class="bg-white" style="padding:10px 0">
                 <div @click="$refs.pickerStock.open()">
                     <mt-cell title="选择仓库" is-link value="请选择仓库">
-                        <span v-if="search.stockObj.WHName != ''">{{search.stockObj.WHName}}</span>
+                        <span class="value" v-if="search.stockObj.WHName != ''">{{search.stockObj.WHName}}</span>
                     </mt-cell>
                 </div>
 
@@ -20,24 +20,24 @@
 
                 <div @click="$refs.pickerPartsBrand.open()">
                     <mt-cell title="配件品牌" is-link value="请选择配件品牌">
-                        <span v-if="search.partsBrandObj.Brand != ''">{{search.partsBrandObj.Brand}}</span>
+                        <span class="value" v-if="search.partsBrandObj.Brand != ''">{{search.partsBrandObj.Brand}}</span>
                     </mt-cell>
                 </div>
 
                 <div @click="$refs.pickerCarBrand.open()">
                     <mt-cell title="汽车品牌" is-link value="请选择汽车品牌">
-                        <span v-if="search.carBrandObj.BrandName != ''">{{search.carBrandObj.BrandName}}</span>
+                        <span class="value" v-if="search.carBrandObj.BrandName != ''">{{search.carBrandObj.BrandName}}</span>
                     </mt-cell>
                 </div>
 
                 <div @click="$refs.pickerCarSeries.open(search.carBrandObj.BrandID)">
                     <mt-cell title="汽车车系" is-link value="请选择汽车车系">
-                        <span v-if="search.carSeriesObj.VehicleName != ''">{{search.carSeriesObj.VehicleName}}</span>
+                        <span class="value" v-if="search.carSeriesObj.VehicleName != ''">{{search.carSeriesObj.VehicleName}}</span>
                     </mt-cell>
                 </div>
                 <div @click="$refs.pickerCarStyle.open(search.carSeriesObj.VehicleID)">
                     <mt-cell title="汽车车型" is-link value="请选择汽车车型">
-                        <span v-if="search.carStyleObj.StyleName != ''">{{search.carStyleObj.StyleName}}</span>
+                        <span class="value" v-if="search.carStyleObj.StyleName != ''">{{search.carStyleObj.StyleName}}</span>
                     </mt-cell>
                 </div>
 
@@ -128,6 +128,7 @@ export default {
         },
         submit() {
             let data = {
+                WHID: this.search.stockObj.WHID,
                 itemNo: this.search.no,
                 itemCName: this.search.partName,
                 brand: this.search.partsBrandObj.Brand,
@@ -135,7 +136,7 @@ export default {
                 vehicleID: this.search.carSeriesObj.VehicleID,
                 styleID: this.search.carStyleObj.StyleID
             }
-            let url = './partList/' + JSON.stringify(data)
+            let url = './list/' + JSON.stringify(data)
             this.$router.push(url)
         },
         clear() {
@@ -143,6 +144,10 @@ export default {
             this.search = {
                 no: '',
                 partName: '',
+                stockObj: {
+                    WHID: '',
+                    WHName:''
+                },
                 partsBrandObj: {
                     Brand: '',
                     BrandCode: ''

@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="stockHome">
         <keep-alive>
             <router-view v-if="$route.meta.keepAlive"></router-view>
         </keep-alive>
@@ -9,6 +9,12 @@
 
 <script>
 export default {
-    name: 'home'
+    name: 'stockHome'
 }
 </script>
+
+<style lang="less" scoped>
+.stockHome{
+    height: 100%;
+}
+</style>
