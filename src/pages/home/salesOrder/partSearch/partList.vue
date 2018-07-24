@@ -98,13 +98,18 @@ export default {
             }, res => { });
         },
         submit() {
-            log('sssure')
-            log(this.checkedVal)
+            // log(this.checkedVal)
             if(this.checkedVal.length === 0){
                 this.$toast('请选择配件')
                 return
             }
-            this.$router.push('/home/partAdd')
+            let idArr = []
+            this.checkedVal.forEach(item=>{
+                idArr.push(item.FID)
+            })
+            log(idArr)
+            // return
+            this.$router.push('/home/partAdd/' + idArr)
         }
     }
 }

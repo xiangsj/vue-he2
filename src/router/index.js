@@ -82,7 +82,7 @@ export default new Router({
           meta: { keepAlive: false } //false为不缓存
         },
         {
-          path: 'partAdd',
+          path: 'partAdd/:string',
           name: 'partAdd',
           component: partAdd,
           meta: { keepAlive: false } //false为不缓存

@@ -103,6 +103,8 @@ export default {
         padding: 13px 15px;
         margin-bottom: 7px;
         background: #fff;
+        font-size: 15px;
+        box-shadow: 0 3px 3px 0 rgba(50,50,50,0.06); 
     }
     footer {
         position: fixed;

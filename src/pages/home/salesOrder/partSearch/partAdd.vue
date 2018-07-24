@@ -6,8 +6,8 @@
             </router-link>
         </mt-header>
         <section>
-            <div class="partAddList">
-                <mt-cell title="供货厂家编号" value="说明文字"></mt-cell>
+            <div class="partAddList" v-for="(item,index) in partData" :key="index">
+                <mt-cell title="供货厂家编号" :value="item.ProvItemNo"></mt-cell>
                 <mt-cell title="主机编号" value="说明文字"></mt-cell>
                 <mt-field class="inputRight required" label="开单价格" placeholder="请输入" v-model="partName"></mt-field>
 
@@ -21,7 +21,10 @@
 
                 <mt-cell title="主机编号" value="说明文字"></mt-cell>
             </div>
-
+            <div class="getMore text-center">
+                    <span v-if="loading">努力加载中...</span>
+                    <span v-else>没有更多了</span>
+                </div>
         </section>
         <footer class="btnFooter btnNum2">
             <mt-button type="primary" @click="submit()">确定</mt-button>
@@ -38,10 +41,42 @@ export default {
     name: 'partAdd',
     data() {
         return {
-            partName: ''
+            loading: false,
+            partName: '',
+            account: JSON.parse(this.$getCookie('account')),
+            custObj: JSON.parse(this.$getCookie('custObj')),
+            pageIndex: 1,
+            pageSize: 200,
+            partData:[]
         }
     },
+    created() {
+        this.getData()
+    },
     methods: {
+        getData() {
+            let obj = {}
+            this.loading = true
+            let data = {
+                fid: this.account.fid,
+                custFid: this.custObj.Fid,
+                productIds: this.$route.params.string,
+                pageIndex: this.pageIndex,
+                pageSize: this.pageSize
+            }
+            // log(this.custObj)
+            // log(data)
+            this.$http.get('/api/FittingsSelectReturn', { params: data }).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    this.loading = false
+                    let list = res.data.DataList;
+                    console.log(list)
+                    this.partData = list
+                } else {
+                    this.$toast(res.data.message);
+                }
+            }, res => { });
+        },
         submit() {
             let data = {
                 aa: '11'
