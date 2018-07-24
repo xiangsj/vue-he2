@@ -118,7 +118,7 @@ export default {
                     this.detailData = data
                     this.isLoading = false
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         }

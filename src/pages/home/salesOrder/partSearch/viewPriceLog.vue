@@ -8,7 +8,7 @@
             </mt-header>
             <section>
 
-                <div class="title">销售历史
+                <div class="groupTitle">销售历史
                     <span>（仅显示最近5条）</span>
                 </div>
                 <template v-for="(item,index) in saleLogArr">
@@ -19,7 +19,7 @@
                     <span v-else>没有更多了</span>
                 </div>
 
-                <div class="title">采购历史
+                <div class="groupTitle">采购历史
                     <span>（仅显示最近5条）</span>
                 </div>
                 <template v-for="(item,index) in buyLogArr">
@@ -81,7 +81,7 @@ export default {
                     }
                     this.saleLogArr = list
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },
@@ -104,7 +104,7 @@ export default {
                     }
                     this.buyLogArr = list
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },

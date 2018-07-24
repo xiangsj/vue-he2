@@ -82,7 +82,7 @@ export default {
       //     }
       //     this.listData = this.listData.concat(data);
       //   } else {
-      //     this.$toast(res.data.message);
+      //     this.$messageBox(res.data.message)
       //   }
       // }, res => { });
     },
@@ -115,7 +115,7 @@ export default {
           }
           this.listData = list
         } else {
-          this.$toast(res.data.message);
+          this.$messageBox(res.data.message)
         }
       }, res => { });
     },
@@ -136,7 +136,7 @@ export default {
       //       this.loading = false;
       //     }
       //   } else {
-      //     this.$toast(res.data.message);
+      //     this.$messageBox(res.data.message)
       //   }
       // }, res => { });
     },

@@ -161,7 +161,7 @@ export default {
                         removeCookie('user')
                     }
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },

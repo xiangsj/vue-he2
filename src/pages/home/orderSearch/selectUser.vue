@@ -10,7 +10,9 @@
                 <ul class="dataList">
                     <li v-for="(item,index) in popupArr" :key="index" @click="currentObj = item" :class="[currentObj.EmpID == item.EmpID ? 'active' : '']">
                         {{item.CNEmpName}}
-                        <span class="icon" v-if="currentObj.EmpID == item.EmpID"><i class="iconfont icon-hook"></i></span>
+                        <span class="icon" v-if="currentObj.EmpID == item.EmpID">
+                            <i class="iconfont icon-hook"></i>
+                        </span>
                     </li>
                 </ul>
                 <div class="getMore text-center">
@@ -54,13 +56,13 @@ export default {
         },
         open() {
             this.popupVisible = true
-            this.$http.get('/api/SelectUser', { params: {fid: this.account.fid} }).then(res => {
+            this.$http.get('/api/SelectUser', { params: { fid: this.account.fid } }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     let list = res.data.DataList;
                     // console.log(list)
                     this.popupArr = list
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },

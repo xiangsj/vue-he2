@@ -47,7 +47,7 @@ export default {
                         this.$toast('令牌已禁用')
                     }
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },
@@ -62,7 +62,7 @@ export default {
                     setCookie("token", this.inputToken);
                     this.$router.push("/login");
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         }

@@ -7,9 +7,12 @@
         </mt-header>
         <section>
             <div class="partAddList" v-for="(item,index) in partData" :key="index">
+                <div class="groupTitle">
+                    <span>配件 {{index+1}}</span>
+                </div>
                 <mt-cell title="供货厂家编号" :value="item.ProvItemNo"></mt-cell>
                 <mt-cell title="主机编号" value="说明文字"></mt-cell>
-                <mt-field class="inputRight required" label="开单价格" placeholder="请输入" v-model="partName"></mt-field>
+                <mt-field class="inputRight required" label="开单价格" placeholder="请输入" v-model="item.OrgSalePrice"></mt-field>
 
                 <mt-field class="inputRight required" label="销售数量" placeholder="请输入" v-model="partName"></mt-field>
 
@@ -22,9 +25,9 @@
                 <mt-cell title="主机编号" value="说明文字"></mt-cell>
             </div>
             <div class="getMore text-center">
-                    <span v-if="loading">努力加载中...</span>
-                    <span v-else>没有更多了</span>
-                </div>
+                <span v-if="loading">努力加载中...</span>
+                <span v-else>没有更多了</span>
+            </div>
         </section>
         <footer class="btnFooter btnNum2">
             <mt-button type="primary" @click="submit()">确定</mt-button>
@@ -47,7 +50,7 @@ export default {
             custObj: JSON.parse(this.$getCookie('custObj')),
             pageIndex: 1,
             pageSize: 200,
-            partData:[]
+            partData: []
         }
     },
     created() {
@@ -70,18 +73,26 @@ export default {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false
                     let list = res.data.DataList;
-                    console.log(list)
-                    this.partData = list
+                    // console.log(list)
+                    let newArr = []
+                    list.forEach(item=>{
+                        item['OrgSalePrice'] = ''
+                        item['SalePrice'] = ''
+                        item['SaleQty'] = ''
+                        newArr.push(item)
+                    })
+                    this.partData = newArr
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },
         submit() {
-            let data = {
-                aa: '11'
-            }
-            setCookie("partsObj", data);
+            log(this.partData)
+            // let data = {
+            //     aa: '11'
+            // }
+            setCookie("partsObj", this.partData);
 
             this.$router.push('/home/salesOrder')
         }
@@ -108,7 +119,7 @@ export default {
         bottom: 62px;
         padding-bottom: 30px;
         .partAddList {
-            margin-bottom: 15px;
+            margin-bottom: 2px;
         }
     }
 }

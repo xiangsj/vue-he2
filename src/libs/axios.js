@@ -8,14 +8,14 @@ import { MessageBox } from 'mint-ui';
 import { getCookie } from "@/libs/utils.js";
 // console.log(getCookie("code"))
 axios.interceptors.request.use(config => {
-  
+
   //排除此接口，其他自动加上 cookie
   if (config.url !== "/api/TokenCheck") {
     let token = getCookie("token");
     if (!token) {
       // MessageBox('no token', '请重新获取手机令牌');
       MessageBox.alert('no token').then(action => {
-        self.location.href="/";
+        self.location.href = "/";
       });
       return;
     }
@@ -25,8 +25,15 @@ axios.interceptors.request.use(config => {
       Object.assign(config.params, {
         "token": token
       });
-    }
-  }else{
+    } 
+    // else if (method === 'post---') {
+    //   console.log('-------------')
+    //   log(config)
+    //   Object.assign(config.data, {
+    //     "token": token
+    //   });
+    // }
+  } else {
     // log('jjjjjjjjjjjj')
     // let account = getCookie("account");
     // if (!account) {

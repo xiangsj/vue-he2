@@ -57,6 +57,7 @@
                     <i class="iconfont icon-add-empty"></i>
                 </mt-button>
             </h2>
+
             <div class="bg-white partsList">
                 <dl v-for="(item,index) in partsAdd" :key="index">
                     <div class="btns">
@@ -73,10 +74,12 @@
                     </dt>
                     <dd>
                         <div>
-                            {{item.ProvItemNo}}/{{item.EngineNo}}
+                            {{item.ProvItemNo}}
+                            <span v-if="item.EngineNo && item.EngineNo != ''">/{{item.EngineNo}}</span>
+                            <span style="margin-left:20px;" v-if="item.C_Unit && item.C_Unit != ''">{{item.SaleQty}} {{item.C_Unit}} {{item.SalePrice}}</span>
                         </div>
                         <div>
-                            {{item.Item_C_Name}}、 {{item.Item_C_Spec}}
+                            {{item.Item_C_Name}}、 {{item.Item_C_Spec}}、{{item.Brand}}、{{item.UseInCarBrief}}、{{item.WHName}}
                         </div>
                     </dd>
                 </dl>
@@ -147,8 +150,8 @@ export default {
             mark: '',
             total: '',
             partsAdd: [
-                { ProvItemNo: 'TEST111' },
-                { ProvItemNo: 'TEST222' }
+                // { SalePrice: 'TEST111' },
+                // { SalePrice: 'TEST222' }
             ],
             account: JSON.parse(this.$getCookie('account')),
             user: JSON.parse(this.$getCookie('user'))
@@ -159,48 +162,71 @@ export default {
     },
     methods: {
         submit() {
-            if (this.custObj.Fid == '') {
-                this.$toast('请选择客户')
-                return
-            }
-            if (this.storeObj.FullName == '') {
-                this.$toast('客户联系人不能为空')
-                return
-            }
-            if (this.billingObj.ValueID == '') {
-                this.$toast('开票类型不能为空')
-                return
-            }
-            if (this.sendObj.ValueID == '') {
-                this.$toast('发运方式不能为空')
-                return
-            }
-            if (this.paymentObj.ValueID == '') {
-                this.$toast('付款方式不能为空')
-                return
-            }
-            if (this.dateBegin == '') {
-                this.$toast('开单不能为空')
-                return
-            }
-
-            // let data = {
-            //     fid: this.account.fid,
-            //     dataList: {
-            //         Head: {
-            //             ScNo: "111"
-            //         }                    
-            //     },
-            //     empId: this.user.username
+            // if (this.custObj.Fid == '') {
+            //     this.$toast('请选择客户')
+            //     return
             // }
-            // this.$http.get('/api/SaveSalesOrder', { params: data }).then(res => {
-            //     if (res.data.status.toString() === this.GLOBAL.status) {
-            //         // let list = res.data.DataList;
-            //         // console.log(list)
-            //     } else {
-            //         this.$toast(res.data.message);
-            //     }
-            // }, res => { });
+            // if (this.storeObj.FullName == '') {
+            //     this.$toast('客户联系人不能为空')
+            //     return
+            // }
+            // if (this.billingObj.ValueID == '') {
+            //     this.$toast('开票类型不能为空')
+            //     return
+            // }
+            // if (this.sendObj.ValueID == '') {
+            //     this.$toast('发运方式不能为空')
+            //     return
+            // }
+            // if (this.paymentObj.ValueID == '') {
+            //     this.$toast('付款方式不能为空')
+            //     return
+            // }
+            // if (this.dateBegin == '') {
+            //     this.$toast('开单不能为空')
+            //     return
+            // }
+            var orderData = {
+                "Head": {
+                    "ScNo": "1111",
+                    "CustFID": 267,
+                    "CreateDate": "2018-07-23",
+                    "BriefName": "C",
+                    "BName": "T",
+                    "BContact": "张三",
+                    "BTel": "021-9989992",
+                    "DeliveryAddr": "上海市",
+                    "TotSCAmt": "100",
+                    "PaymentModeCaption": "3",
+                    "CSITypCaption": "2",
+                    "DeliveryMode": "货运",
+                    "whOutState": "全部出库",
+                    "faCRState": "全部出库",
+                    "SaleID": "01801",
+                    "SaleName": "梁文忠",
+                    "Memo": "测试数据"
+                },
+                "Detail": [
+                ]
+            };
+            var jsondata = { "token": "1A2B3C", "fid": 1, "dataList": orderData, "empId": "admin" };
+            
+            // let orderData = {}
+            // let jsondata = {
+            //     'fid': this.account.fid,
+            //     'dataList': orderData,
+            //     'empId': this.user.username
+            // }
+            // log(jsondata)
+            
+            this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    console.log(res.data)
+                    // let list = res.data.DataList;
+                } else {
+                    this.$messageBox(res.data.message)
+                }
+            }, res => { });
         },
         goAddPart() {
             if (this.custObj.Fid == '') {
@@ -212,8 +238,12 @@ export default {
             }
             this.$router.push('/home/partSearch')
         },
+        // 显示所选配件
         showParts() {
-            log(this.$getCookie('partsObj'))
+            let parts = this.$getCookie('partsObj') || '[]'
+            let Arr = JSON.parse(parts)
+            this.partsAdd = Arr
+            log(Arr)
         },
         removeThis(index) {
             this.$messageBox.confirm('确定移除这个配件吗?', '').then(action => {
@@ -251,8 +281,8 @@ export default {
     },
     watch: {
         '$route'(to, from) {
+            log('ccccc')
             if (from.name === 'partAdd') {
-                // log("000jjjjlkl")
                 this.showParts()
             } else {
                 this.clearData()
@@ -284,7 +314,7 @@ export default {
         .partsList {
             >dl {
                 background: #fff;
-                padding: 8px 15px;
+                padding: 8px 50px 8px 15px;
                 position: relative;
                 min-height: 58px;
                 border-bottom: 1px solid #eee;

@@ -9,7 +9,7 @@
             <section v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
                 <div class="pupupSearch">
                     <form action="">
-                    <input v-model="inputValue" type="search" placeholder="请输入客户名称、地址、电话">
+                        <input v-model="inputValue" type="search" placeholder="请输入客户名称、地址、电话">
                     </form>
                     <span class="icon" @click="searchCust()">
                         <i class="iconfont icon-search"></i>
@@ -84,7 +84,7 @@ export default {
                     }
                     this.popupArr = this.popupArr.concat(data);
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },
@@ -98,6 +98,10 @@ export default {
                 pageSize: this.pageSize
             }
             this.$http.get('/api/SelectCustomer', { params: data }).then(res => {
+                log(res.data)
+                log(res.data.status.toString())
+                log(this.GLOBAL.status)
+                log(res.data.message)
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     let list = res.data.DataList;
                     // console.log(list)
@@ -106,7 +110,7 @@ export default {
                         this.isMore = false
                     }
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },
@@ -127,7 +131,7 @@ export default {
                         this.loading = false;
                     }
                 } else {
-                    this.$toast(res.data.message);
+                    this.$messageBox(res.data.message)
                 }
             }, res => { });
         },
