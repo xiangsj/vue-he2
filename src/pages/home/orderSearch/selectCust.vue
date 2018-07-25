@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         loadMore() {
-            console.log("more")
+            // console.log("more")
             this.pageIndex++
             let data = {
                 fid: this.account.fid,
@@ -98,10 +98,10 @@ export default {
                 pageSize: this.pageSize
             }
             this.$http.get('/api/SelectCustomer', { params: data }).then(res => {
-                log(res.data)
-                log(res.data.status.toString())
-                log(this.GLOBAL.status)
-                log(res.data.message)
+                // log(res.data)
+                // log(res.data.status.toString())
+                // log(this.GLOBAL.status)
+                // log(res.data.message)
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     let list = res.data.DataList;
                     // console.log(list)

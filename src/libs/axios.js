@@ -9,7 +9,7 @@ import { getCookie } from "@/libs/utils.js";
 // console.log(getCookie("code"))
 axios.interceptors.request.use(config => {
 
-  //排除此接口，其他自动加上 cookie
+  // 排除此接口，不加 cookie
   if (config.url !== "/api/TokenCheck") {
     let token = getCookie("token");
     if (!token) {
@@ -20,29 +20,19 @@ axios.interceptors.request.use(config => {
       return;
     }
     //请求方式
-    let method = config.method.toLowerCase();
-    if (method === 'get' || method === 'delete') {
-      Object.assign(config.params, {
-        "token": token
-      });
-    } 
-    // else if (method === 'post---') {
-    //   console.log('-------------')
-    //   log(config)
-    //   Object.assign(config.data, {
-    //     "token": token
-    //   });
-    // }
-  } else {
-    // log('jjjjjjjjjjjj')
-    // let account = getCookie("account");
-    // if (!account) {
-    //   // MessageBox('no token', '请重新获取手机令牌');
-    //   MessageBox.alert('no account').then(action => {
-    //     self.location.href="/";
-    //   });
-    //   return;
-    // }
+    switch (config.method.toLowerCase()) {
+      case 'get':
+      case 'delete':
+        Object.assign(config.params, {
+          "token": token
+        });
+        break;
+      case 'post':
+        Object.assign(config.data, {
+          "token": token
+        });
+        break;
+    }
   }
   return config;
 }, error => {

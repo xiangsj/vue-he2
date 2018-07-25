@@ -159,69 +159,68 @@ export default {
     },
     created() {
         // console.log('salesorder start 可在这清空data')
+        // log(this.$moment(new Date()).format('YYYY-MM-DD'))
+        // log(new Date())
     },
     methods: {
         submit() {
-            // if (this.custObj.Fid == '') {
-            //     this.$toast('请选择客户')
-            //     return
-            // }
-            // if (this.storeObj.FullName == '') {
-            //     this.$toast('客户联系人不能为空')
-            //     return
-            // }
-            // if (this.billingObj.ValueID == '') {
-            //     this.$toast('开票类型不能为空')
-            //     return
-            // }
-            // if (this.sendObj.ValueID == '') {
-            //     this.$toast('发运方式不能为空')
-            //     return
-            // }
-            // if (this.paymentObj.ValueID == '') {
-            //     this.$toast('付款方式不能为空')
-            //     return
-            // }
-            // if (this.dateBegin == '') {
-            //     this.$toast('开单不能为空')
-            //     return
-            // }
-            var orderData = {
-                "Head": {
-                    "ScNo": "1111",
-                    "CustFID": 267,
-                    "CreateDate": "2018-07-23",
-                    "BriefName": "C",
-                    "BName": "T",
-                    "BContact": "张三",
-                    "BTel": "021-9989992",
-                    "DeliveryAddr": "上海市",
-                    "TotSCAmt": "100",
-                    "PaymentModeCaption": "3",
-                    "CSITypCaption": "2",
-                    "DeliveryMode": "货运",
-                    "whOutState": "全部出库",
-                    "faCRState": "全部出库",
-                    "SaleID": "01801",
-                    "SaleName": "梁文忠",
-                    "Memo": "测试数据"
-                },
-                "Detail": [
-                ]
-            };
-            var jsondata = { "token": "1A2B3C", "fid": 1, "dataList": orderData, "empId": "admin" };
-            
-            // let orderData = {}
-            // let jsondata = {
-            //     'fid': this.account.fid,
-            //     'dataList': orderData,
-            //     'empId': this.user.username
-            // }
-            // log(jsondata)
+            if (this.custObj.Fid == '') {
+                this.$toast('请选择客户')
+                return
+            }
+            if (this.storeObj.FullName == '') {
+                this.$toast('客户联系人不能为空')
+                return
+            }
+            if (this.billingObj.ValueID == '') {
+                this.$toast('开票类型不能为空')
+                return
+            }
+            if (this.sendObj.ValueID == '') {
+                this.$toast('发运方式不能为空')
+                return
+            }
+            if (this.paymentObj.ValueID == '') {
+                this.$toast('付款方式不能为空')
+                return
+            }
+            if (this.dateBegin == '') {
+                this.$toast('开单日期不能为空')
+                return
+            }
+            if (this.partsAdd.length === 0) {
+                this.$toast('请添加配件')
+                return
+            }
+            let Head = {
+                ScNo: this.custObj.Fid,
+                CustFID: this.custObj.Fid,
+                CreateDate: this.$moment(new Date()).format('YYYY-MM-DD'),
+                BriefName: "C",
+                "BName": "T",
+                "BContact": "张三",
+                "BTel": "021-9989992",
+                "DeliveryAddr": "上海市",
+                "TotSCAmt": "100",
+                "PaymentModeCaption": "3",
+                "CSITypCaption": "2",
+                "DeliveryMode": "货运",
+                "whOutState": "全部出库",
+                "faCRState": "全部出库",
+                "SaleID": "01801",
+                "SaleName": "梁文忠",
+                "Memo": "测试数据"
+            }
+            let jsondata = {
+                fid: this.account.fid,
+                dataList: {Head:Head,Detail:this.partsAdd},
+                empId: this.user.username
+            }
+            log(jsondata)
             
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
-                    console.log(res.data)
+                    log(res.data)
                     // let list = res.data.DataList;
                 } else {
                     this.$messageBox(res.data.message)
@@ -251,7 +250,7 @@ export default {
             }).catch(() => { });
         },
         editThis(index) {
-            this.$router.push('/home/partAdd')
+            this.$router.push('/home/partAdd/' + '187')
         },
         clearData() {
             this.custObj = {
