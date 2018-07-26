@@ -32,6 +32,7 @@ axios.interceptors.request.use(config => {
           "token": token
         });
         break;
+      default:
     }
   }
   return config;

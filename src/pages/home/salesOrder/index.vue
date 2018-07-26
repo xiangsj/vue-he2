@@ -168,48 +168,51 @@ export default {
                 this.$toast('请选择客户')
                 return
             }
-            if (this.storeObj.FullName == '') {
-                this.$toast('客户联系人不能为空')
-                return
-            }
-            if (this.billingObj.ValueID == '') {
-                this.$toast('开票类型不能为空')
-                return
-            }
-            if (this.sendObj.ValueID == '') {
-                this.$toast('发运方式不能为空')
-                return
-            }
-            if (this.paymentObj.ValueID == '') {
-                this.$toast('付款方式不能为空')
-                return
-            }
-            if (this.dateBegin == '') {
-                this.$toast('开单日期不能为空')
-                return
-            }
-            if (this.partsAdd.length === 0) {
-                this.$toast('请添加配件')
-                return
-            }
+            // if (this.storeObj.FullName == '') {
+            //     this.$toast('客户联系人不能为空')
+            //     return
+            // }
+            // if (this.billingObj.ValueID == '') {
+            //     this.$toast('开票类型不能为空')
+            //     return
+            // }
+            // if (this.sendObj.ValueID == '') {
+            //     this.$toast('发运方式不能为空')
+            //     return
+            // }
+            // if (this.paymentObj.ValueID == '') {
+            //     this.$toast('付款方式不能为空')
+            //     return
+            // }
+            // if (this.dateBegin == '') {
+            //     this.$toast('开单日期不能为空')
+            //     return
+            // }
+            // if (this.partsAdd.length === 0) {
+            //     this.$toast('请添加配件')
+            //     return
+            // }
+
             let Head = {
-                ScNo: this.custObj.Fid,
-                CustFID: this.custObj.Fid,
-                CreateDate: this.$moment(new Date()).format('YYYY-MM-DD'),
-                BriefName: "C",
-                "BName": "T",
-                "BContact": "张三",
-                "BTel": "021-9989992",
-                "DeliveryAddr": "上海市",
-                "TotSCAmt": "100",
-                "PaymentModeCaption": "3",
-                "CSITypCaption": "2",
-                "DeliveryMode": "货运",
-                "whOutState": "全部出库",
-                "faCRState": "全部出库",
-                "SaleID": "01801",
-                "SaleName": "梁文忠",
-                "Memo": "测试数据"
+                ScNo: '???',
+                CustFID: this.custObj.Fid + '',
+                // CreateDate: this.$moment(new Date()).format('YYYY-MM-DD'),
+                CreateDate: this.dateBegin,
+                BriefName: '???',
+                BName: this.custObj.Departement,
+                BContact: this.storeObj.FullName,
+                BTel: this.storeObj.Tel + '',
+                DeliveryAddr: this.storeObj.Addr,
+
+                TotSCAmt: this.total + '',
+                PaymentModeCaption: this.paymentObj.ValueID + '',
+                CSITypCaption: this.billingObj.ValueID,
+                DeliveryMode: this.sendObj.ValueName,
+                whOutState: "???",
+                faCRState: "???",
+                SaleID: this.sendObj.ValueID + '',
+                SaleName: this.userObj.CNEmpName,
+                Memo: this.mark
             }
             let jsondata = {
                 fid: this.account.fid,
