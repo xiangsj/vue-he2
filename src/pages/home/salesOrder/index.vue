@@ -148,7 +148,7 @@ export default {
             dateBegin: '',
             dateBeginBak: new Date(), // 初始值
             mark: '',
-            total: '',
+            total: 0,
             partsAdd: [
                 // { SalePrice: 'TEST111' },
                 // { SalePrice: 'TEST222' }
@@ -199,17 +199,17 @@ export default {
                 // CreateDate: this.$moment(new Date()).format('YYYY-MM-DD'),
                 CreateDate: this.dateBegin,
                 BriefName: '???',
-                BName: this.custObj.Departement,
-                BContact: this.storeObj.FullName,
+                BName: this.custObj.Departement || '',
+                BContact: this.storeObj.FullName || '',
                 BTel: this.storeObj.Tel + '',
-                DeliveryAddr: this.storeObj.Addr,
+                DeliveryAddr: this.storeObj.Addr || '',
 
-                TotSCAmt: this.total + '',
+                TotSCAmt: this.total,
                 PaymentModeCaption: this.paymentObj.ValueID + '',
                 CSITypCaption: this.billingObj.ValueID,
                 DeliveryMode: this.sendObj.ValueName,
-                whOutState: "???",
-                faCRState: "???",
+                // whOutState: "???",
+                // faCRState: "???",
                 SaleID: this.sendObj.ValueID + '',
                 SaleName: this.userObj.CNEmpName,
                 Memo: this.mark
@@ -220,6 +220,8 @@ export default {
                 empId: this.user.username
             }
             log(jsondata)
+            // jsondata = JSON.stringify(jsondata)
+            // log(jsondata)
             
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
@@ -307,6 +309,7 @@ export default {
         right: 0;
         bottom: 62px;
         padding-bottom: 30px;
+        -webkit-overflow-scrolling: touch;
         >h2 {
             padding: 11px 0;
             .iconfont {

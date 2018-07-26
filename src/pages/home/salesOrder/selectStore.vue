@@ -121,6 +121,7 @@ export default {
                         this.$messageBox.alert('没有查到数据，返回重新查询').then(action => {
                             this.popupVisible = false
                             this.inputValue = '' // 清空搜索
+                            this.popupArr = [] // 清空搜索
                         });
                         return
                     } else if (list.length >= this.pageSize) {
@@ -156,8 +157,10 @@ export default {
         },
         surePopup() {
             this.popupVisible = false
+            this.inputValue = '' // 清空搜索
+            this.popupArr = [] // 清空搜索
             this.$emit('ee', this.currentObj)
-            console.log(this.currentObj)
+            // console.log(this.currentObj)
         }
     }
 }

@@ -68,6 +68,7 @@ export default {
         },
         surePopup() {
             this.popupVisible = false
+            this.popupArr = [] // 清空搜索
             this.$emit('ee', this.currentObj)
         }
     }

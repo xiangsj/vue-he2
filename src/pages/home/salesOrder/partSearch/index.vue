@@ -170,6 +170,7 @@ export default {
         right: 0;
         bottom: 62px;
         padding-bottom: 30px;
+        -webkit-overflow-scrolling: touch;
         >h2 {
             padding: 11px 0;
             .iconfont {

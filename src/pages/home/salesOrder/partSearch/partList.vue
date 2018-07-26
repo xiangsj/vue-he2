@@ -125,6 +125,7 @@ export default {
         left: 0;
         overflow: auto;
         background: #f7f8f9;
+        -webkit-overflow-scrolling: touch;
         >dl {
             background: #fff;
             padding: 8px 15px;

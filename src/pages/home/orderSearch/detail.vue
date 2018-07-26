@@ -139,6 +139,7 @@ export default {
         overflow: auto;
         padding-bottom: 25px;
         background: #f7f8f9;
+        -webkit-overflow-scrolling: touch;
         >ul {
             background: #fff;
             >li {

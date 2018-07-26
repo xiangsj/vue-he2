@@ -68,13 +68,13 @@ export default {
                 custFid: this.custObj.Fid,
                 provItemNo: provItemNo
             }
-            log(data)
+            // log(data)
             // return
             this.$http.get('/api/SalesHistory', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading1 = false
                     let list = res.data.DataList;
-                    console.log(list)
+                    // console.log(list)
                     if (list.length === 0) {
                         // this.$toast('没有查到销售历史')
                         // log('jjjjj')

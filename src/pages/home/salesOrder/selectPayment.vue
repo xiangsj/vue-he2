@@ -57,7 +57,7 @@ export default {
             this.$http.get('/api/PaymentModeSelect', { params: {fid: this.account.fid} }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     let list = res.data.DataList;
-                    console.log(list)
+                    // console.log(list)
                     this.popupArr = list
                 } else {
                     this.$messageBox(res.data.message)
@@ -66,6 +66,7 @@ export default {
         },
         surePopup() {
             this.popupVisible = false
+            this.popupArr = [] // 清空搜索
             this.$emit('ee', this.currentObj)
         }
     }

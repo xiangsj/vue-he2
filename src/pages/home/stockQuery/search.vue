@@ -7,7 +7,7 @@
         </mt-header>
 
         <section>
-            <div class="bg-white" style="padding:10px 0">
+            <div class="bg-white">
                 <div @click="$refs.pickerStock.open()">
                     <mt-cell title="选择仓库" is-link value="请选择仓库">
                         <span class="value" v-if="search.stockObj.WHName != ''">{{search.stockObj.WHName}}</span>
@@ -23,7 +23,7 @@
                         <span class="value" v-if="search.partsBrandObj.Brand != ''">{{search.partsBrandObj.Brand}}</span>
                     </mt-cell>
                 </div>
-
+<!-- <div style="height:888px">jj</div> -->
                 <div @click="$refs.pickerCarBrand.open()">
                     <mt-cell title="汽车品牌" is-link value="请选择汽车品牌">
                         <span class="value" v-if="search.carBrandObj.BrandName != ''">{{search.carBrandObj.BrandName}}</span>
@@ -97,7 +97,7 @@ export default {
                 },
                 carStyleObj: {
                     StyleID: '',
-                    StyleName: '',
+                    StyleName: 'bbb',
                 }
             },
         }
@@ -191,6 +191,7 @@ export default {
         right: 0;
         bottom: 62px;
         padding-bottom: 30px;
+        -webkit-overflow-scrolling: touch;
         >h2 {
             padding: 11px 0;
             .iconfont {

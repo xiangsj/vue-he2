@@ -147,6 +147,7 @@ export default {
         right: 0;
         bottom: 0;
         overflow: auto;
+        -webkit-overflow-scrolling: touch;
         >dl {
             // background: red;
             margin: 0;

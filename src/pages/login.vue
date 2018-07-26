@@ -51,8 +51,8 @@ export default {
     data() {
         return {
             accountName: '',
-            username: '',
-            pwd: '',
+            username: 'lwp',
+            pwd: '888888',
 
             popupVisible: false,
             popupArr: [],
@@ -195,6 +195,7 @@ export default {
             line-height: 30px;
             top: 14px;
             right: 15px;
+            -webkit-overflow-scrolling: touch;
             i {
                 font-size: 22px;
                 color: #909399;
