@@ -214,19 +214,63 @@ export default {
                 SaleName: this.userObj.CNEmpName,
                 Memo: this.mark
             }
+            // let abab = 
+            //     {
+            //           "ItemNo": "HU514X",
+            //           "ProvItemNo": "HU514X",
+            //           "EngineNo": "21111",
+            //           "OrgSalePrice": "12.3",
+            //           "SalePrice": "12.3",
+            //           "SaleQty": "100.9",
+            //           "Item_C_Name": "tx",
+            //           "Item_C_Spec": "pc",
+            //           "UseInCarBrief": "1",
+            //           "C_Unit": "pc",
+            //           "Brand": "2",
+            //           "UnitBoxQty": "2",
+            //           "WHID": "003",
+            //           "Unit": "P",
+            //           "Memo": "测试数据22"
+            //       }
+
             let jsondata = {
                 fid: this.account.fid,
-                dataList: {Head:Head,Detail:this.partsAdd},
+                dataList: { Head: Head, Detail: this.partsAdd },
+                // dataList: {Head:Head,Detail:abab},
+                // dataList: {Head:Head,Detail:[{ItemNo: "H7-05", ProvItemNo: "H7解码线", EngineNo: "H7", Item_C_Name: "H7解码线", Item_C_Spec: "LEDH7解码线"}]},
                 empId: this.user.username
             }
             log(jsondata)
             // jsondata = JSON.stringify(jsondata)
             // log(jsondata)
-            
+
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     log(res.data)
-                    // let list = res.data.DataList;
+                    let list = res.data.DataList;
+                    if (list && list.FID) {
+                        let msg = '订单号为：' + list.FID + '<br>是否现在通知仓库备货？'
+                        this.$messageBox.confirm(msg, '销售下单成功').then(action => {
+                            this.tellToBuy(list.FID)
+                            // this.$router.push('/');
+                        }).catch(() => { });
+                    }
+                } else {
+                    this.$messageBox(res.data.message)
+                }
+            }, res => { });
+        },
+        tellToBuy(orderFid) {
+            let data = {
+                fid: this.account.fid,
+                orderFid: orderFid,
+                empId: this.user.username
+            }
+            this.$http.post('/api/NoticeWarehouse', data).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    log(res.data)
+                    this.$toast('通知备货成功')
+                    this.$router.push('/home/main');
                 } else {
                     this.$messageBox(res.data.message)
                 }
