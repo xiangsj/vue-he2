@@ -258,21 +258,21 @@ export default {
             this.$router.push('/home/partAdd/' + '187')
         },
         clearData() {
-            this.custObj = {
-                Fid: '',
-                BriefName: ''
-            }
-            this.storeObj = {
-                FID: '',
-                Addr: '',
-                Departement: '',
-                FullName: '',
-                Tel: ''
-            }
-            this.billingObj = {
-                ValueID: '',
-                ValueName: ''
-            }
+            // this.custObj = {
+            //     Fid: '',
+            //     BriefName: ''
+            // }
+            // this.storeObj = {
+            //     FID: '',
+            //     Addr: '',
+            //     Departement: '',
+            //     FullName: '',
+            //     Tel: ''
+            // }
+            // this.billingObj = {
+            //     ValueID: '',
+            //     ValueName: ''
+            // }
         }
     },
     components: {
@@ -285,7 +285,7 @@ export default {
     },
     watch: {
         '$route'(to, from) {
-            log('ccccc')
+            log('index watch...')
             if (from.name === 'partAdd') {
                 this.showParts()
             } else {

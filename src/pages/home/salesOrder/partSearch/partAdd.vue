@@ -7,22 +7,33 @@
         </mt-header>
         <section>
             <div class="partAddList" v-for="(item,index) in partData" :key="index">
+
                 <div class="groupTitle">
                     <span>配件 {{index+1}}</span>
                 </div>
-                <mt-cell title="供货厂家编号" :value="item.ProvItemNo"></mt-cell>
-                <mt-cell title="主机编号" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="供货厂家编号" :value="item.ProvItemNo"></mt-cell>
+                <mt-cell class="itemTxt" title="主机编号" value="说明文字"></mt-cell>
                 <mt-field class="inputRight required" label="开单价格" placeholder="请输入" v-model="item.OrgSalePrice"></mt-field>
-
-                <mt-field class="inputRight required" label="销售数量" placeholder="请输入" v-model="partName"></mt-field>
-
                 <div @click="$refs.pickerPriceLog.open('bzh001')" class="hasInput required">
                     <mt-cell title="实际销售单价" is-link value="请选择">
                         <input type="text" placeholder="请选择或输入" :value="partName" v-on:click.stop.prevent>
                     </mt-cell>
                 </div>
+                <mt-field class="inputRight required" label="销售数量" placeholder="请输入" v-model="partName"></mt-field>
 
-                <mt-cell title="主机编号" value="说明文字"></mt-cell>
+                
+
+                <mt-cell class="itemTxt" title="配件名称" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="配件规格" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="车系代码" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="适用车型" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="计量单位" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="品牌" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="单箱数量" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="发货仓库" value="说明文字"></mt-cell>
+                <mt-cell class="itemTxt" title="库存量" value="说明文字"></mt-cell>
+                <mt-field class="inputRight required" label="备注" placeholder="请输入备注" v-model="item.Memo"></mt-field>
+                
             </div>
             <div class="getMore text-center">
                 <span v-if="loading">努力加载中...</span>
@@ -31,7 +42,7 @@
         </section>
         <footer class="btnFooter btnNum2">
             <router-link to="/home/salesOrder">
-            <mt-button type="primary" @click="submit()">确定</mt-button>
+                <mt-button type="primary" @click="submit()">确定</mt-button>
             </router-link>
             <mt-button @click="$router.go(-1)">取消</mt-button>
         </footer>
@@ -81,6 +92,7 @@ export default {
                         item['OrgSalePrice'] = ''
                         item['SalePrice'] = ''
                         item['SaleQty'] = ''
+                        item['Memo'] = ''
                         newArr.push(item)
                     })
                     this.partData = newArr
@@ -90,7 +102,7 @@ export default {
             }, res => { });
         },
         submit() {
-            log(this.partData)
+            // log(this.partData)
             // let data = {
             //     aa: '11'
             // }
