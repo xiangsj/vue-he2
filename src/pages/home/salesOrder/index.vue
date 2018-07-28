@@ -50,7 +50,8 @@
                     </mt-cell>
                 </div>
                 <mt-field class="inputRight" label="备注" placeholder="请输入备注" v-model="mark"></mt-field>
-                <mt-field class="inputRight" label="订单总金额" placeholder="请输入订单总金额" v-model="total"></mt-field>
+                <mt-cell class="itemTxt" title="订单总金额" :value="total"></mt-cell>
+
             </div>
             <h2 class="text-center">
                 <mt-button @click="goAddPart()" size="small" type="primary" plain>添加配件
@@ -168,30 +169,30 @@ export default {
                 this.$toast('请选择客户')
                 return
             }
-            // if (this.storeObj.FullName == '') {
-            //     this.$toast('客户联系人不能为空')
-            //     return
-            // }
-            // if (this.billingObj.ValueID == '') {
-            //     this.$toast('开票类型不能为空')
-            //     return
-            // }
-            // if (this.sendObj.ValueID == '') {
-            //     this.$toast('发运方式不能为空')
-            //     return
-            // }
-            // if (this.paymentObj.ValueID == '') {
-            //     this.$toast('付款方式不能为空')
-            //     return
-            // }
-            // if (this.dateBegin == '') {
-            //     this.$toast('开单日期不能为空')
-            //     return
-            // }
-            // if (this.partsAdd.length === 0) {
-            //     this.$toast('请添加配件')
-            //     return
-            // }
+            if (this.storeObj.FullName == '') {
+                this.$toast('客户联系人不能为空')
+                return
+            }
+            if (this.billingObj.ValueID == '') {
+                this.$toast('开票类型不能为空')
+                return
+            }
+            if (this.sendObj.ValueID == '') {
+                this.$toast('发运方式不能为空')
+                return
+            }
+            if (this.paymentObj.ValueID == '') {
+                this.$toast('付款方式不能为空')
+                return
+            }
+            if (this.dateBegin == '') {
+                this.$toast('开单日期不能为空')
+                return
+            }
+            if (this.partsAdd.length === 0) {
+                this.$toast('请添加配件')
+                return
+            }
 
             let Head = {
                 ScNo: '???',
@@ -214,24 +215,6 @@ export default {
                 SaleName: this.userObj.CNEmpName,
                 Memo: this.mark
             }
-            // let abab = 
-            //     {
-            //           "ItemNo": "HU514X",
-            //           "ProvItemNo": "HU514X",
-            //           "EngineNo": "21111",
-            //           "OrgSalePrice": "12.3",
-            //           "SalePrice": "12.3",
-            //           "SaleQty": "100.9",
-            //           "Item_C_Name": "tx",
-            //           "Item_C_Spec": "pc",
-            //           "UseInCarBrief": "1",
-            //           "C_Unit": "pc",
-            //           "Brand": "2",
-            //           "UnitBoxQty": "2",
-            //           "WHID": "003",
-            //           "Unit": "P",
-            //           "Memo": "测试数据22"
-            //       }
 
             let jsondata = {
                 fid: this.account.fid,
@@ -241,8 +224,6 @@ export default {
                 empId: this.user.username
             }
             log(jsondata)
-            // jsondata = JSON.stringify(jsondata)
-            // log(jsondata)
 
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
@@ -252,7 +233,6 @@ export default {
                         let msg = '订单号为：' + list.FID + '<br>是否现在通知仓库备货？'
                         this.$messageBox.confirm(msg, '销售下单成功').then(action => {
                             this.tellToBuy(list.FID)
-                            // this.$router.push('/');
                         }).catch(() => { });
                     }
                 } else {
@@ -260,15 +240,15 @@ export default {
                 }
             }, res => { });
         },
+        // 通知备货
         tellToBuy(orderFid) {
             let data = {
                 fid: this.account.fid,
                 orderFid: orderFid,
                 empId: this.user.username
             }
-            this.$http.post('/api/NoticeWarehouse', data).then(res => {
+            this.$http.get('/api/NoticeWarehouse', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
-                    log(res.data)
                     this.$toast('通知备货成功')
                     this.$router.push('/home/main');
                 } else {
@@ -329,7 +309,7 @@ export default {
     },
     watch: {
         '$route'(to, from) {
-            log('index watch...')
+            // log('route watch...')
             if (from.name === 'partAdd') {
                 this.showParts()
             } else {

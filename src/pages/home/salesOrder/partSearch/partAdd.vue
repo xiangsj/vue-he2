@@ -39,9 +39,9 @@
             </div>
         </section>
         <footer class="btnFooter btnNum2">
-            <router-link to="/home/salesOrder">
+            <!-- <router-link to="/home/salesOrder"> -->
                 <mt-button type="primary" @click="submit()">确定</mt-button>
-            </router-link>
+            <!-- </router-link> -->
             <mt-button @click="$router.go(-1)">取消</mt-button>
         </footer>
         <view-price-log ref="pickerPriceLog"></view-price-log>
@@ -77,7 +77,6 @@ export default {
                 pageIndex: this.pageIndex,
                 pageSize: this.pageSize
             }
-            // log(this.custObj)
             // log(data)
             this.$http.get('/api/FittingsSelectReturn', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
@@ -99,13 +98,13 @@ export default {
             }, res => { });
         },
         submit() {
-            // log(this.partData)
+            log(this.partData)
             // let data = {
             //     aa: '11'
             // }
             setCookie("partsObj", this.partData);
 
-            // this.$router.push('/home/salesOrder')
+            this.$router.push('/home/salesOrder')
         }
     },
     components: {
