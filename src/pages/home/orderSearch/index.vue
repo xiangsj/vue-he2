@@ -19,7 +19,7 @@
                 </mt-cell>
             </div>
 
-            <mt-field class="inputRight" label="订单号" placeholder="请输入订单号" v-model="orderNum"></mt-field>
+            <mt-field class="inputRight" label="订单号" type="number" placeholder="请输入订单号" v-model="orderNum"></mt-field>
 
             <div @click="$refs.pickerCust.open()">
                 <mt-cell title="客户名称" is-link value="请选择">

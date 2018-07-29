@@ -99,7 +99,7 @@
         <select-payment v-model="paymentObj" ref="pickerPayment"></select-payment>
         <select-user v-model="userObj" ref="pickerUser"></select-user>
         <mt-datetime-picker v-model="dateBeginBak" @confirm="dateBegin = $moment(dateBeginBak).format('YYYY-MM-DD')" ref="pickerBegin" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
-
+        <part-edit v-model="partsAdd" @change="editChange" ref="toEditPart"></part-edit>
     </div>
 </template>
 
@@ -113,6 +113,8 @@ import selectSend from './selectSend'
 import selectPayment from './selectPayment'
 
 import selectUser from '../orderSearch/selectUser'
+
+import partEdit from './partEdit'
 export default {
     name: 'salesOrder',
     data() {
@@ -159,9 +161,7 @@ export default {
         }
     },
     created() {
-        // console.log('salesorder start 可在这清空data')
         // log(this.$moment(new Date()).format('YYYY-MM-DD'))
-        // log(new Date())
     },
     methods: {
         submit() {
@@ -195,11 +195,9 @@ export default {
             }
 
             let Head = {
-                ScNo: '???',
                 CustFID: this.custObj.Fid + '',
-                // CreateDate: this.$moment(new Date()).format('YYYY-MM-DD'),
                 CreateDate: this.dateBegin,
-                BriefName: '???',
+
                 BName: this.custObj.Departement || '',
                 BContact: this.storeObj.FullName || '',
                 BTel: this.storeObj.Tel + '',
@@ -209,9 +207,8 @@ export default {
                 PaymentModeCaption: this.paymentObj.ValueID + '',
                 CSITypCaption: this.billingObj.ValueID,
                 DeliveryMode: this.sendObj.ValueName,
-                // whOutState: "???",
-                // faCRState: "???",
-                SaleID: this.sendObj.ValueID + '',
+
+                SaleID: this.userObj.EmpID + '',
                 SaleName: this.userObj.CNEmpName,
                 Memo: this.mark
             }
@@ -219,15 +216,12 @@ export default {
             let jsondata = {
                 fid: this.account.fid,
                 dataList: { Head: Head, Detail: this.partsAdd },
-                // dataList: {Head:Head,Detail:abab},
-                // dataList: {Head:Head,Detail:[{ItemNo: "H7-05", ProvItemNo: "H7解码线", EngineNo: "H7", Item_C_Name: "H7解码线", Item_C_Spec: "LEDH7解码线"}]},
                 empId: this.user.username
             }
-            log(jsondata)
-
+            // log(jsondata)
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
-                    log(res.data)
+                    // log(res.data)
                     let list = res.data.DataList;
                     if (list && list.FID) {
                         let msg = '订单号为：' + list.FID + '<br>是否现在通知仓库备货？'
@@ -260,43 +254,77 @@ export default {
             if (this.custObj.Fid == '') {
                 this.$toast('请选择客户')
                 return
-            } else {
-                // console.log(this.custObj)
-                setCookie("custObj", this.custObj);
             }
+            setCookie("custObj", this.custObj);
             this.$router.push('/home/partSearch')
         },
         // 显示所选配件
         showParts() {
             let parts = this.$getCookie('partsObj') || '[]'
             let Arr = JSON.parse(parts)
+            let num = 0 // 计算总价：价格*数据 然后加起来
+            Arr.forEach(item => {
+                num += item.SalePrice * item.SaleQty
+            })
+            this.total = num
             this.partsAdd = Arr
-            log(Arr)
+            this.$toast('配件添加成功')
         },
         removeThis(index) {
             this.$messageBox.confirm('确定移除这个配件吗?', '').then(action => {
+                let val = this.partsAdd[index].SalePrice * this.partsAdd[index].SaleQty
+                this.total -= val // 价格减去
                 this.partsAdd.splice(index, 1)
             }).catch(() => { });
+            this.$toast('移除成功')            
         },
         editThis(index) {
-            this.$router.push('/home/partAdd/' + '187')
+            // this.$router.push('/home/partAdd/' + '187')
+            this.$refs.toEditPart.open(index)
+        },
+        editChange(val) {
+            // log(val)
+            // 重新算总价
+            let num = 0 // 计算总价：价格*数据 然后加起来
+            val.forEach(item => {
+                num += item.SalePrice * item.SaleQty
+            })
+            this.total = num
+            this.$toast('修改成功')
         },
         clearData() {
-            // this.custObj = {
-            //     Fid: '',
-            //     BriefName: ''
-            // }
-            // this.storeObj = {
-            //     FID: '',
-            //     Addr: '',
-            //     Departement: '',
-            //     FullName: '',
-            //     Tel: ''
-            // }
-            // this.billingObj = {
-            //     ValueID: '',
-            //     ValueName: ''
-            // }
+            this.custObj = {
+                Fid: '',
+                BriefName: ''
+            }
+            this.storeObj = {
+                FID: '',
+                Addr: '',
+                Departement: '',
+                FullName: '',
+                Tel: ''
+            }
+            this.billingObj = {
+                ValueID: '',
+                ValueName: ''
+            }
+            this.sendObj = {
+                ValueID: '',
+                ValueName: ''
+            }
+
+            this.paymentObj = {
+                ValueID: '',
+                ValueName: ''
+            }
+            this.userObj = {
+                EmpID: '',
+                CNEmpName: ''
+            }
+            this.dateBegin = ''
+            this.mark = '',
+                this.total = 0,
+                this.partsAdd = []
         }
     },
     components: {
@@ -306,13 +334,15 @@ export default {
         'select-send': selectSend,
         'select-payment': selectPayment,
         'select-user': selectUser,
+        'part-edit': partEdit
     },
     watch: {
         '$route'(to, from) {
-            // log('route watch...')
+            // log(from.name)
             if (from.name === 'partAdd') {
                 this.showParts()
-            } else {
+            }
+            if (from.name === 'main') {
                 this.clearData()
             }
         }

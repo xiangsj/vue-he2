@@ -33,26 +33,26 @@
                     <mt-button icon="back" @click="popupVisible = false">返回</mt-button>
                 </router-link>
             </mt-header>
-            <div class="">
+            <section>
                 <mt-radio title="" align="right" v-model="popupVal" :options="popupArr"> </mt-radio>
                 <div class="buttonFoot">
                     <mt-button size="large" type="primary" @click="surePopup()">确定</mt-button>
                 </div>
-            </div>
+            </section>
         </mt-popup>
     </div>
 </template>
 
 <script>
-import { setCookie, removeCookie, clearCookie } from "@/libs/utils.js";
+import { setCookie, clearCookie } from "@/libs/utils.js";
 
 export default {
     name: 'home',
     data() {
         return {
             accountName: '',
-            username: 'lwp',
-            pwd: '888888',
+            username: '',
+            pwd: '',
 
             popupVisible: false,
             popupArr: [],
@@ -68,11 +68,14 @@ export default {
         // log(userString)
         if (userString) {
             let user = JSON.parse(userString)
-            if (!user.username || !user.pwd) { return }
+            // if (!user.username || !user.pwd) { return }
             // log(user)
-            this.isSave = true
-            this.username = user.username
-            this.pwd = user.pwd
+
+            if (user.pwd) {
+                this.isSave = true
+                this.username = user.username
+                this.pwd = user.pwd
+            }
         }
     },
     methods: {
@@ -148,7 +151,6 @@ export default {
                     toCookie.fid = fid
                     // console.log(toCookie)
                     setCookie("account", toCookie);
-                    this.$router.push("/home/main");
 
                     // 是否保存密码
                     if (this.isSave) {
@@ -158,18 +160,22 @@ export default {
                         }
                         setCookie("user", user);
                     } else {
-                        removeCookie('user')
+                        let user = {
+                            username: this.username
+                        }
+                        setCookie("user", user);
                     }
+                    this.$router.push("/home/main");                    
                 } else {
                     this.$messageBox(res.data.message)
                 }
             }, res => { });
         },
         relogin() {
-            this.$messageBox.confirm('确定重置令牌？','').then(action => {
+            this.$messageBox.confirm('确定重置令牌？', '').then(action => {
                 clearCookie();
                 this.$router.push('/');
-            }).catch(() => {});
+            }).catch(() => { });
         }
     }
 }

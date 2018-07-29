@@ -91,7 +91,7 @@ export default {
             try {
                 obj = JSON.parse(this.$route.params.string);
                 this.obj = obj;
-                console.log(obj)
+                // console.log(obj)
             } catch (e) {
                 // console.log("nnn")
                 this.$messageBox.alert('参数有误，返回重新查询').then(action => {
@@ -111,12 +111,12 @@ export default {
                 pageIndex: this.pageIndex,
                 pageSize: this.pageSize
             }
-            console.log(data)
+            // console.log(data)
             this.$http.get('/api/StockSearch', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false
                     let list = res.data.DataList;
-                    console.log(list)
+                    // console.log(list)
                     if (list.length === 0) {
                         this.$messageBox.alert('没有查到数据，返回重新查询').then(action => {
                             this.$router.go(-1);

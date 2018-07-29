@@ -225,8 +225,17 @@ body {
     width: 100%;
     height: 100%;
     background: #fff;
-    .buttonFoot {
+    >section{
+        // border:1px solid red;
         position: absolute;
+        left: 0;
+        top: 40px;
+        right: 0;
+        bottom: 55px;
+        -webkit-overflow-scrolling: touch;        
+    }
+    .buttonFoot {
+        position: fixed;
         left: 15px;
         right: 15px;
         bottom: 15px;
@@ -301,7 +310,7 @@ footer.btnFooter {
         -webkit-overflow-scrolling: touch;
         ul.dataList {
             >li {
-                padding: 8px 15px;
+                padding: 8px 45px 8px 15px;
                 min-height: 30px;
                 line-height: 30px;
                 position: relative;
@@ -327,7 +336,7 @@ footer.btnFooter {
                     }
                 }
                 &.active {
-                    background: #fefefe;
+                    background: #fcfcfc;
                 }
             }
         }
@@ -422,7 +431,7 @@ footer.btnFooter {
         line-height: 10px;
         text-align: center;
         position: absolute;
-        left: 0;
+        left: 5px;
         top: 50%;
         z-index: 1; // margin-top: -5px;
         color: red;
@@ -445,4 +454,8 @@ footer.btnFooter {
 }
 .itemTxt .mint-cell-value >span{
     color: #222;
+}
+// 重置
+.mint-cell-wrapper {
+    padding: 0 15px;
 }

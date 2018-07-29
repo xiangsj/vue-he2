@@ -30,7 +30,7 @@
                     </li>
                 </ul>
                 <div class="getMore text-center">
-                    <span v-if="loading">努力加载中...</span>
+                    <span v-if="loading"><i class="iconfont icon-loading"></i>努力加载中...</span>
                     <span v-else>没有更多了</span>
                 </div>
             </section>

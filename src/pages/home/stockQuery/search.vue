@@ -14,7 +14,7 @@
                     </mt-cell>
                 </div>
 
-                <mt-field class="inputRight" label="编号" placeholder="请输入主机编号/厂家供货编号" v-model="search.no"></mt-field>
+                <mt-field class="inputRight" label="编号" type="number" placeholder="请输入主机编号/厂家供货编号" v-model="search.no"></mt-field>
 
                 <mt-field class="inputRight" label="配件名称" placeholder="请输入配件名称" v-model="search.partName"></mt-field>
 
@@ -97,7 +97,7 @@ export default {
                 },
                 carStyleObj: {
                     StyleID: '',
-                    StyleName: 'bbb',
+                    StyleName: '',
                 }
             },
         }

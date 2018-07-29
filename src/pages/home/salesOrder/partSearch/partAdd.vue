@@ -8,18 +8,18 @@
         <section>
             <div class="partAddList" v-for="(item,index) in partData" :key="index">
 
-                <div class="groupTitle">
+                <div class="groupTitle text-center">
                     <span>配件 {{index+1}}</span>
                 </div>
                 <mt-cell class="itemTxt" title="供货厂家编号" :value="item.ProvItemNo"></mt-cell>
                 <mt-cell class="itemTxt" title="主机编号" :value="item.EngineNo"></mt-cell>
-                <mt-field class="inputRight required" label="开单价格" placeholder="请输入" v-model="item.OrgSalePrice"></mt-field>
+                <mt-field class="inputRight required" label="开单价格" type="number" placeholder="请输入" v-model="item.OrgSalePrice"></mt-field>
                 <div @click="$refs.pickerPriceLog.open('bzh001')" class="hasInput required">
                     <mt-cell title="实际销售单价" is-link value="请选择">
-                        <input type="text" placeholder="请选择或输入" :value="item.SalePrice" v-on:click.stop.prevent>
+                        <input type="number" placeholder="请选择或输入" v-model="item.SalePrice" v-on:click.stop.prevent>
                     </mt-cell>
                 </div>
-                <mt-field class="inputRight required" label="销售数量" placeholder="请输入" v-model="item.SaleQty"></mt-field>
+                <mt-field class="inputRight required" type="number" label="销售数量" placeholder="请输入" v-model="item.SaleQty"></mt-field>
 
                 <mt-cell class="itemTxt" title="配件名称" :value="item.Item_C_Name"></mt-cell>
                 <mt-cell class="itemTxt" title="配件规格" :value="item.Item_C_Spec"></mt-cell>
@@ -31,7 +31,7 @@
                 <mt-cell class="itemTxt" title="发货仓库" :value="item.WHName"></mt-cell>
                 <mt-cell class="itemTxt" title="库存量" :value="item.StockQty"></mt-cell>
                 <mt-field class="inputRight required" label="备注" placeholder="请输入备注" v-model="item.Memo"></mt-field>
-                
+
             </div>
             <div class="getMore text-center">
                 <span v-if="loading">努力加载中...</span>
@@ -40,7 +40,7 @@
         </section>
         <footer class="btnFooter btnNum2">
             <!-- <router-link to="/home/salesOrder"> -->
-                <mt-button type="primary" @click="submit()">确定</mt-button>
+            <mt-button type="primary" @click="submit()">确定</mt-button>
             <!-- </router-link> -->
             <mt-button @click="$router.go(-1)">取消</mt-button>
         </footer>
@@ -84,7 +84,7 @@ export default {
                     let list = res.data.DataList;
                     // console.log(list)
                     let newArr = []
-                    list.forEach(item=>{
+                    list.forEach(item => {
                         item['OrgSalePrice'] = ''
                         item['SalePrice'] = ''
                         item['SaleQty'] = ''
@@ -99,11 +99,33 @@ export default {
         },
         submit() {
             log(this.partData)
-            // let data = {
-            //     aa: '11'
-            // }
-            setCookie("partsObj", this.partData);
+            // let arr = []
+            let OrgSalePrice = this.partData.filter(item => {
+                return item.OrgSalePrice == ''
+            })
+            // log(OrgSalePrice)  || !/^[0-9]*$/.test(OrgSalePrice[0].OrgSalePrice)
+            if (OrgSalePrice.length > 0) {
+                this.$toast('有 ' + OrgSalePrice.length + ' 处开单价格没有录入')
+                return
+            }
+            // 
+            let SalePrice = this.partData.filter(item => {
+                return item.SalePrice == ''
+            })
+            if (SalePrice.length > 0) {
+                this.$toast('有 ' + SalePrice.length + ' 处实际销售单价没有录入')
+                return
+            }
+            //
+            let SaleQty = this.partData.filter(item => {
+                return item.SaleQty == ''
+            })
+            if (SaleQty.length > 0) {
+                this.$toast('有 ' + SaleQty.length + ' 处销售数量没有录入')
+                return
+            }
 
+            setCookie("partsObj", this.partData);
             this.$router.push('/home/salesOrder')
         }
     },
@@ -115,12 +137,12 @@ export default {
 
 <style lang="less" scoped>
 .partAdd {
-    // border: 1px solid red;
+    // border: 1px solid blue;
     // position: relative;
-    // height: 100%;
+    height: 100%;
+    background-color: #f7f8f9;
     section {
         // border: 1px solid red;
-        background-color: #f7f8f9;
         overflow: auto;
         position: absolute;
         left: 0;
@@ -128,6 +150,7 @@ export default {
         right: 0;
         bottom: 62px;
         padding-bottom: 30px;
+        z-index: 1;
         -webkit-overflow-scrolling: touch;
         .partAddList {
             margin-bottom: 2px;
