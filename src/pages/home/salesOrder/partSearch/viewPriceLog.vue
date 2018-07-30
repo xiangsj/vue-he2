@@ -12,7 +12,7 @@
                     <span>（仅显示最近5条）</span>
                 </div>
                 <template v-for="(item,index) in saleLogArr">
-                    <mt-cell :key="index" :title="item.CreateDate" :value="item.OrgSalePrice"></mt-cell>
+                    <mt-cell :key="'a'+index" :title="item.CreateDate" :value="item.OrgSalePrice"></mt-cell>
                 </template>
                 <div class="getMore text-center">
                     <span v-if="loading1">努力加载中...</span>
@@ -23,7 +23,7 @@
                     <span>（仅显示最近5条）</span>
                 </div>
                 <template v-for="(item,index) in buyLogArr">
-                    <mt-cell :key="index" :title="item.WHName" :value="item.InPrice"></mt-cell>
+                    <mt-cell :key="'b'+index" :title="item.WHName" :value="item.InPrice"></mt-cell>
                 </template>
                 <div class="getMore text-center">
                     <span v-if="loading2">努力加载中...</span>
@@ -91,7 +91,7 @@ export default {
                 fid: this.account.fid,
                 provItemNo: provItemNo
             }
-            log(data)
+            // log(data)
             // return
             this.$http.get('/api/BuyHistory', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {

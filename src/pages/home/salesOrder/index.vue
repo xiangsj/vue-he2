@@ -46,7 +46,7 @@
                 </div>
                 <div @click="$refs.pickerBegin.open()">
                     <mt-cell class="required" title="开单日期" is-link value="请选择">
-                        <span class="value" v-if="dateBegin != ''">{{dateBegin}}</span>
+                        <span class="value" v-if="dateBegin != ''">{{$moment(dateBegin).format('YYYY-MM-DD')}}</span>
                     </mt-cell>
                 </div>
                 <mt-field class="inputRight" label="备注" placeholder="请输入备注" v-model="mark"></mt-field>
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { setCookie } from "@/libs/utils.js";
+import { setCookie, removeCookie } from "@/libs/utils.js";
 
 import selectCust from '../orderSearch/selectCust'
 import selectStore from './selectStore'
@@ -148,7 +148,7 @@ export default {
                 EmpID: JSON.parse(this.$getCookie('account')).EmpID,
                 CNEmpName: JSON.parse(this.$getCookie('account')).CNEmpName
             },
-            dateBegin: '',
+            dateBegin: new Date(),
             dateBeginBak: new Date(), // 初始值
             mark: '',
             total: 0,
@@ -157,11 +157,17 @@ export default {
                 // { SalePrice: 'TEST222' }
             ],
             account: JSON.parse(this.$getCookie('account')),
-            user: JSON.parse(this.$getCookie('user'))
+            user: JSON.parse(this.$getCookie('user')),
+            flag: null
         }
     },
     created() {
-        // log(this.$moment(new Date()).format('YYYY-MM-DD'))
+        // log('jjjllk')
+        // this.flag = true
+        // if (!this.flag) {
+        // // removeCookie('partsObj');
+            
+        // }
     },
     methods: {
         submit() {
@@ -276,7 +282,7 @@ export default {
                 this.total -= val // 价格减去
                 this.partsAdd.splice(index, 1)
             }).catch(() => { });
-            this.$toast('移除成功')            
+            this.$toast('移除成功')
         },
         editThis(index) {
             // this.$router.push('/home/partAdd/' + '187')
@@ -293,6 +299,8 @@ export default {
             this.$toast('修改成功')
         },
         clearData() {
+            // 配件要清零
+            removeCookie('partsObj');
             this.custObj = {
                 Fid: '',
                 BriefName: ''
@@ -318,8 +326,8 @@ export default {
                 ValueName: ''
             }
             this.userObj = {
-                EmpID: '',
-                CNEmpName: ''
+                EmpID: JSON.parse(this.$getCookie('account')).EmpID,
+                CNEmpName: JSON.parse(this.$getCookie('account')).CNEmpName
             }
             this.dateBegin = ''
             this.mark = '',

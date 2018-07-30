@@ -7,7 +7,7 @@
         </mt-header>
 
         <section>
-            <div class="bg-white" style="padding:10px 0">
+            <div class="bg-white">
             <div @click="$refs.pickerBegin.open()">
                 <mt-cell title="开单日期（始）" is-link value="请选择">
                     <span class="value" v-if="dateBegin != ''">{{dateBegin}}</span>

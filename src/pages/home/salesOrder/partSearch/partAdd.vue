@@ -98,7 +98,7 @@ export default {
             }, res => { });
         },
         submit() {
-            log(this.partData)
+            // log(this.partData)
             // let arr = []
             let OrgSalePrice = this.partData.filter(item => {
                 return item.OrgSalePrice == ''
@@ -125,8 +125,18 @@ export default {
                 return
             }
 
-            setCookie("partsObj", this.partData);
-            this.$router.push('/home/salesOrder')
+            // setCookie("partsObj", this.partData);
+            let parts = this.$getCookie('partsObj') || '[]'
+            let Arr = JSON.parse(parts)
+            // log(Arr)
+            if (Arr.length === 0){
+                setCookie("partsObj", this.partData);
+            }else{
+                let newArr = Arr.concat(this.partData)
+                setCookie("partsObj", newArr);
+                // log(newArr)
+            }
+            this.$router.push('/home/salesOrder')            
         }
     },
     components: {
