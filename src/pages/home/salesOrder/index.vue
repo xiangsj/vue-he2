@@ -228,11 +228,13 @@ export default {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     // log(res.data)
                     let list = res.data.DataList;
-                    if (list && list.FID) {
-                        let msg = '订单号为：' + list.FID + '<br>是否现在通知仓库备货？'
+                    if (list && list.FID && list.OrderNumber) {
+                        let msg = '订单号为：' + list.OrderNumber + '<br>是否现在通知仓库备货？'
                         this.$messageBox.confirm(msg, '销售下单成功').then(action => {
                             this.tellToBuy(list.FID)
                         }).catch(() => { });
+                    }else{
+                        this.$toast('返回有误，请检查接口返回')
                     }
                 } else {
                     this.$messageBox(res.data.message)
@@ -328,7 +330,7 @@ export default {
                 EmpID: JSON.parse(this.$getCookie('account')).EmpID,
                 CNEmpName: JSON.parse(this.$getCookie('account')).CNEmpName
             }
-            this.dateBegin = ''
+            this.dateBegin = new Date()
             this.mark = ''
             this.total = 0
             this.partsAdd = []
