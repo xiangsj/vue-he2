@@ -66,7 +66,7 @@
                     <div>
                         {{item.ProvItemNo}}/{{item.EngineNo}}
                         <span class="pull-right">
-                            {{Number(item.SaleQty).toFixed(0)}} {{item.C_Unit}} * {{Number(item.SalePrice).toFixed(0)}}
+                            {{Number(item.SaleQty).toFixed(0)}} {{item.C_Unit}} * {{Number(item.SalePrice).toFixed(2)}}
                         </span>
                     </div>
                     <div>

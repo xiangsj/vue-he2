@@ -77,7 +77,7 @@
                         <div>
                             {{item.ProvItemNo}}
                             <span v-if="item.EngineNo && item.EngineNo != ''">/ {{item.EngineNo}}</span>
-                            <span style="margin-left:20px;" v-if="item.C_Unit && item.C_Unit != ''">{{item.SaleQty}} {{item.C_Unit}} {{item.SalePrice}}</span>
+                            <span style="margin-left:20px;" v-if="item.C_Unit && item.C_Unit != ''">{{Number(item.SaleQty).toFixed(0)}} {{item.C_Unit}} {{Number(item.SalePrice).toFixed(2)}}</span>
                         </div>
                         <div>
                             <span v-if="item.Item_C_Name">{{item.Item_C_Name}}、</span>
