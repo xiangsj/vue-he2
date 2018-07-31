@@ -50,7 +50,7 @@
                     </mt-cell>
                 </div>
                 <mt-field class="inputRight" label="备注" placeholder="请输入备注" v-model="mark"></mt-field>
-                <mt-cell class="itemTxt" title="订单总金额" :value="total"></mt-cell>
+                <mt-cell class="itemTxt" title="订单总金额" :value="total.toFixed(2)"></mt-cell>
 
             </div>
             <h2 class="text-center">
@@ -76,11 +76,15 @@
                     <dd>
                         <div>
                             {{item.ProvItemNo}}
-                            <span v-if="item.EngineNo && item.EngineNo != ''">/{{item.EngineNo}}</span>
+                            <span v-if="item.EngineNo && item.EngineNo != ''">/ {{item.EngineNo}}</span>
                             <span style="margin-left:20px;" v-if="item.C_Unit && item.C_Unit != ''">{{item.SaleQty}} {{item.C_Unit}} {{item.SalePrice}}</span>
                         </div>
                         <div>
-                            {{item.Item_C_Name}}、 {{item.Item_C_Spec}}、{{item.Brand}}、{{item.UseInCarBrief}}、{{item.WHName}}
+                            <span v-if="item.Item_C_Name">{{item.Item_C_Name}}、</span>
+                            <span v-if="item.Item_C_Spec">{{item.Item_C_Spec}}、</span>
+                            <span v-if="item.Brand">{{item.Brand}}、</span>
+                            <span v-if="item.UseInCarBrief">{{item.UseInCarBrief}}、</span>
+                            {{item.WHName}}
                         </div>
                     </dd>
                 </dl>
@@ -163,11 +167,6 @@ export default {
     },
     created() {
         // log('jjjllk')
-        // this.flag = true
-        // if (!this.flag) {
-        // // removeCookie('partsObj');
-            
-        // }
     },
     methods: {
         submit() {
@@ -210,7 +209,7 @@ export default {
                 DeliveryAddr: this.storeObj.Addr || '',
 
                 TotSCAmt: this.total,
-                PaymentModeCaption: this.paymentObj.ValueID + '',
+                PaymentModeCaption: this.paymentObj.ValueName,
                 CSITypCaption: this.billingObj.ValueID,
                 DeliveryMode: this.sendObj.ValueName,
 
@@ -330,9 +329,39 @@ export default {
                 CNEmpName: JSON.parse(this.$getCookie('account')).CNEmpName
             }
             this.dateBegin = ''
-            this.mark = '',
-                this.total = 0,
-                this.partsAdd = []
+            this.mark = ''
+            this.total = 0
+            this.partsAdd = []
+        },
+        custGetData(id) {
+            let data = {
+                fid: this.account.fid,
+                custID: id
+            }
+            this.$http.get('/api/CustomerSelect', { params: data }).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    let backArr = res.data.DataList
+                    if (backArr.length === 0) { return }
+                    let backObj = backArr[0]
+                    log(backObj)
+                    
+                    this.storeObj.Departement = backObj.BName
+                    this.storeObj.FullName = backObj.BContact
+                    this.storeObj.Tel = backObj.BTel
+                    this.storeObj.Addr = backObj.DeliveryAddr
+
+                    this.billingObj.ValueID = backObj.CSITyp
+                    this.billingObj.ValueName = backObj.CSITypCaption
+
+                    this.sendObj.ValueID = backObj.DeliveryMode
+                    this.sendObj.ValueName = backObj.DeliveryMode
+
+                    this.paymentObj.ValueID = backObj.PaymentMode
+                    this.paymentObj.ValueName = backObj.PaymentModeCaption
+                } else {
+                    this.$messageBox(res.data.message)
+                }
+            }, res => { });
         }
     },
     components: {
@@ -353,6 +382,10 @@ export default {
             if (from.name === 'main') {
                 this.clearData()
             }
+        },
+        custObj: function(newVal){
+            // log(newVal)
+            this.custGetData(newVal.Fid)
         }
     }
 }
@@ -369,7 +402,7 @@ export default {
         left: 0;
         top: 40px;
         right: 0;
-        bottom: 62px;
+        bottom: 60px;
         padding-bottom: 30px;
         -webkit-overflow-scrolling: touch;
         >h2 {

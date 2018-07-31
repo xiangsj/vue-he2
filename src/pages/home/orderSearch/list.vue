@@ -13,7 +13,7 @@
                     <span style="color:#303133">{{item.BriefName}}</span>
                 </dd>
                 <dd>
-                    <span>{{item.TotSCAmt}}元</span>
+                    <span>{{Number(item.TotSCAmt).toFixed(2)}}元</span>
                     <span>{{item.PaymentModeCaption}}</span>
                     <span>{{item.CSITypCaption}}</span>
                     <span>{{item.whOutState}}</span>

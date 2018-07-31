@@ -49,7 +49,7 @@
                 </li>
                 <li>
                     <span class="label">订单总金额</span>
-                    <span class="value">{{detailData.Order.TotSCAmt}}</span>
+                    <span class="value">{{Number(detailData.Order.TotSCAmt).toFixed(2)}}</span>
                 </li>
                 <li>
                     <span class="label">备注</span>
@@ -66,11 +66,15 @@
                     <div>
                         {{item.ProvItemNo}}/{{item.EngineNo}}
                         <span class="pull-right">
-                            {{item.SaleQty}} {{item.C_Unit}} * {{item.SalePrice}}
+                            {{Number(item.SaleQty).toFixed(0)}} {{item.C_Unit}} * {{Number(item.SalePrice).toFixed(0)}}
                         </span>
                     </div>
                     <div>
-                        {{item.Item_C_Name}}、 {{item.Item_C_Spec}}、 {{item.Brand}}、 {{item.UseInCarBrief}}、 {{item.WHName}}
+                        <span v-if="item.Item_C_Name">{{item.Item_C_Name}}、 </span>
+                        <span v-if="item.Item_C_Spec">{{item.Item_C_Spec}}、 </span>
+                        <span v-if="item.Brand">{{item.Brand}}、 </span>
+                        <span v-if="item.UseInCarBrief">{{item.UseInCarBrief}}、 </span>
+                        {{item.WHName}}
                     </div>
                 </dd>
             </dl>

@@ -13,9 +13,14 @@
                     <i v-else class="iconfont icon-pic"></i>
                 </dt>
                 <dd>
-                    <div> {{item.ProvItemNo}}/{{item.EngineNo}} </div>
+                    <div> {{item.ProvItemNo}}
+                        <span v-if="item.EngineNo">/ {{item.EngineNo}}</span> </div>
                     <div>
-                        {{item.Item_C_Name}}、 {{item.Item_C_Spec}}、 {{item.Brand}}、 {{item.UseInCarBrief}}、 {{item.WHName}}
+                        <span v-if="item.Item_C_Name">{{item.Item_C_Name}}、</span>
+                        <span v-if="item.Item_C_Spec">{{item.Item_C_Spec}}、</span>
+                         <span v-if="item.Brand">{{item.Brand}}、</span>
+                          <span v-if="item.UseInCarBrief">{{item.UseInCarBrief}}、 </span>
+                          {{item.WHName}}
                     </div>
                     <div>
                         <span v-if="item.SaleQty">{{item.SaleQty}} {{item.C_Unit}} </span>

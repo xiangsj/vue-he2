@@ -30,7 +30,7 @@
                 <mt-cell class="itemTxt" title="单箱数量" :value="item.UnitBoxQty"></mt-cell>
                 <mt-cell class="itemTxt" title="发货仓库" :value="item.WHName"></mt-cell>
                 <mt-cell class="itemTxt" title="库存量" :value="item.StockQty"></mt-cell>
-                <mt-field class="inputRight required" label="备注" placeholder="请输入备注" v-model="item.Memo"></mt-field>
+                <mt-field class="inputRight" label="备注" placeholder="请输入备注" v-model="item.Memo"></mt-field>
 
             </div>
             <div class="getMore text-center">

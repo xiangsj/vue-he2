@@ -7,12 +7,10 @@
         </mt-header>
         <section v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
             <dl v-for="(item,index) in listData" :key="index">
-                <!-- {{item}}
-                <hr> -->
                 <dt>{{item.ScNo}}</dt>
                 <dd>
                     <span style="color:#303133">{{item.WHName}}</span>
-                    <span>{{item.WHID}}</span>
+                    <span>{{item.WHPosID}}</span>
                 </dd>
                 <dd>
                     <span>{{item.EngineNo}}</span>
@@ -21,9 +19,9 @@
                     <span>{{item.Brand}}</span>
                 </dd>
                 <dd>
-                    <span>{{item.StockQty}}</span>
+                    <span>{{Number(item.StockQty).toFixed(0)}}</span>
                     <span>{{item.C_Unit}}</span>*
-                    <span>{{item.UnitBoxQty}}</span>
+                    <span>{{Number(item.UnitBoxQty).toFixed(2)}}</span>
                 </dd>
             </dl>
             <div class="getMore text-center">
