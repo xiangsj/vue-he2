@@ -170,23 +170,23 @@ export default {
     },
     methods: {
         submit() {
-            if (this.custObj.Fid == '') {
+            if (!this.custObj.Fid || this.custObj.Fid == '') {
                 this.$toast('请选择客户')
                 return
             }
-            if (this.storeObj.FullName == '') {
+            if (!this.storeObj.FullName || this.storeObj.FullName == '') {
                 this.$toast('客户联系人不能为空')
                 return
             }
-            if (this.billingObj.ValueID == '') {
+            if (!this.billingObj.ValueID || this.billingObj.ValueID == '') {
                 this.$toast('开票类型不能为空')
                 return
             }
-            if (this.sendObj.ValueID == '') {
+            if (!this.sendObj.ValueID || this.sendObj.ValueID == '' || this.sendObj.ValueName == '') {
                 this.$toast('发运方式不能为空')
                 return
             }
-            if (this.paymentObj.ValueID == '') {
+            if (!this.paymentObj.ValueID || this.paymentObj.ValueID == '' || this.paymentObj.ValueName == '') {
                 this.$toast('付款方式不能为空')
                 return
             }
@@ -232,7 +232,10 @@ export default {
                         let msg = '订单号为：' + list.OrderNumber + '<br>是否现在通知仓库备货？'
                         this.$messageBox.confirm(msg, '销售下单成功').then(action => {
                             this.tellToBuy(list.FID)
-                        }).catch(() => { });
+                        }).catch(() => { 
+                            this.$toast('下单已取消')
+                            this.$router.push('/home/main');
+                        });
                     }else{
                         this.$toast('返回有误，请检查接口返回')
                     }

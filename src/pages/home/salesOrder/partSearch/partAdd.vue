@@ -129,18 +129,26 @@ export default {
             let parts = this.$getCookie('partsObj') || '[]'
             let Arr = JSON.parse(parts)
             // log(Arr)
-            if (Arr.length === 0){
+            if (Arr.length === 0) {
                 setCookie("partsObj", this.partData);
-            }else{
+            } else {
                 let newArr = Arr.concat(this.partData)
                 setCookie("partsObj", newArr);
                 // log(newArr)
             }
-            this.$router.push('/home/salesOrder')            
+            this.$router.push('/home/salesOrder')
         }
     },
     components: {
         'view-price-log': viewPriceLog
+    },
+    watch: {
+        partData: {
+            handler(curVal, oldVal) {
+                log(curVal)
+            },
+            deep: true
+        }
     }
 }
 </script>
