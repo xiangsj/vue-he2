@@ -9,6 +9,12 @@
         <section>
             <div class="bg-white">
 
+                <div @click="$refs.pickerCompany.open()">
+                    <mt-cell class="required" title="公司抬头" is-link value="请选择">
+                        <span class="value" v-if="companyObj.CompanyName !== ''">{{companyObj.CompanyName}}</span>
+                    </mt-cell>
+                </div>
+
                 <div @click="$refs.pickerCust.open()">
                     <mt-cell class="required" title="客户" is-link value="请选择">
                         <span class="value" v-if="custObj.BriefName !== ''">{{custObj.BriefName}}</span>
@@ -102,6 +108,7 @@
         <select-send v-model="sendObj" ref="pickerSend"></select-send>
         <select-payment v-model="paymentObj" ref="pickerPayment"></select-payment>
         <select-user v-model="userObj" ref="pickerUser"></select-user>
+        <select-company v-model="companyObj" ref="pickerCompany"></select-company>
         <mt-datetime-picker v-model="dateBeginBak" @confirm="dateBegin = $moment(dateBeginBak).format('YYYY-MM-DD')" ref="pickerBegin" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
         <part-edit v-model="partsAdd" @change="editChange" ref="toEditPart"></part-edit>
     </div>
@@ -115,6 +122,7 @@ import selectStore from './selectStore'
 import selectBilling from './selectBilling'
 import selectSend from './selectSend'
 import selectPayment from './selectPayment'
+import selectCompany from './selectCompany'
 
 import selectUser from '../orderSearch/selectUser'
 
@@ -123,6 +131,10 @@ export default {
     name: 'salesOrder',
     data() {
         return {
+            companyObj: {
+                CompanyID: '',
+                CompanyName: ''
+            },
             custObj: {
                 Fid: '',
                 BriefName: ''
@@ -167,9 +179,28 @@ export default {
     },
     created() {
         // log('jjjllk')
+        this.getCompanyData()
     },
     methods: {
+        getCompanyData() {
+            this.$http.get('/api/GetDefaultCompany', { params: {fid: this.account.fid, empId:this.user.username} }).then(res => {
+            // this.$http.get('/api/GetDefaultCompany', { params: {fid: this.account.fid, empId:'admin'} }).then(res => {
+                if (res.data.status.toString() === this.GLOBAL.status) {
+                    let list = res.data.DataList;
+                    // console.log(list)
+                    if(list.length>0){
+                        this.companyObj = list[0]
+                    }
+                } else {
+                    this.$messageBox(res.data.message)
+                }
+            }, res => { });
+        },
         submit() {
+            if (!this.companyObj.CompanyID || this.companyObj.CompanyID == '') {
+                this.$toast('请选择公司抬头')
+                return
+            }
             if (!this.custObj.Fid || this.custObj.Fid == '') {
                 this.$toast('请选择客户')
                 return
@@ -200,6 +231,7 @@ export default {
             }
 
             let Head = {
+                ExpCompany: this.companyObj.CompanyName,
                 CustFID: this.custObj.Fid + '',
                 CreateDate: this.dateBegin,
 
@@ -376,6 +408,7 @@ export default {
         'select-send': selectSend,
         'select-payment': selectPayment,
         'select-user': selectUser,
+        'select-company': selectCompany,
         'part-edit': partEdit
     },
     watch: {
