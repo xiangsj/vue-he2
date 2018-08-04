@@ -1,7 +1,7 @@
 <template>
     <div class="selectCompany popupSelect">
         <mt-popup v-model="popupVisible" position="right" class="modelRight">
-            <mt-header title="选择付款方式">
+            <mt-header title="选择公司抬头">
                 <router-link to="" slot="left">
                     <mt-button icon="back" @click="popupVisible = false">返回</mt-button>
                 </router-link>

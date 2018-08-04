@@ -337,6 +337,7 @@ export default {
         clearData() {
             // 配件要清零
             removeCookie('partsObj');
+            this.getCompanyData()
             this.custObj = {
                 Fid: '',
                 BriefName: ''

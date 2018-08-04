@@ -23,7 +23,7 @@
                 <mt-cell class="itemTxt" title="单箱数量" :value="currentArr.UnitBoxQty"></mt-cell>
                 <mt-cell class="itemTxt" title="发货仓库" :value="currentArr.WHName"></mt-cell>
                 <mt-cell class="itemTxt" title="库存量" :value="currentArr.StockQty"></mt-cell>
-                <mt-field class="inputRight required" label="备注" placeholder="请输入备注" v-model="currentArr.Memo"></mt-field>
+                <mt-field class="inputRight" label="备注" placeholder="请输入备注" v-model="currentArr.Memo"></mt-field>
                 <!-- {{currentArr}} -->
             </section>
             <div class="buttonFoot">
