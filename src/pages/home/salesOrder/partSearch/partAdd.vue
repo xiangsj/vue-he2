@@ -11,7 +11,7 @@
                 <div class="groupTitle text-center">
                     <span>配件 {{index+1}}</span>
                 </div>
-                <part-input :item="item"></part-input>
+                <part-input :item.sync="item"></part-input>
 
             </div>
             <div class="getMore text-center">
@@ -20,9 +20,7 @@
             </div>
         </section>
         <footer class="btnFooter btnNum2">
-            <!-- <router-link to="/home/salesOrder"> -->
             <mt-button type="primary" @click="submit()">确定</mt-button>
-            <!-- </router-link> -->
             <mt-button @click="$router.go(-1)">取消</mt-button>
         </footer>
     </div>
@@ -78,8 +76,9 @@ export default {
             }, res => { });
         },
         submit() {
-            // log(this.partData)
-            // let arr = []
+            log(this.partData)
+            // return
+
             let OrgSalePrice = this.partData.filter(item => {
                 return item.OrgSalePrice == ''
             })
@@ -105,7 +104,6 @@ export default {
                 return
             }
 
-            // setCookie("partsObj", this.partData);
             let parts = this.$getCookie('partsObj') || '[]'
             let Arr = JSON.parse(parts)
             // log(Arr)

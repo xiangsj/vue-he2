@@ -190,6 +190,8 @@ export default {
                     // console.log(list)
                     if(list.length>0){
                         this.companyObj = list[0]
+                    } else {
+                        this.$toast('未查到业务员公司抬头')
                     }
                 } else {
                     this.$messageBox(res.data.message)
