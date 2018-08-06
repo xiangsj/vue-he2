@@ -27,7 +27,7 @@
         <mt-cell class="itemTxt" title="适用车型" :value="item.UseInCarBrief"></mt-cell>
         <mt-cell class="itemTxt" title="计量单位" :value="item.C_Unit"></mt-cell>
         <mt-cell class="itemTxt" title="品牌" :value="item.Brand"></mt-cell>
-        <mt-cell class="itemTxt" title="单箱数量" :value="item.UnitBoxQty"></mt-cell>
+        <mt-cell class="itemTxt" title="单箱数量" :value="Number(item.UnitBoxQty).toFixed(0)"></mt-cell>
         <!-- <mt-cell class="itemTxt" title="发货仓库" :value="item.WHName"></mt-cell> -->
         <div @click="$refs.pickerStore.open()">
             <mt-cell class="required" title="发货仓库" is-link value="请选择">
@@ -35,7 +35,7 @@
             </mt-cell>
         </div>
         <div @click="$refs.pickerPosition.open(item.WHID)">
-            <mt-cell class="required" title="仓库库位" is-link value="请选择">
+            <mt-cell class="" title="仓库库位" is-link value="请选择">
                 <span class="value" v-if="item.WHPosName !== ''">{{item.WHPosName}}</span>
             </mt-cell>
         </div>
@@ -128,8 +128,13 @@ export default {
     },
     watch: {
         storeObj: function(newVal) {
-            // log('ooooooooooo')
-            // log(newVal)
+            log('ooooooooooo')
+            log(newVal)
+            // 清除库位
+            this.positionObj = {
+                WHPosID: '',
+                WHPosName: ''
+            }
             this.item.WHName = newVal.WHName
             this.item.WHID = newVal.WHID
             this.updateStore(newVal.WHID)

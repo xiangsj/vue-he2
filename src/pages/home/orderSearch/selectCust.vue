@@ -8,8 +8,8 @@
             </mt-header>
             <section v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
                 <div class="pupupSearch">
-                    <form action="">
-                        <input v-model="inputValue" type="search" placeholder="请输入客户名称、地址、电话">
+                    <form action="" onsubmit="return false;">
+                        <input v-model="inputValue" ref="searchInput" type="search" @keyup.13="searchCust()" placeholder="请输入客户名称、地址、电话">
                     </form>
                     <span class="icon" @click="searchCust()">
                         <i class="iconfont icon-search"></i>
@@ -26,7 +26,8 @@
                     </li>
                 </ul>
                 <div class="getMore text-center">
-                    <span v-if="loading"><i class="iconfont icon-loading"></i>努力加载中...</span>
+                    <span v-if="loading">
+                        <i class="iconfont icon-loading"></i>努力加载中...</span>
                     <span v-else>没有更多了</span>
                 </div>
             </section>
@@ -115,6 +116,11 @@ export default {
             }, res => { });
         },
         searchCust() {
+            if (this.inputValue == '') {
+                this.$toast('请输入搜索关键词')
+                return
+            }
+            this.$refs.searchInput.blur()
             this.pageIndex = 1
             let data = {
                 fid: this.account.fid,
@@ -127,6 +133,10 @@ export default {
                     let list = res.data.DataList;
                     // console.log(list)
                     this.popupArr = list
+                    if (list.length === 0) {
+                        this.$toast('没有查到数据')
+                        return
+                    }
                     if (list.length < 20) {
                         this.loading = false;
                     }

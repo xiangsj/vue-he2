@@ -12,7 +12,8 @@
                     <span>（仅显示最近5条）</span>
                 </div>
                 <template v-for="(item,index) in saleLogArr">
-                    <mt-cell :key="'a'+index" :title="item.CreateDate" :value="item.OrgSalePrice"></mt-cell>
+                    <mt-cell :key="'a'+index" :title="item.CreateDate.split(' ')[0]" :value="Number(item.OrgSalePrice).toFixed(2)"></mt-cell>
+                    <!-- <mt-cell :key="'a'+index" :title="$moment(item.CreateDate).format('YYYY-MM-DD')" :value="Number(item.OrgSalePrice).toFixed(2)"></mt-cell> -->
                 </template>
                 <div class="getMore text-center">
                     <span v-if="loading1">努力加载中...</span>
@@ -23,7 +24,7 @@
                     <span>（仅显示最近5条）</span>
                 </div>
                 <template v-for="(item,index) in buyLogArr">
-                    <mt-cell :key="'b'+index" :title="item.WHName" :value="item.InPrice"></mt-cell>
+                    <mt-cell :key="'b'+index" :title="item.WHName.split(' ')[0]" :value="Number(item.InPrice).toFixed(2)"></mt-cell>
                 </template>
                 <div class="getMore text-center">
                     <span v-if="loading2">努力加载中...</span>
@@ -45,7 +46,8 @@ export default {
             loading2: false,
             popupVisible: false,
             account: JSON.parse(this.$getCookie('account')),
-            custObj: JSON.parse(this.$getCookie('custObj')),
+            // custObj: JSON.parse(this.$getCookie('custObj')) || {},
+            custObj: {},
 
             saleLogArr: [],
             buyLogArr: []
@@ -53,6 +55,7 @@ export default {
     },
     created() {
         // console.log(this.custObj)
+        this.custObj = this.$getCookie('custObj') ? JSON.parse(this.$getCookie('custObj')) : {}
     },
     methods: {
         open(provItemNo) {
@@ -74,7 +77,7 @@ export default {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading1 = false
                     let list = res.data.DataList;
-                    // console.log(list)
+                    console.log(list)
                     if (list.length === 0) {
                         // this.$toast('没有查到销售历史')
                         // log('jjjjj')

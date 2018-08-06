@@ -120,9 +120,7 @@ export default {
                 }
             }, res => { });
         },
-        reset() {
-            this.username = this.pwd = ''
-        },
+        
         toLogin() {
             if (this.accountName === '') {
                 this.$toast("请选择帐套")
@@ -170,6 +168,13 @@ export default {
                     this.$messageBox(res.data.message)
                 }
             }, res => { });
+        },
+        reset() {
+            // this.username = this.pwd = ''
+            this.$messageBox.confirm('确定退出系统？', '').then(action => {
+                clearCookie();
+                this.$router.push('/');
+            }).catch(() => { });
         },
         relogin() {
             this.$messageBox.confirm('确定重置令牌？', '').then(action => {
