@@ -237,7 +237,7 @@ export default {
                 CustFID: this.custObj.Fid + '',
                 CreateDate: this.dateBegin,
 
-                BName: this.custObj.Departement || '',
+                BName: this.storeObj.Departement || '',
                 BContact: this.storeObj.FullName || '',
                 BTel: this.storeObj.Tel + '',
                 DeliveryAddr: this.storeObj.Addr || '',
@@ -257,7 +257,9 @@ export default {
                 dataList: { Head: Head, Detail: this.partsAdd },
                 empId: this.user.username
             }
-            // log(jsondata)
+            log(jsondata)
+            log(jsondata)
+            log(jsondata)
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     // log(res.data)
