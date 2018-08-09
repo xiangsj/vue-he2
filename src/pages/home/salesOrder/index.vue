@@ -243,7 +243,7 @@ export default {
                 DeliveryAddr: this.storeObj.Addr || '',
 
                 TotSCAmt: this.total,
-                PaymentModeCaption: this.paymentObj.ValueName,
+                PaymentModeCaption: this.paymentObj.ValueID,
                 CSITypCaption: this.billingObj.ValueID,
                 DeliveryMode: this.sendObj.ValueName,
 
@@ -260,6 +260,7 @@ export default {
             log(jsondata)
             log(jsondata)
             log(jsondata)
+            log(this.storeObj)
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     // log(res.data)
@@ -342,6 +343,10 @@ export default {
             // 配件要清零
             removeCookie('partsObj');
             this.getCompanyData()
+            this.companyObj = {
+                CompanyID: '',
+                CompanyName: ''
+            }
             this.custObj = {
                 Fid: '',
                 BriefName: ''
