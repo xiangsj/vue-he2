@@ -16,8 +16,8 @@ export default {
     data() {
         return {
             // inputToken: '7241DCA3-DA40-4AF9-86B0-D9AC30115764',
-            inputToken: '1A2B3C',
-            // inputToken: '',
+            // inputToken: '1A2B3C',
+            inputToken: '',
             isOpenToken: true,
             token: this.$getCookie('token')
         }
