@@ -8,29 +8,30 @@
 
         <section>
             <div class="bg-white">
-            <div @click="$refs.pickerBegin.open()">
-                <mt-cell title="开单日期（始）" is-link value="请选择">
-                    <span class="value" v-if="dateBegin != ''">{{dateBegin}}</span>
-                </mt-cell>
-            </div>
-            <div @click="$refs.pickerEnd.open()">
-                <mt-cell title="开单日期（终）" is-link value="请选择">
-                    <span class="value" v-if="dateEnd != ''">{{dateEnd}}</span>
-                </mt-cell>
-            </div>
+                <div @click="dateBeginShow = true">
+                    <mt-cell title="开单日期（始）" is-link value="请选择">
+                        <span class="value" v-if="dateBegin != ''">{{dateBegin}}</span>
+                    </mt-cell>
+                </div>
+                <div @click="dateEndShow = true">
+                    <mt-cell title="开单日期（终）" is-link value="请选择">
+                        <span class="value" v-if="dateEnd != ''">{{dateEnd}}</span>
+                    </mt-cell>
+                </div>
 
-            <mt-field class="inputRight" label="订单号" placeholder="请输入订单号" v-model="orderNum"></mt-field>
+                <mt-field class="inputRight" label="订单号" placeholder="请输入订单号" v-model="orderNum"></mt-field>
 
-            <div @click="$refs.pickerCust.open()">
-                <mt-cell title="客户名称" is-link value="请选择">
-                    <span class="value" v-if="custObj.BriefName !== ''">{{custObj.BriefName}}</span>
-                </mt-cell>
-            </div>
-            <div @click="$refs.pickerUser.open()">
-                <mt-cell title="业务员" is-link value="请选择">
-                    <span class="value" v-if="userObj.CNEmpName != ''">{{userObj.CNEmpName}}</span>
-                </mt-cell>
-            </div>
+                <div @click="$refs.pickerCust.open()">
+                    <mt-cell title="客户名称" is-link value="请选择">
+                        <span class="value" v-if="custObj.BriefName !== ''">{{custObj.BriefName}}</span>
+                    </mt-cell>
+                </div>
+                <div @click="$refs.pickerUser.open()">
+                    <mt-cell title="业务员" is-link value="请选择">
+                        <span class="value" v-if="userObj.CNEmpName != ''">{{userObj.CNEmpName}}</span>
+                    </mt-cell>
+                </div>
+
             </div>
 
         </section>
@@ -40,9 +41,10 @@
             <mt-button @click="clear()">清空</mt-button>
         </footer>
 
-        <mt-datetime-picker v-model="dateBeginBak" @confirm="dateBegin = $moment(dateBeginBak).format('YYYY-MM-DD')" ref="pickerBegin" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
-        <mt-datetime-picker v-model="dateEndBak" @confirm="dateEnd = $moment(dateEndBak).format('YYYY-MM-DD')" ref="pickerEnd" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
-
+        <!-- <mt-datetime-picker v-model="dateBeginBak" @confirm="dateBegin = $moment(dateBeginBak).format('YYYY-MM-DD')" ref="pickerBegin" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker> -->
+        <!-- <mt-datetime-picker v-model="dateEndBak" @confirm="dateEnd = $moment(dateEndBak).format('YYYY-MM-DD')" ref="pickerEnd" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker> -->
+        <calendar v-model="dateBeginShow" :defaultDate="new Date()" @change="dateBeginChange"></calendar>
+        <calendar v-model="dateEndShow" :defaultDate="new Date()" @change="dateEndChange"></calendar>
         <select-cust v-model="custObj" ref="pickerCust"></select-cust>
         <select-user v-model="userObj" ref="pickerUser"></select-user>
     </div>
@@ -55,10 +57,10 @@ export default {
     name: 'orderSearch',
     data() {
         return {
-            dateBegin: '',
-            dateBeginBak: new Date(), // 初始值
+            dateBeginShow: false, // show
+            dateBegin: '', // 选上显示值
+            dateEndShow: false, // show
             dateEnd: '',
-            dateEndBak: new Date(), // 初始值
             // orderNum: 'NSC17',
             orderNum: '',
             custObj: {
@@ -73,6 +75,14 @@ export default {
         }
     },
     methods: {
+        dateBeginChange(val) { 
+            log(val)
+            this.dateBegin = this.$moment(val).format('YYYY-MM-DD')
+        },
+        dateEndChange(val) {
+            log(val)
+            this.dateEnd = this.$moment(val).format('YYYY-MM-DD')
+        },
         clear() {
             this.dateBegin = this.dateEnd = this.orderNum = this.custObj.BriefName = this.userObj.CNEmpName = ''
             this.$toast("已清空")
@@ -131,7 +141,7 @@ export default {
         padding-bottom: 30px;
         -webkit-overflow-scrolling: touch;
         >h2 {
-            padding: 11px 0; 
+            padding: 11px 0;
             .iconfont {
                 font-size: 14px;
             }

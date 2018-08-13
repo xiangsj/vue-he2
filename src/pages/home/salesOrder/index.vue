@@ -50,7 +50,7 @@
                         <span class="value" v-if="userObj.CNEmpName != ''">{{userObj.CNEmpName}}</span>
                     </mt-cell>
                 </div>
-                <div @click="$refs.pickerBegin.open()">
+                <div @click="dateBeginShow = true">
                     <mt-cell class="required" title="开单日期" is-link value="请选择">
                         <span class="value" v-if="dateBegin != ''">{{$moment(dateBegin).format('YYYY-MM-DD')}}</span>
                     </mt-cell>
@@ -109,7 +109,8 @@
         <select-payment v-model="paymentObj" ref="pickerPayment"></select-payment>
         <select-user v-model="userObj" ref="pickerUser"></select-user>
         <select-company v-model="companyObj" ref="pickerCompany"></select-company>
-        <mt-datetime-picker v-model="dateBeginBak" @confirm="dateBegin = $moment(dateBeginBak).format('YYYY-MM-DD')" ref="pickerBegin" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+        <calendar v-model="dateBeginShow" :defaultDate="new Date()" @change="dateBeginChange"></calendar>
+
         <part-edit v-model="partsAdd" @change="editChange" ref="toEditPart"></part-edit>
     </div>
 </template>
@@ -164,8 +165,8 @@ export default {
                 EmpID: JSON.parse(this.$getCookie('account')).EmpID,
                 CNEmpName: JSON.parse(this.$getCookie('account')).CNEmpName
             },
-            dateBegin: new Date(),
-            dateBeginBak: new Date(), // 初始值
+            dateBeginShow: false, // show
+            dateBegin: new Date(), // 选上显示值
             mark: '',
             total: 0,
             partsAdd: [
@@ -182,13 +183,17 @@ export default {
         this.getCompanyData()
     },
     methods: {
+        dateBeginChange(val) {
+            log(val)
+            this.dateBegin = this.$moment(val).format('YYYY-MM-DD')
+        },
         getCompanyData() {
-            this.$http.get('/api/GetDefaultCompany', { params: {fid: this.account.fid, empId:this.user.username} }).then(res => {
-            // this.$http.get('/api/GetDefaultCompany', { params: {fid: this.account.fid, empId:'admin'} }).then(res => {
+            this.$http.get('/api/GetDefaultCompany', { params: { fid: this.account.fid, empId: this.user.username } }).then(res => {
+                // this.$http.get('/api/GetDefaultCompany', { params: {fid: this.account.fid, empId:'admin'} }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     let list = res.data.DataList;
                     // console.log(list)
-                    if(list.length>0){
+                    if (list.length > 0) {
                         this.companyObj = list[0]
                     } else {
                         this.$toast('未查到业务员公司抬头')

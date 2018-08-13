@@ -18,6 +18,8 @@ Vue.prototype.$getCookie = getCookie;
 import Moment from 'moment'
 Vue.prototype.$moment = Moment;
 
+import Calendar from 'vue-mobile-calendar'
+Vue.use(Calendar)
 
 import axios from './libs/axios'
 
