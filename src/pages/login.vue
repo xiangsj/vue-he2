@@ -171,10 +171,11 @@ export default {
         },
         reset() {
             // this.username = this.pwd = ''
-            this.$messageBox.confirm('确定退出系统？', '').then(action => {
-                clearCookie();
-                this.$router.push('/');
-            }).catch(() => { });
+            // this.$messageBox.confirm('请按手机home键退出系统', '').then(action => {
+            //     // clearCookie();
+            //     // this.$router.push('/');
+            // }).catch(() => { });
+            this.$toast('请按手机home键退出系统')
         },
         relogin() {
             this.$messageBox.confirm('确定重置令牌？', '').then(action => {
