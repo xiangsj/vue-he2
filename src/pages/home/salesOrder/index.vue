@@ -239,6 +239,7 @@ export default {
 
             let Head = {
                 ExpCompany: this.companyObj.CompanyName,
+                ExpcompanyID: this.companyObj.CompanyID,
                 CustFID: this.custObj.Fid + '',
                 CreateDate: this.dateBegin,
 
