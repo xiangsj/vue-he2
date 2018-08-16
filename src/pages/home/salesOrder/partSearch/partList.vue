@@ -103,18 +103,16 @@ export default {
             }, res => { });
         },
         submit() {
-            // log(this.checkedVal)
+            log(this.checkedVal)
             if(this.checkedVal.length === 0){
                 this.$toast('请选择配件')
                 return
             }
             let idArr = []
             this.checkedVal.forEach(item=>{
-                idArr.push(item.FID)
+                idArr.push(item.ProvItemNo + ',' + item.FID + '&&') // hash无法解析“#” 所以改为&&
             })
-            // log(idArr)
-            // return
-            this.$router.push('/home/partAdd/' + idArr)
+            this.$router.push('/home/partAdd/' + idArr.join(''))
         }
     }
 }

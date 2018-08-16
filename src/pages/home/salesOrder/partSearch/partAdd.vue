@@ -48,19 +48,23 @@ export default {
         getData() {
             let obj = {}
             this.loading = true
+            // log(this.$route.params.string)
+            // log(this.$route.params.string.replace(/&&/g, "#"))
+
+            let str = this.$route.params.string.replace(/&&/g, "#")
             let data = {
                 fid: this.account.fid,
                 custFid: this.custObj.Fid,
-                productIds: this.$route.params.string,
+                provItemNoAndFid: str,
                 pageIndex: this.pageIndex,
                 pageSize: this.pageSize
             }
-            // log(data)
+            log(data)
             this.$http.get('/api/FittingsSelectReturn', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false
                     let list = res.data.DataList;
-                    // console.log(list)
+                    console.log(list)
                     let newArr = []
                     list.forEach(item => {
                         item['OrgSalePrice'] = ''
