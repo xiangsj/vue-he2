@@ -220,7 +220,7 @@ export default {
                 this.$toast('开票类型不能为空')
                 return
             }
-            if (!this.sendObj.ValueID || this.sendObj.ValueID == '' || this.sendObj.ValueName == '') {
+            if (this.sendObj.ValueName == '') {
                 this.$toast('发运方式不能为空')
                 return
             }
