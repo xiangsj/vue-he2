@@ -9,7 +9,7 @@
                 <input type="number" @keydown="handleInput2" placeholder="请输入" v-model="item.OrgSalePrice" v-on:click.stop.prevent>
             </mt-cell>
         </div>
-        <div @click="$refs.pickerPriceLog.open('bzh001')" class="hasInput required">
+        <div @click="$refs.pickerPriceLog.open(item.ProvItemNo)" class="hasInput required">
             <mt-cell title="实际销售单价" is-link value="请选择">
                 <input type="number" @keydown="handleInput2" placeholder="请输入或查看" v-model="item.SalePrice" v-on:click.stop.prevent>
             </mt-cell>

@@ -9,7 +9,7 @@
         <section>
             <dl v-for="(item,index) in listData" :key="index">
                 <dt>
-                    <img v-if="item.mSmallPic" :src="item.mSmallPic">
+                    <img v-if="item.mSmallPicPath" :src="item.mSmallPicPath">
                     <i v-else class="iconfont icon-pic"></i>
                 </dt>
                 <dd>
@@ -89,7 +89,7 @@ export default {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false
                     let backList = res.data.DataList;
-                    // console.log(backList)
+                    console.log(backList)
                     if (backList.length === 0) {
                         this.$messageBox.alert('暂无数据，返回重新查询').then(action => {
                             this.$router.go(-1);
@@ -182,6 +182,10 @@ export default {
                 left: 15px;
                 top: 50%;
                 margin-top: -27px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
                 i {
                     font-size: 46px;
                     color: #909399;
