@@ -429,8 +429,9 @@ export default {
     },
     watch: {
         '$route'(to, from) {
+            // log('from.name')
             // log(from.name)
-            if (from.name === 'partAdd') {
+            if (from.name === 'partAdd' && this.$getCookie('partsObj')) {
                 this.showParts()
             }
             if (from.name === 'main') {
