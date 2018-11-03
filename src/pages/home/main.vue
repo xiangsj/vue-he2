@@ -21,10 +21,22 @@
                     <div>销售下单</div>
                 </li><br>
                 <li @click="$router.push('/home/stockQuery/search')">
-                    <span style="background:#008cee">
+                    <span style="background:#FF7165">
                         <i class="iconfont icon-stock-search"></i>
                     </span>
                     <div>库存查询</div>
+                </li>
+                <li @click="$router.push('/home/stockQuery/search')">
+                    <span style="background:#008cee">
+                        <i class="iconfont icon-company"></i>
+                    </span>
+                    <div>创建往来单位</div>
+                </li>
+                <li>
+                    <span style="background:#BFBF17">
+                        <i class="iconfont icon-money"></i>
+                    </span>
+                    <div>公司台账</div>
                 </li>
             </ul>
         </section>
@@ -41,7 +53,8 @@ export default {
     name: 'homeMain',
     data() {
         return {
-            account: JSON.parse(this.$getCookie('account'))
+            // account: JSON.parse(this.$getCookie('account'))
+            account: 'jj'
         }
     },
     created() {
