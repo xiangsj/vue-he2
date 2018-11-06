@@ -26,7 +26,7 @@
                     </span>
                     <div>库存查询</div>
                 </li>
-                <li @click="$router.push('/home/stockQuery/search')">
+                <li @click="$router.push('/home/addCompany')">
                     <span style="background:#008cee">
                         <i class="iconfont icon-company"></i>
                     </span>
@@ -53,8 +53,8 @@ export default {
     name: 'homeMain',
     data() {
         return {
-            // account: JSON.parse(this.$getCookie('account'))
-            account: 'jj'
+            account: JSON.parse(this.$getCookie('account'))
+            // account: 'jj'
         }
     },
     created() {

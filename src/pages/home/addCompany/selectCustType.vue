@@ -1,7 +1,7 @@
 <template>
-    <div class="selectBilling popupSelect">
+    <div class="selectCustType popupSelect">
         <mt-popup v-model="popupVisible" position="right" class="modelRight">
-            <mt-header title="选择开票类型">
+            <mt-header title="选择单位属性">
                 <router-link to="" slot="left">
                     <mt-button icon="back" @click="popupVisible = false">返回</mt-button>
                 </router-link>
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: 'selectBilling',
+    name: 'selectCustType',
     model: {
         prop: 'msg',
         event: 'ee'
@@ -54,7 +54,7 @@ export default {
         },
         open() {
             this.popupVisible = true
-            this.$http.get('/api/CSITypSelect', { params: {fid: this.account.fid} }).then(res => {
+            this.$http.get('/api/GetCustCType', { params: {fid: this.account.fid} }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     let list = res.data.DataList;
                     // console.log(list)

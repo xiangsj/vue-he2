@@ -20,6 +20,8 @@ import stockQuery from '@/pages/home/stockQuery/index'
 import stockQuerySearch from '@/pages/home/stockQuery/search'
 import stockQueryList from '@/pages/home/stockQuery/list'
 
+import addCompany from '@/pages/home/addCompany/index'
+
 Vue.use(Router)
 
 export default new Router({
@@ -107,6 +109,12 @@ export default new Router({
             }
           ]
         },
+        {
+          path: 'addCompany',
+          name: 'addCompany',
+          component: addCompany,
+          meta: { keepAlive: true } //false为不缓存
+        }
       ]
     }
   ]
