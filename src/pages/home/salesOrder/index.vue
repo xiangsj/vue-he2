@@ -263,10 +263,10 @@ export default {
                 dataList: { Head: Head, Detail: this.partsAdd },
                 empId: this.user.username
             }
-            log(jsondata)
-            log(jsondata)
-            log(jsondata)
-            log(this.storeObj)
+            // log(jsondata)
+            // log(jsondata)
+            // log(jsondata)
+            // log(this.storeObj)
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     // log(res.data)

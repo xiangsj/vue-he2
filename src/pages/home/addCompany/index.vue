@@ -46,7 +46,7 @@
             <mt-button type="primary" @click="submit()">保存</mt-button>
         </footer>
 
-        <select-cust-type v-model="form.custTypeObj" ref="pickerCustType"></select-cust-type>
+        <select-cust-type v-model="form.custTypeObj" ref="pickerCustType" @ee="resetClassigyObj"></select-cust-type>
         <select-cust-classify v-model="form.custClassifyObj" ref="pickerCustClassify"></select-cust-classify>
         
     </div>
@@ -81,6 +81,12 @@ export default {
         // this.getCustNum()
     },
     methods: {
+        resetClassigyObj() {
+            this.form.custClassifyObj = {
+                    FID: '',
+                    SortName: ''
+                }
+        },
         checkCustName() {
             // log('jjjkkk')
             this.getCustNum() // 查该客户检索号
@@ -116,7 +122,6 @@ export default {
         '$route'(to, from) {
             // log('from.name')
             // log(from.name)
-            
         }
     }
 }
