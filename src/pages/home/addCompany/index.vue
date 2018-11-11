@@ -22,9 +22,9 @@
                     </mt-cell>
                 </div>
                 <mt-field class="inputRight" label="单位别名" placeholder="单位别名" v-model="companyName"></mt-field>
-                <div @click="$refs.pickerPayment.open()">
+                <div @click="$refs.pickerCity.open()">
                     <mt-cell class="" title="所在城市" is-link value="请选择所在城市">
-                        <span class="value" v-if="companyName !== ''">{{companyName}}</span>
+                        <span class="value" v-if="form.city !== ''">{{form.city}}</span>
                     </mt-cell>
                 </div>
                 <mt-field class="inputRight" label="单位电话" placeholder="单位电话" v-model="companyName"></mt-field>
@@ -48,6 +48,7 @@
 
         <select-cust-type v-model="form.custTypeObj" ref="pickerCustType" @ee="resetClassigyObj"></select-cust-type>
         <select-cust-classify v-model="form.custClassifyObj" ref="pickerCustClassify"></select-cust-classify>
+        <select-city v-model="form.city" ref="pickerCity"></select-city>
         
     </div>
 </template>
@@ -55,6 +56,7 @@
 <script>
 import selectCustType from './selectCustType'
 import selectCustClassify from './selectCustClassify'
+import selectCity from './selectCity'
 export default {
     name: 'addCompany',
     data() {
@@ -70,6 +72,10 @@ export default {
                     FID: '',
                     SortName: ''
                 },
+                city: {
+                    id: '',
+                    name: ''
+                }
             },
            companyName: '',
             account: JSON.parse(this.$getCookie('account'))
@@ -116,7 +122,8 @@ export default {
     },
     components: {
         'select-cust-type': selectCustType,
-        'select-cust-classify': selectCustClassify
+        'select-cust-classify': selectCustClassify,
+        'select-city': selectCity
     },
     watch: {
         '$route'(to, from) {

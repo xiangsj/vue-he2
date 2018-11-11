@@ -32,7 +32,7 @@
                     </span>
                     <div>创建往来单位</div>
                 </li>
-                <li>
+                <li @click="$router.push('/home/accountQuery/search')">
                     <span style="background:#BFBF17">
                         <i class="iconfont icon-money"></i>
                     </span>
