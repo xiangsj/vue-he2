@@ -1,5 +1,5 @@
 <template>
-    <mt-popup v-model="popupVisible" position="bottom" style="width:100%;">
+    <mt-popup v-if="popupVisible" v-model="popupVisible" position="bottom" style="width:100%;">
         <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
     </mt-popup>
 </template>
@@ -17,8 +17,8 @@ export default {
   data() {
     return {
       loading: false,
-    //   popupVisible: false,
-      popupVisible: true,
+      popupVisible: false,
+    //   popupVisible: true,
       currentObj: this.msg, // 当前选中项
       account: JSON.parse(this.$getCookie("account")),
       slots: [
@@ -69,20 +69,23 @@ export default {
   },
   created() {
     // console.log(this.currentObj)
-
   },
   methods: {
     onValuesChange(picker, values) {
+        console.log(picker.getSlotValue(0) + '------')
+        console.log(values[0] + ' ====== ')
+        if (this.pickArr[0] != values[0]) {
+            console.log(' cccccc ')
+        }
         this.pickArr = values
     //   console.log(picker);
       console.log(values);
-      this.slots[1].values = ["eee1", "eee2"];
+    //   this.slots[1].values = ["eee1", "eee2"];
       // picker.setSlotValue(1, 'llkkjj');
       // if (values[0] > values[1]) {
       //     picker.setSlotValue(1, 'iuu');
       // }
     //   console.log('cc')
-      this.getData()
     },
     async getData() {
         // console.log('aa')
@@ -97,29 +100,29 @@ export default {
         console.log(this.pickArr)
 
         // 以省ID 取市
-        let provinceArr = this.provinceDataArr.filter(item => {
-            return item.CityName == this.pickArr[0]
-        })
-        console.log(provinceArr)
-        // console.log(provinceObj[0].FID)
-
-        
-        if (provinceArr.length === 0) { return }
-
+        // let provinceArr = this.provinceDataArr.filter(item => {
+        //     return item.CityName == this.pickArr[0]
+        // })
+        // console.log(provinceArr)
+        // // console.log(provinceObj[0].FID)
+        this.getCity(this.provinceDataArr[0])
+    },
+    async getCity(provinceArr) {
         let cityData = await this.$http.get("/api/GetCustChinaCity", {
-            params: { fid: this.account.fid, provinceId: provinceArr[0].FID }
+            params: { fid: this.account.fid, provinceId: provinceArr.FID || '375' }
         })
         this.cityDataArr = cityData.data.DataList
         let CityName2 = this.cityDataArr.map(item => {
             return item.CityName
         })
-        // this.slots[1].values = CityName2
+        this.slots[1].values = CityName2
 
         console.log(this.cityDataArr)
         console.log(CityName2)
     },
     open() {
       this.popupVisible = true;
+      this.getData()
     }
   }
 };
