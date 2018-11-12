@@ -134,9 +134,16 @@ export default {
         this.getCity() // 以省ID 取市
     },
     async getCity() {
-      let provinceArr = this.provinceDataArr[0]
+      let provinceArr = this.provinceDataArr.filter(item => {
+          return item.CityName == this.pickArr[0]
+      })
+      console.log('jjj')
+      console.log(provinceArr)
+    //   console.log(provinceArr[0].FID)
+      if (provinceArr.length === 0 || !provinceArr[0].FID) { return }
+      
         let cityData = await this.$http.get("/api/GetCustChinaCity", {
-            params: { fid: this.account.fid, provinceId: provinceArr.FID }
+            params: { fid: this.account.fid, provinceId: provinceArr[0].FID }
         })
         this.cityDataArr = cityData.data.DataList
         this.slots[1].values = this.cityDataArr.map(item => {
@@ -149,9 +156,12 @@ export default {
         this.getTown()
     },
     async getTown() {
-      let cityArr = this.cityDataArr[0]
+      let cityArr = this.cityDataArr.filter(item => {
+          return item.CityName == this.pickArr[1]
+      })
+      if (cityArr.length === 0 || !cityArr[0].FID) { return }
         let cityData = await this.$http.get("/api/GetCustChinaArea", {
-            params: { fid: this.account.fid, cityID: cityArr.FID }
+            params: { fid: this.account.fid, cityID: cityArr[0].FID }
         })
         // this.cityDataArr = cityData.data.DataList
         // let CityName2 = this.cityDataArr.map(item => {
