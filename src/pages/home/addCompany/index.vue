@@ -24,7 +24,7 @@
                 <mt-field class="inputRight" label="单位别名" placeholder="单位别名" v-model="companyName"></mt-field>
                 <div @click="$refs.pickerCity.open()">
                     <mt-cell class="" title="所在城市" is-link value="请选择所在城市">
-                        <span class="value" v-if="form.city !== ''">{{form.city}}</span>
+                        <span class="value" v-if="form.city.name !== ''">{{form.city.name}}</span>
                     </mt-cell>
                 </div>
                 <mt-field class="inputRight" label="单位电话" placeholder="单位电话" v-model="companyName"></mt-field>
@@ -73,7 +73,7 @@ export default {
                     SortName: ''
                 },
                 city: {
-                    id: '',
+                    FID: '',
                     name: ''
                 }
             },
