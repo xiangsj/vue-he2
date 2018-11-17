@@ -49,6 +49,7 @@
         <select-cust-type v-model="form.custTypeObj" ref="pickerCustType" @ee="resetClassigyObj"></select-cust-type>
         <select-cust-classify v-model="form.custClassifyObj" ref="pickerCustClassify"></select-cust-classify>
         <select-city v-model="form.city" ref="pickerCity"></select-city>
+        <add-contacts></add-contacts>
         
     </div>
 </template>
@@ -57,6 +58,7 @@
 import selectCustType from './selectCustType'
 import selectCustClassify from './selectCustClassify'
 import selectCity from './selectCity'
+import addContacts from './addContacts'
 export default {
     name: 'addCompany',
     data() {
@@ -123,7 +125,8 @@ export default {
     components: {
         'select-cust-type': selectCustType,
         'select-cust-classify': selectCustClassify,
-        'select-city': selectCity
+        'select-city': selectCity,
+        'add-contacts': addContacts
     },
     watch: {
         '$route'(to, from) {

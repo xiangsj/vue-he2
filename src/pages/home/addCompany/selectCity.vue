@@ -22,7 +22,7 @@ export default {
     return {
       //   loading: false,
       popupVisible: false,
-      popupVisible: true,
+      // popupVisible: true,
       currentObj: this.msg, // 当前选中项
       account: JSON.parse(this.$getCookie("account")),
       slots: [
@@ -82,7 +82,7 @@ export default {
       });
       setTimeout(() => {
         this.getCity(); // 以省ID 取市
-      }, 50);
+      }, 30);
     },
     async getCity() {
       //   console.log(" jjj");
@@ -105,7 +105,7 @@ export default {
       // console.log(' iii ')
       setTimeout(() => {
         this.getTown();
-      }, 50);
+      }, 30);
     },
     async getTown() {
       let cityArr = this.cityDataArr.filter(item => {
