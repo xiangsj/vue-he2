@@ -161,10 +161,6 @@ export default {
                 ValueID: '',
                 ValueName: ''
             },
-            userObj: {
-                EmpID: JSON.parse(this.$getCookie('account')).EmpID,
-                CNEmpName: JSON.parse(this.$getCookie('account')).CNEmpName
-            },
             dateBeginShow: false, // show
             dateBegin: new Date(), // 选上显示值
             mark: '',
@@ -175,6 +171,10 @@ export default {
             ],
             account: JSON.parse(this.$getCookie('account')),
             user: JSON.parse(this.$getCookie('user')),
+            userObj: {
+                EmpID: JSON.parse(this.$getCookie('account')).EmpID,
+                CNEmpName: JSON.parse(this.$getCookie('account')).CNEmpName
+            },
             flag: null
         }
     },
@@ -263,11 +263,10 @@ export default {
                 dataList: { Head: Head, Detail: this.partsAdd },
                 empId: this.user.username
             }
-            // log(jsondata)
-            // log(jsondata)
-            // log(jsondata)
-            // log(this.storeObj)
+            
+            this.$indicator.open();
             this.$http.post('/api/SaveSalesOrder', jsondata).then(res => {
+                this.$indicator.close();
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     // log(res.data)
                     let list = res.data.DataList;

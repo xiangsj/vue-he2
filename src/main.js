@@ -9,9 +9,10 @@ import 'mint-ui/lib/style.css'
 import '../static/iconfont/iconfont.css'
 Vue.use(MintUI)
 
-import { Toast, MessageBox } from 'mint-ui';
+import { Toast, MessageBox, Indicator } from 'mint-ui';
 Vue.prototype.$toast = Toast;
 Vue.prototype.$messageBox = MessageBox;
+Vue.prototype.$indicator = Indicator;
 Vue.prototype.$setTitle = setTitle;
 Vue.prototype.$getCookie = getCookie;
 
