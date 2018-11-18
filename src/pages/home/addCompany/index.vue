@@ -8,8 +8,8 @@
 
         <section>
             <div class="bg-white">
-                <mt-field class="required inputRight" @blur.native.capture="checkCustName" label="单位名称" placeholder="请输入单位名称" v-model="form.customerName"></mt-field>
-                <mt-field class="inputRight" label="检索号" placeholder="检索号" v-model="form.custNum"></mt-field>
+                <mt-field class="required inputRight" @blur.native.capture="getCustNum" label="单位名称" placeholder="请输入单位名称" v-model="form.customerName"></mt-field>
+                <mt-field class="inputRight" label="检索号" placeholder="请输入检索号" v-model="form.custNum"></mt-field>
                 <div @click="$refs.pickerCustType.open()">
                     <mt-cell class="required" title="单位属性" is-link value="请选择单位属性">
                         <span class="value" v-if="form.custTypeObj.ValueName !== ''">{{form.custTypeObj.ValueName}}</span>
@@ -21,17 +21,17 @@
                         <span class="value" v-if="form.custClassifyObj.SortName !== ''">{{form.custClassifyObj.SortName}}</span>
                     </mt-cell>
                 </div>
-                <mt-field class="inputRight" label="单位别名" placeholder="单位别名" v-model="form.FullName"></mt-field>
+                <mt-field class="inputRight" label="单位别名" placeholder="请输入单位别名" v-model="form.FullName"></mt-field>
                 <div @click="$refs.pickerCity.open()">
                     <mt-cell class="" title="所在城市" is-link value="请选择所在城市">
                         <span class="value" v-if="form.city.name !== ''">{{form.city.name}}</span>
                     </mt-cell>
                 </div>
-                <mt-field class="inputRight" label="单位电话" placeholder="单位电话" v-model="form.Tel"></mt-field>
-                <mt-field class="inputRight" label="微信" placeholder="微信" v-model="form.WeChat"></mt-field>
-                <mt-field class="inputRight" label="单位Email" placeholder="单位Email" v-model="form.CarOwnerEmail"></mt-field>
-                <mt-field class="inputRight" label="单位详细地址" placeholder="单位详细地址" v-model="form.Addr"></mt-field>
-                <mt-field class="inputRight" label="备注" placeholder="备注" v-model="form.Memo"></mt-field>
+                <mt-field class="inputRight" label="单位电话" placeholder="请输入单位电话" v-model="form.Tel"></mt-field>
+                <mt-field class="inputRight" label="微信" placeholder="请输入微信" v-model="form.WeChat"></mt-field>
+                <mt-field class="inputRight" label="单位Email" placeholder="请输入单位Email" v-model="form.CarOwnerEmail"></mt-field>
+                <mt-field class="inputRight" label="单位详细地址" placeholder="请输入单位详细地址" v-model="form.Addr"></mt-field>
+                <mt-field class="inputRight" label="备注" placeholder="请输入备注" v-model="form.Memo"></mt-field>
 
             </div>
             <h2 class="text-center">
@@ -50,10 +50,6 @@
                             <i class="iconfont icon-edit"></i>
                         </span>
                     </div>
-                    <!-- <dt>
-                        <img v-if="item.mSmallPic" :src="item.mSmallPic">
-                        <i v-else class="iconfont icon-pic"></i>
-                    </dt> -->
                     <dd style="margin-left:0; line-height:26px;">
                         <div>
                             {{item.FullName}}
@@ -102,16 +98,16 @@ export default {
           FID: "",
           SortName: ""
         },
-        FullName: '',
+        FullName: "",
         city: {
           FID: "",
           name: ""
         },
-        Tel: '',
-        WeChat: '',
-        CarOwnerEmail: '',
-        Addr: '',
-        Memo: ''
+        Tel: "",
+        WeChat: "",
+        CarOwnerEmail: "",
+        Addr: "",
+        Memo: ""
       },
       companyName: "",
       account: JSON.parse(this.$getCookie("account")),
@@ -136,11 +132,7 @@ export default {
       ] // 添加的联系人列表
     };
   },
-  created() {
-    // this.isRepeatCustomer()
-    // log('jjjllk')
-    // this.getCustNum()
-  },
+  created() {},
   methods: {
     resetClassigyObj() {
       this.form.custClassifyObj = {
@@ -148,17 +140,7 @@ export default {
         SortName: ""
       };
     },
-    checkCustName() {
-      // log('jjjkkk')
-      this.getCustNum(); // 查该客户检索号
-    },
-    async isRepeatCustomer() {
-      let res = await this.$http.get("/api/SaveSelectCustomer", {
-        params: { fid: this.account.fid, briefName: this.form.customerName }
-      });
-      console.log(res.data);
-      log("888");
-    },
+    // 以单件名称，取客户检索号
     getCustNum() {
       if (this.form.customerName == "") {
         return;
@@ -185,9 +167,26 @@ export default {
           res => {}
         );
     },
-    submit() {
-      if (this.customerName == "") {
-        this.$toast("请输入客户");
+    async submit() {
+      if (this.form.customerName == "") {
+        this.$toast("请输入单位名称");
+        return;
+      }
+    //   检查重复
+      let checkRepeatRes = await this.$http.get("/api/SaveSelectCustomer", {
+        params: { fid: this.account.fid, briefName: this.form.customerName }
+      });
+        //   log(checkRepeatRes.data);
+      if (checkRepeatRes.data.status.toString() !== this.GLOBAL.status) {
+        this.$messageBox(res.data.message);
+        return;
+      }
+      if (checkRepeatRes.data.DataList == 1) {
+        this.$toast("单位名称重复，请确认！");
+        return;
+      }
+      if (this.form.custTypeObj.ValueID == "") {
+        this.$toast("请选择单位属性");
         return;
       }
 
@@ -214,26 +213,17 @@ export default {
         empId: this.user.username
       };
       log(jsondata);
-      //   return
-    //   this.$indicator.open();
-    //   return;
+        this.$indicator.open();
+      //   return;
       this.$http.post("/api/SaveAddCustomer", jsondata).then(
         res => {
           this.$indicator.close();
           if (res.data.status.toString() === this.GLOBAL.status) {
             log(res.data);
-            // let list = res.data.DataList;
-            // if (list && list.FID && list.OrderNumber) {
-            //     let msg = '订单号为：' + list.OrderNumber + '<br>是否现在通知仓库备货？'
-            //     this.$messageBox.confirm(msg, '销售下单成功').then(action => {
-            //         this.tellToBuy(list.FID)
-            //     }).catch(() => {
-            //         this.$toast('下单已取消')
-            //         this.$router.push('/home/main');
-            //     });
-            // }else{
-            //     this.$toast('返回有误，请检查接口返回')
-            // }
+            this.$toast("创建成功!");
+            setTimeout(() => {
+              this.$router.push("/home/main");
+            }, 2200);
           } else {
             this.$messageBox(res.data.message);
           }

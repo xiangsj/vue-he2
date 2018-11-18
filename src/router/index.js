@@ -24,7 +24,7 @@ import addCompany from '@/pages/home/addCompany/index'
 
 import accountQuery from '@/pages/home/accountQuery/index'
 import accountQuerySearch from '@/pages/home/accountQuery/search'
-// import stockQueryList from '@/pages/home/stockQuery/list'
+import accountQueryList from '@/pages/home/accountQuery/list'
 
 Vue.use(Router)
 
@@ -117,7 +117,7 @@ export default new Router({
           path: 'addCompany',
           name: 'addCompany',
           component: addCompany,
-          meta: { keepAlive: true } //false为不缓存
+          meta: { keepAlive: false } //false为不缓存
         },
         {
           path: 'accountQuery',
@@ -131,12 +131,12 @@ export default new Router({
               component: accountQuerySearch,
               meta: { keepAlive: false } //false为不缓存
             },
-            // {
-            //   path: 'list/:string',
-            //   name: 'list',
-            //   component: stockQueryList,
-            //   meta: { keepAlive: false } //false为不缓存
-            // }
+            {
+              path: 'list/:string',
+              name: 'accountQueryList',
+              component: accountQueryList,
+              meta: { keepAlive: false } //false为不缓存
+            }
           ]
         },
       ]

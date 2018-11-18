@@ -1,27 +1,44 @@
 <template>
-    <div class="stockList">
-        <mt-header title="库存列表">
-            <router-link to="" slot="left">
-                <mt-button icon="back" @click="$router.go(-1)">返回</mt-button>
+    <div class="accountQueryList">
+        <mt-header title="公司台账">
+            <router-link to="/home/accountQuery/search" slot="left">
+                <mt-button icon="back">返回</mt-button>
             </router-link>
         </mt-header>
         <section v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
             <dl v-for="(item,index) in listData" :key="index">
-                <dt>{{item.ScNo}}</dt>
+                <dt>{{item.FCreateDate.split(' ')[0]}}</dt>
                 <dd>
-                    <span style="color:#303133">{{item.WHName}}</span>
-                    <span>{{item.WHPosID}}</span>
+                    <span class="name">销售单数</span>
+                    <span class="value">{{item.FScCount}}</span>
                 </dd>
                 <dd>
-                    <span>{{item.EngineNo}}</span>
-                    <span>{{item.ProvItemNo}}</span>
-                    <span>{{item.Item_C_Name}}</span>
-                    <span>{{item.Brand}}</span>
+                    <span class="name">销售数量</span>
+                    <span class="value">{{parseInt(item.FSaleQty)}}</span>
                 </dd>
                 <dd>
-                    <span>{{Number(item.StockQty).toFixed(0)}}</span>
-                    <span>{{item.C_Unit}}</span>*
-                    <span>{{Number(item.UnitBoxQty).toFixed(2)}}</span>
+                    <span class="name">销售金额</span>
+                    <span class="value">{{item.FSaleAmt}}</span>
+                </dd>
+                <dd>
+                    <span class="name">出库单数</span>
+                    <span class="value">{{item.FWHOutCount}}</span>
+                </dd>
+                <dd>
+                    <span class="name">出库数量</span>
+                    <span class="value">{{item.FWHOutQty}}</span>
+                </dd>
+                <dd>
+                    <span class="name">出库金额</span>
+                    <span class="value">{{item.FWHOutQty}}</span>
+                </dd>
+                <dd>
+                    <span class="name">销售单数</span>
+                    <span class="value">{{item.FScCount}}</span>
+                </dd>
+                <dd>
+                    <span class="name">销售单数</span>
+                    <span class="value">{{item.FScCount}}</span>
                 </dd>
             </dl>
             <div class="getMore text-center">
@@ -34,16 +51,21 @@
 
 <script>
 export default {
-    name: 'stockList',
+    name: 'accountQueryList',
     data() {
         return {
             isMore: true,//false 为开启加载更多
             loading: false,
             obj: {},
-            account: JSON.parse(this.$getCookie('account')),
             pageIndex: 1,
             pageSize: 10,
-            listData: []
+            listData: [],
+            account: JSON.parse(this.$getCookie('account')),
+            user: JSON.parse(this.$getCookie('user')),
+            userObj: {
+                EmpID: JSON.parse(this.$getCookie('account')).EmpID,
+                CNEmpName: JSON.parse(this.$getCookie('account')).CNEmpName
+            },
         }
     },
     created() {
@@ -51,7 +73,8 @@ export default {
     },
     methods: {
         loadMore() {
-            // console.log('iii')
+            console.log('iii')
+            return
             this.loading = true
             this.pageIndex++
             let data = {
@@ -84,7 +107,6 @@ export default {
             }, res => { });
         },
         getData() {
-            this.loading = true
             let obj = {}
             try {
                 obj = JSON.parse(this.$route.params.string);
@@ -99,22 +121,18 @@ export default {
             }
             let data = {
                 fid: this.account.fid,
-                WHID: this.obj.WHID,
-                itemNo: this.obj.itemNo,
-                itemCName: this.obj.itemCName,
-                brand: this.obj.brand,
-                brandID: this.obj.brandID,
-                vehicleID: this.obj.vehicleID,
-                styleID: this.obj.styleID,
-                pageIndex: this.pageIndex,
-                pageSize: this.pageSize
+                empID: this.userObj.EmpID,
+                companyID: this.obj.companyID,
+                beginDate: this.obj.beginCreateDate,
+                endDate: this.obj.endCreateDate
             }
-            // console.log(data)
-            this.$http.get('/api/StockSearch', { params: data }).then(res => {
+            console.log(data)
+            this.loading = true
+            this.$http.get('/api/GetCompanyDateReport', { params: data }).then(res => {
                 if (res.data.status.toString() === this.GLOBAL.status) {
                     this.loading = false
                     let list = res.data.DataList;
-                    // console.log(list)
+                    console.log(list)
                     if (list.length === 0) {
                         this.$messageBox.alert('没有查到数据，返回重新查询').then(action => {
                             this.$router.go(-1);
@@ -136,7 +154,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.stockList {
+.accountQueryList {
     // border: 1px solid blue;
     height: 100%;
     position: relative;
@@ -160,9 +178,11 @@ export default {
             }
             >dd {
                 // background: red;
+                border-bottom: 1px solid #ddd;
+                padding: 8px 0;
                 margin: 0;
-                >span {
-                    margin-right: 8px;
+                >span.value {
+                    float: right;
                 }
             }
             .iconfont {
