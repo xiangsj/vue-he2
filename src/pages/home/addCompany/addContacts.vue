@@ -51,7 +51,7 @@ export default {
         FullName: "",
         Departement: "",
         Sex: "1",
-        MainContact: true,
+        MainContact: false,
         Jobs: "",
         Address: "",
         Mobile: "",
@@ -67,8 +67,9 @@ export default {
           label: "女",
           value: "0"
         }
-      ]
-    };
+      ],
+      index: null
+    };    
   },
   created() {
     // console.log(this.currentObj)
@@ -76,6 +77,15 @@ export default {
   methods: {
     loadMore() {
       // console.log("more")
+    },
+    editThis(index, item) {
+      this.index = index
+      log(this.index)
+      let data = Object.assign({}, item);
+      data.Sex = data.Sex + '';
+      data.MainContact = !!data.MainContact;
+      this.form = data;
+      this.popupVisible = true;
     },
     open() {
       this.popupVisible = true;
@@ -90,19 +100,20 @@ export default {
       data.Sex = Number(data.Sex);
       data.MainContact = Number(data.MainContact);
       this.popupVisible = false;
+      // log(this.index)
+      this.$emit("changeAdd", data, this.index);
       this.clear() // 清零
-      // log(data)
-      this.$emit("changeAdd", data);
       // if (this.msg !== this.currentObj) {
       //   this.$emit("ee", this.currentObj);
       // }
     },
     clear() {
+      this.index = null
       this.form = {
         FullName: "",
         Departement: "",
         Sex: "1",
-        MainContact: true,
+        MainContact: false,
         Jobs: "",
         Address: "",
         Mobile: "",

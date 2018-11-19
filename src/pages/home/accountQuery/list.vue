@@ -10,16 +10,17 @@
                 <dt>{{item.FCreateDate.split(' ')[0]}}</dt>
                 <dd>
                     <span class="name">销售单数</span>
-                    <span class="value">{{item.FScCount}}</span>
+                    <span class="value" style="padding:3px 3px 3px 12px;color:#008cee">{{item.FScCount}}</span>
                 </dd>
                 <dd>
                     <span class="name">销售数量</span>
-                    <span class="value">{{parseInt(item.FSaleQty)}}</span>
+                    <span class="value" style="padding:3px 3px 3px 12px;color:#008cee">{{parseInt(item.FSaleQty)}}</span>
                 </dd>
                 <dd>
                     <span class="name">销售金额</span>
-                    <span class="value">{{item.FSaleAmt}}</span>
+                    <span class="value" style="padding:3px 3px 3px 12px;color:#008cee">{{item.FSaleAmt}}</span>
                 </dd>
+
                 <dd>
                     <span class="name">出库单数</span>
                     <span class="value">{{item.FWHOutCount}}</span>
@@ -30,16 +31,56 @@
                 </dd>
                 <dd>
                     <span class="name">出库金额</span>
-                    <span class="value">{{item.FWHOutQty}}</span>
+                    <span class="value">{{item.FWHOutAmt}}</span>
+                </dd>
+
+                <dd>
+                    <span class="name">入库单数</span>
+                    <span class="value">{{item.FWHInCount}}</span>
                 </dd>
                 <dd>
-                    <span class="name">销售单数</span>
-                    <span class="value">{{item.FScCount}}</span>
+                    <span class="name">入库数量</span>
+                    <span class="value">{{item.FWHIntQty}}</span>
                 </dd>
                 <dd>
-                    <span class="name">销售单数</span>
-                    <span class="value">{{item.FScCount}}</span>
+                    <span class="name">入库金额</span>
+                    <span class="value">{{item.FWHIntAmt}}</span>
                 </dd>
+
+
+                <dd>
+                    <span class="name">实收金额</span>
+                    <span class="value">{{item.FRecAmt}}</span>
+                </dd>
+                <dd>
+                    <span class="name">实付金额</span>
+                    <span class="value">{{item.FSedAmt}}</span>
+                </dd>
+                <dd>
+                    <span class="name">预估销售运费</span>
+                    <span class="value">{{item.FDFAmt}}</span>
+                </dd>
+                <dd>
+                    <span class="name">实付销售运费</span>
+                    <span class="value">{{item.FFactFreightAmt1}}</span>
+                </dd>
+                <dd>
+                    <span class="name">预估采购运费</span>
+                    <span class="value">{{item.FWHDFAmt}}</span>
+                </dd>
+                <dd>
+                    <span class="name">实付采购运费</span>
+                    <span class="value">{{item.FFactFreightAmt2}}</span>
+                </dd>
+                <dd>
+                    <span class="name">报销金额</span>
+                    <span class="value">{{item.FCostAmt}}</span>
+                </dd>
+                <dd>
+                    <span class="name">预估毛利</span>
+                    <span class="value">{{item.FProfitAmt}}</span>
+                </dd>
+                
             </dl>
             <div class="getMore text-center">
                 <span v-if="loading"><i class="iconfont icon-loading"></i>努力加载中...</span>

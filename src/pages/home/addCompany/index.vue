@@ -46,7 +46,7 @@
                         <span @click="removeThis(index)">
                             <i class="iconfont icon-remove"></i>
                         </span>
-                        <span @click="editThis(index)">
+                        <span @click="$refs.addContacts.editThis(index, item)">
                             <i class="iconfont icon-edit"></i>
                         </span>
                     </div>
@@ -56,6 +56,7 @@
                             {{item.Departement}}
                             {{item.Jobs}}
                             {{item.Mobile}}
+                            <span v-if="item.MainContact == 1" style="color:#008cee;">主联系人</span>
                         </div>
                         <div>
                             {{item.Address}}
@@ -82,7 +83,7 @@
 import selectCustType from "./selectCustType";
 import selectCustClassify from "./selectCustClassify";
 import selectCity from "./selectCity";
-import addContacts from './addContacts'
+import addContacts from "./addContacts";
 export default {
   name: "addCompany",
   data() {
@@ -117,26 +118,30 @@ export default {
         CNEmpName: JSON.parse(this.$getCookie("account")).CNEmpName
       },
 
-      contactsAddList: [
-        // {
-        //   // FullName: "张三",
-        //   // Departement: "技术部",
-        //   // Sex: 1,
-        //   // MainContact: 1,
-        //   // Jobs: "经理",
-        //   // Address: "湖北省武汉市江汉区江汉路88号",
-        //   // Mobile: "18321267899",
-        //   // Tel: "027-9989999",
-        //   // Memo: "技术部负责人"
-        // }
-      ] // 添加的联系人列表
+      contactsAddList: [] // 添加的联系人列表
     };
   },
   created() {},
   methods: {
-    changeAdd(data) {
-      console.log(data)
-      this.contactsAddList.push(data)
+    removeThis(index) {
+      this.$messageBox
+        .confirm("确定移除这个联系人吗?", "")
+        .then(action => {
+          this.contactsAddList.splice(index, 1);
+          this.$toast("移除成功");
+        })
+        .catch(() => {});
+    },
+    changeAdd(data, index) {
+      if (index === null) {
+        // 新增时：
+        this.contactsAddList.push(data);
+      } else {
+        // 编辑时：
+        let newArr = this.contactsAddList.concat()
+        newArr[index] = data
+        this.contactsAddList = newArr
+      }
     },
     resetClassigyObj() {
       this.form.custClassifyObj = {
@@ -176,11 +181,11 @@ export default {
         this.$toast("请输入单位名称");
         return;
       }
-    //   检查重复
+      //   检查重复
       let checkRepeatRes = await this.$http.get("/api/SaveSelectCustomer", {
         params: { fid: this.account.fid, briefName: this.form.customerName }
       });
-        //   log(checkRepeatRes.data);
+      //   log(checkRepeatRes.data);
       if (checkRepeatRes.data.status.toString() !== this.GLOBAL.status) {
         this.$messageBox(res.data.message);
         return;
@@ -193,7 +198,7 @@ export default {
         this.$toast("请选择单位属性");
         return;
       }
-      if (this.contactsAddList.length ===0) {
+      if (this.contactsAddList.length === 0) {
         this.$toast("请添加联系人");
         return;
       }
@@ -221,7 +226,7 @@ export default {
         empId: this.user.username
       };
       log(jsondata);
-        this.$indicator.open();
+      this.$indicator.open();
       //   return;
       this.$http.post("/api/SaveAddCustomer", jsondata).then(
         res => {
@@ -244,7 +249,7 @@ export default {
     "select-cust-type": selectCustType,
     "select-cust-classify": selectCustClassify,
     "select-city": selectCity,
-    'add-contacts': addContacts
+    "add-contacts": addContacts
   },
   watch: {
     $route(to, from) {

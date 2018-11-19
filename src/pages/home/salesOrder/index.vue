@@ -327,8 +327,8 @@ export default {
                 let val = this.partsAdd[index].SalePrice * this.partsAdd[index].SaleQty
                 this.total -= val // 价格减去
                 this.partsAdd.splice(index, 1)
-            }).catch(() => { });
-            this.$toast('移除成功')
+                this.$toast('移除成功')
+            }).catch(() => { });           
         },
         editThis(index) {
             // this.$router.push('/home/partAdd/' + '187')
