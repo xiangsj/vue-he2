@@ -236,7 +236,7 @@ export default {
             this.$toast("创建成功!");
             setTimeout(() => {
               this.$router.push("/home/main");
-            }, 2200);
+            }, 3000);
           } else {
             this.$messageBox(res.data.message);
           }

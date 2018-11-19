@@ -8,15 +8,15 @@
         <section v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
             <dl v-for="(item,index) in listData" :key="index">
                 <dt>{{item.FCreateDate.split(' ')[0]}}</dt>
-                <dd>
+                <dd @click="goList(item)">
                     <span class="name">销售单数</span>
                     <span class="value" style="padding:3px 3px 3px 12px;color:#008cee">{{item.FScCount}}</span>
                 </dd>
-                <dd>
+                <dd @click="goList(item)">
                     <span class="name">销售数量</span>
                     <span class="value" style="padding:3px 3px 3px 12px;color:#008cee">{{parseInt(item.FSaleQty)}}</span>
                 </dd>
-                <dd>
+                <dd @click="goList(item)">
                     <span class="name">销售金额</span>
                     <span class="value" style="padding:3px 3px 3px 12px;color:#008cee">{{item.FSaleAmt}}</span>
                 </dd>
@@ -113,6 +113,10 @@ export default {
         this.getData()
     },
     methods: {
+        goList(item) {
+            console.log(item)
+            this.$messageBox('请稍等!!!')
+        },
         loadMore() {
             console.log('iii')
             return
@@ -211,16 +215,18 @@ export default {
             // background: red;
             margin: 0;
             border-bottom: 1px solid #eee;
-            padding: 8px 15px 8px 15px;
+            // padding: 8px 15px 8px 15px;
             color: #606266;
             position: relative;
             >dt {
-                color: #008cee;
+                // color: #008cee;
+                background: #f7f8f9;
+                padding: 13px 15px 6px;
             }
             >dd {
                 // background: red;
-                border-bottom: 1px solid #ddd;
-                padding: 8px 0;
+                border-bottom: 1px solid #f7f8f9;
+                padding: 8px 15px;
                 margin: 0;
                 >span.value {
                     float: right;

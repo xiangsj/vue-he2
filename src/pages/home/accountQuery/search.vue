@@ -65,8 +65,6 @@ export default {
   },
   created() {
     this.getCompanyData(); // 取默认第一个显示
-
-    // this.dateBegin = date.getFullYear() + '-' + date.getMonth() + '-01'
   },
   methods: {
     // 取默认第一个显示
