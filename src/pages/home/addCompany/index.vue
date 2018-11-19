@@ -35,7 +35,7 @@
 
             </div>
             <h2 class="text-center">
-                <mt-button @click="goAddPart()" size="small" type="primary" plain>添加联系人
+                <mt-button @click="$refs.addContacts.open()" size="small" type="primary" plain>添加联系人
                     <i class="iconfont icon-add-empty"></i>
                 </mt-button>
             </h2>
@@ -73,7 +73,7 @@
         <select-cust-type v-model="form.custTypeObj" ref="pickerCustType" @ee="resetClassigyObj"></select-cust-type>
         <select-cust-classify v-model="form.custClassifyObj" ref="pickerCustClassify"></select-cust-classify>
         <select-city v-model="form.city" ref="pickerCity"></select-city>
-        <!-- <add-contacts></add-contacts> -->
+        <add-contacts ref="addContacts" @changeAdd="changeAdd"></add-contacts>
         
     </div>
 </template>
@@ -82,7 +82,7 @@
 import selectCustType from "./selectCustType";
 import selectCustClassify from "./selectCustClassify";
 import selectCity from "./selectCity";
-// import addContacts from './addContacts'
+import addContacts from './addContacts'
 export default {
   name: "addCompany",
   data() {
@@ -118,22 +118,26 @@ export default {
       },
 
       contactsAddList: [
-        {
-          FullName: "张三",
-          Departement: "技术部",
-          Sex: 1,
-          MainContact: 1,
-          Jobs: "经理",
-          Address: "湖北省武汉市江汉区江汉路88号",
-          Mobile: "18321267899",
-          Tel: "027-9989999",
-          Memo: "技术部负责人"
-        }
+        // {
+        //   // FullName: "张三",
+        //   // Departement: "技术部",
+        //   // Sex: 1,
+        //   // MainContact: 1,
+        //   // Jobs: "经理",
+        //   // Address: "湖北省武汉市江汉区江汉路88号",
+        //   // Mobile: "18321267899",
+        //   // Tel: "027-9989999",
+        //   // Memo: "技术部负责人"
+        // }
       ] // 添加的联系人列表
     };
   },
   created() {},
   methods: {
+    changeAdd(data) {
+      console.log(data)
+      this.contactsAddList.push(data)
+    },
     resetClassigyObj() {
       this.form.custClassifyObj = {
         FID: "",
@@ -189,6 +193,10 @@ export default {
         this.$toast("请选择单位属性");
         return;
       }
+      if (this.contactsAddList.length ===0) {
+        this.$toast("请添加联系人");
+        return;
+      }
 
       let Head = {
         BriefName: this.form.customerName,
@@ -235,8 +243,8 @@ export default {
   components: {
     "select-cust-type": selectCustType,
     "select-cust-classify": selectCustClassify,
-    "select-city": selectCity
-    // 'add-contacts': addContacts
+    "select-city": selectCity,
+    'add-contacts': addContacts
   },
   watch: {
     $route(to, from) {
