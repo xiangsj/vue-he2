@@ -115,7 +115,16 @@ export default {
     methods: {
         goList(item) {
             console.log(item)
-            this.$messageBox('请稍等!!!')
+            // companyID: this.obj.companyID,
+            let data = {
+                fCreateDate: item.FCreateDate.split(' ')[0],
+                companyID: this.obj.companyID
+            };
+            log(data)
+            // return
+            let url = "/home/orderSearchList/" + JSON.stringify(data);
+            this.$router.push(url);
+            // this.$messageBox('请稍等!!!')
         },
         loadMore() {
             console.log('iii')
