@@ -138,9 +138,9 @@ export default {
         this.contactsAddList.push(data);
       } else {
         // 编辑时：
-        let newArr = this.contactsAddList.concat()
-        newArr[index] = data
-        this.contactsAddList = newArr
+        let newArr = this.contactsAddList.concat();
+        newArr[index] = data;
+        this.contactsAddList = newArr;
       }
     },
     resetClassigyObj() {
@@ -225,7 +225,7 @@ export default {
         },
         empId: this.user.username
       };
-      log(jsondata);
+      // log(jsondata);
       this.$indicator.open();
       //   return;
       this.$http.post("/api/SaveAddCustomer", jsondata).then(

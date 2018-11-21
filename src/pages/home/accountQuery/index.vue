@@ -9,12 +9,12 @@
 
 <script>
 export default {
-    name: 'accountHome'
-}
+  name: "accountHome"
+};
 </script>
 
 <style lang="less" scoped>
-.accountHome{
-    height: 100%;
+.accountHome {
+  height: 100%;
 }
 </style>

@@ -69,7 +69,7 @@ export default {
         }
       ],
       index: null
-    };    
+    };
   },
   created() {
     // console.log(this.currentObj)
@@ -79,10 +79,10 @@ export default {
       // console.log("more")
     },
     editThis(index, item) {
-      this.index = index
-      log(this.index)
+      this.index = index;
+      log(this.index);
       let data = Object.assign({}, item);
-      data.Sex = data.Sex + '';
+      data.Sex = data.Sex + "";
       data.MainContact = !!data.MainContact;
       this.form = data;
       this.popupVisible = true;
@@ -102,13 +102,13 @@ export default {
       this.popupVisible = false;
       // log(this.index)
       this.$emit("changeAdd", data, this.index);
-      this.clear() // 清零
+      this.clear(); // 清零
       // if (this.msg !== this.currentObj) {
       //   this.$emit("ee", this.currentObj);
       // }
     },
     clear() {
-      this.index = null
+      this.index = null;
       this.form = {
         FullName: "",
         Departement: "",
@@ -119,7 +119,7 @@ export default {
         Mobile: "",
         Tel: "",
         Memo: ""
-      }
+      };
     }
   }
 };

@@ -45,22 +45,22 @@ export default {
     };
   },
   created() {
-      log(' jjj ')
+    //   log(' jjj ')
     let obj = {};
     try {
       obj = JSON.parse(this.$route.params.string);
       this.obj = obj;
-      console.log(obj);
+      //   console.log(obj);
       if (obj.companyID) {
         // log("jj");
         this.getAccountSearch();
       } else {
+        //   log(' ooooooooooooo ')
         this.getData();
       }
     } catch (e) {
-      // console.log("nnn")
       this.$messageBox.alert("参数有误，返回重新查询").then(action => {
-        this.$router.push("/login");
+        this.$router.push("/home/main");
       });
       return;
     }
@@ -79,7 +79,7 @@ export default {
           if (res.data.status.toString() === this.GLOBAL.status) {
             this.loading = false;
             let list = res.data.DataList;
-            // console.log(list)
+            console.log(list);
             if (list.length === 0) {
               // console.log("000000000")
               this.$messageBox

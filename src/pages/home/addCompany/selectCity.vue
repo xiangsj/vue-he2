@@ -57,25 +57,25 @@ export default {
   methods: {
     submit() {
       // log(this.pickArr)
-      let FID = '';
+      let FID = "";
       // 没有镇 就 城市
       if (this.pickArr[2]) {
-        FID = this.townDataArr.filter((item) => {
-          return item.CityName == this.pickArr[2]
-        })[0].FID
+        FID = this.townDataArr.filter(item => {
+          return item.CityName == this.pickArr[2];
+        })[0].FID;
       } else {
-        FID = this.cityDataArr.filter((item) => {
-          return item.CityName == this.pickArr[1]
-        })[0].FID
+        FID = this.cityDataArr.filter(item => {
+          return item.CityName == this.pickArr[1];
+        })[0].FID;
       }
       // this.popupVisible = false;
       this.currentObj = {
         FID: FID,
-        name: (this.pickArr + "").replace(/,/g, ' ')
+        name: (this.pickArr + "").replace(/,/g, " ")
       };
       // log(this.currentObj)
       this.$emit("ee", this.currentObj);
-      this.popupVisible = false
+      this.popupVisible = false;
     },
     onValuesChange(picker, values) {
       //   console.log(values);
