@@ -43,7 +43,7 @@
                     </mt-cell>
                 </div>
                 <div @click="$refs.pickerPosition.open(currentArr.WHID)">
-                    <mt-cell class="required" title="仓库库位" is-link value="请选择">
+                    <mt-cell class="" title="仓库库位" is-link value="请选择">
                         <span class="value" v-if="currentArr.WHPosName !== ''">{{currentArr.WHPosName}}</span>
                     </mt-cell>
                 </div>

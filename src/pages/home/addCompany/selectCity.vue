@@ -77,14 +77,14 @@ export default {
       this.$emit("ee", this.currentObj);
       this.popupVisible = false;
     },
+    // 时间日期选择器
     onValuesChange(picker, values) {
-      //   console.log(values);
       //   console.log(this.pickArr);
       if (!values[0]) {
         return;
       }
-      this.pickArr = [].concat(values);
-      // this.pickArr = values
+      console.log(values);
+      this.pickArr = values.concat();
     },
     async getData() {
       let provinceData = await this.$http.get("/api/GetCustChinaProvince", {
@@ -108,6 +108,8 @@ export default {
       if (provinceArr.length === 0 || !provinceArr[0].FID) {
         return;
       }
+      log(' 111 ')
+      // return
 
       let cityData = await this.$http.get("/api/GetCustChinaCity", {
         params: { fid: this.account.fid, provinceId: provinceArr[0].FID }
@@ -116,6 +118,8 @@ export default {
       this.slots[1].values = this.cityDataArr.map(item => {
         return item.CityName;
       });
+      log(' <<< ')
+      // return
       // console.log(' iii ')
       setTimeout(() => {
         this.getTown();

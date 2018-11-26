@@ -84,7 +84,7 @@ export default {
             // return
 
             let OrgSalePrice = this.partData.filter(item => {
-                return item.OrgSalePrice == ''
+                return item.OrgSalePrice == '' || item.OrgSalePrice === null
             })
             // log(OrgSalePrice)  || !/^[0-9]*$/.test(OrgSalePrice[0].OrgSalePrice)
             if (OrgSalePrice.length > 0) {
@@ -93,7 +93,7 @@ export default {
             }
             // 
             let SalePrice = this.partData.filter(item => {
-                return item.SalePrice == ''
+                return item.SalePrice == '' || item.SalePrice === null
             })
             if (SalePrice.length > 0) {
                 this.$toast('有 ' + SalePrice.length + ' 处实际销售单价没有录入')
@@ -101,10 +101,19 @@ export default {
             }
             //
             let SaleQty = this.partData.filter(item => {
-                return item.SaleQty == ''
+                return item.SaleQty == '' || item.SaleQty === null
             })
             if (SaleQty.length > 0) {
                 this.$toast('有 ' + SaleQty.length + ' 处销售数量没有录入')
+                return
+            }
+
+            // 发货仓库校验
+            let WHName = this.partData.filter(item => {
+                return item.WHName == '' || item.WHName === null
+            })
+            if (WHName.length > 0) {
+                this.$toast('有 ' + WHName.length + ' 处发货仓库没有选择')
                 return
             }
 
