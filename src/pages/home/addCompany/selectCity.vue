@@ -48,7 +48,8 @@ export default {
       pickArr: [undefined, undefined, undefined],
       provinceDataArr: [],
       cityDataArr: [],
-      townDataArr: []
+      townDataArr: [],
+      pickStr: ''
     };
   },
   created() {
@@ -71,20 +72,28 @@ export default {
       // this.popupVisible = false;
       this.currentObj = {
         FID: FID,
-        name: (this.pickArr + "").replace(/,/g, " ")
+        name: this.pickStr
       };
       // log(this.currentObj)
       this.$emit("ee", this.currentObj);
       this.popupVisible = false;
     },
-    // 时间日期选择器
+    // 时间日期选择器改变
     onValuesChange(picker, values) {
       //   console.log(this.pickArr);
       if (!values[0]) {
         return;
       }
-      console.log(values);
+      // console.log(values);
+      // picker.setSlotValue(0, values[0]);
       this.pickArr = values.concat();
+      // console.log(picker.getSlotValue(0))
+      // this.pickArr[0] = picker.getSlotValue(0)
+      let str = picker.getSlotValue(0) + ' ' + picker.getSlotValue(1) + ' ' + picker.getSlotValue(2)
+      str = str.replace(/undefined/g, '')
+      this.pickStr = str
+      // log(this.pickStr)
+      // log(picker.getValues())
     },
     async getData() {
       let provinceData = await this.$http.get("/api/GetCustChinaProvince", {
@@ -93,34 +102,29 @@ export default {
       this.provinceDataArr = provinceData.data.DataList;
       this.slots[0].values = this.provinceDataArr.map(item => {
         return item.CityName;
-      });
+      }).concat();
       setTimeout(() => {
         this.getCity(); // 以省ID 取市
       }, 30);
     },
     async getCity() {
-      //   console.log(" jjj");
-      //   console.log(this.pickArr);
-      //   console.log(" jjj");
       let provinceArr = this.provinceDataArr.filter(item => {
         return item.CityName == this.pickArr[0];
       });
       if (provinceArr.length === 0 || !provinceArr[0].FID) {
         return;
       }
-      log(' 111 ')
-      // return
 
       let cityData = await this.$http.get("/api/GetCustChinaCity", {
         params: { fid: this.account.fid, provinceId: provinceArr[0].FID }
       });
       this.cityDataArr = cityData.data.DataList;
-      this.slots[1].values = this.cityDataArr.map(item => {
+      let name = this.cityDataArr.map(item => {
         return item.CityName;
       });
-      log(' <<< ')
+      this.slots[1].values = name.concat()
+      // log(name)
       // return
-      // console.log(' iii ')
       setTimeout(() => {
         this.getTown();
       }, 30);
@@ -147,10 +151,10 @@ export default {
   },
   watch: {
     pickArr: function(newval, oldval) {
-      //   console.log("new");
-      //   console.log(newval);
-      //   console.log("old");
-      //   console.log(oldval);
+        // console.log("new");
+        // console.log(newval);
+        // console.log("old");
+        // console.log(oldval);
       // 更新 city
       if (!newval[0] || !oldval[0]) {
         return;
