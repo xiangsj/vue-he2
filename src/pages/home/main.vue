@@ -9,32 +9,38 @@
     </header>
     <section>
       <ul>
-        <li @click="$router.push('/home/orderSearch')" v-if="appList.indexOf('SC010') !== -1">
+        <li @click="$router.push('/home/orderSearch')" v-if="hasApp.indexOf('orderSearch') !== -1">
           <span>
             <i class="iconfont icon-order-search"></i>
           </span>
           <div>订单查询</div>
         </li>
-        <li @click="$router.push('/home/salesOrder')" v-if="appList.indexOf('SC010') !== -1">
+        <li @click="$router.push('/home/salesOrder')" v-if="hasApp.indexOf('salesOrder') !== -1">
           <span style="background:#6e05d6">
             <i class="iconfont icon-place-order"></i>
           </span>
           <div>销售下单</div>
         </li>
         <br>
-        <li @click="$router.push('/home/stockQuery/search')" v-if="appList.indexOf('QY100') !== -1">
+        <li
+          @click="$router.push('/home/stockQuery/search')"
+          v-if="hasApp.indexOf('stockQuery') !== -1"
+        >
           <span style="background:#FF7165">
             <i class="iconfont icon-stock-search"></i>
           </span>
           <div>库存查询</div>
         </li>
-        <li @click="$router.push('/home/addCompany')" v-if="appList.indexOf('BF001') !== -1">
+        <li @click="$router.push('/home/addCompany')" v-if="hasApp.indexOf('addCompany') !== -1">
           <span style="background:#008cee">
             <i class="iconfont icon-company"></i>
           </span>
           <div>创建往来单位</div>
         </li>
-        <li @click="$router.push('/home/accountQuery/search')" v-if="appList.indexOf('QY112') !== -1">
+        <li
+          @click="$router.push('/home/accountQuery/search')"
+          v-if="hasApp.indexOf('accountQuery') !== -1"
+        >
           <span style="background:#BFBF17">
             <i class="iconfont icon-money"></i>
           </span>
@@ -49,7 +55,7 @@
 </template>
 
 <script>
-import { removeCookie } from "@/libs/utils.js";
+import { setCookie, removeCookie } from "@/libs/utils.js";
 
 export default {
     name: 'homeMain',
@@ -60,8 +66,34 @@ export default {
                 CNEmpName: JSON.parse(this.$getCookie("account")).CNEmpName
             },
             account: JSON.parse(this.$getCookie('account')),
-            appList: []
-            // account: 'jj'
+            allApp: [
+                {
+                    name: 'addCompany',
+                    code: 'BF001'
+                },
+                {
+                    name: 'salesOrder',
+                    code: 'SC010'
+                },
+                {
+                    name: 'orderSearch',
+                    code: 'SC010'
+                },
+                {
+                    name: 'stockQuery',
+                    code: 'QY100'
+                },
+                {
+                    name: 'accountQuery',
+                    code: 'QY112'
+                }
+            ],
+            hasApp: [],
+            appList: [
+                // "QY100",
+                // "QY112",
+                // "SC010"
+            ]
         }
     },
     created() {
@@ -80,7 +112,19 @@ export default {
             if (res.data.status.toString() === this.GLOBAL.status) {
               let DataList = res.data.DataList;
             //   console.log(DataList)
-              this.appList = DataList              
+              this.appList = DataList    
+              
+              let arr = ['main']
+                this.appList.forEach(item => {
+                    this.allApp.forEach(item2 => {
+                        if (item == item2.code) {
+                            arr.push(item2.name)
+                        }
+                    })
+                })
+                this.hasApp = arr
+                setCookie("apps", arr.join(','));
+                    
             } else {
               this.$messageBox(res.data.message);
             }

@@ -25,6 +25,7 @@ export default {
     created() {
         // clearCookie();
         // log(this.token)
+        // setCookie('apps', ['index','login','main'])
         if (this.token && this.token !== '') {
             this.checkToken()
         }

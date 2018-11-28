@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { getCookie } from "@/libs/utils.js";
 
 import index from '@/pages/index'
 import login from '@/pages/login'
@@ -28,7 +29,7 @@ import accountQueryList from '@/pages/home/accountQuery/list'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -144,3 +145,34 @@ export default new Router({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  // to: Route: 即将要进入的目标 路由对象
+  // from: Route: 当前导航正要离开的路由
+  // next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
+
+  // 只有进入 项目 才开始检验
+  // log(to)
+  if (to.path.indexOf('/home') !== -1 && to.path != '/home/main') {
+
+    let apps = getCookie('apps').split(',')
+    let hasNav = []
+    to.path.split('/').forEach(item => {
+      apps.forEach(item2 => {
+        if (item == item2) {
+          hasNav.push(item)
+        }
+      })
+    })
+    if (hasNav.length === 0) {
+      log(apps)
+      log(to)
+      log(hasNav)
+      // router.push('/login')
+    }
+
+  }
+
+  next()
+})
+
+export default router
