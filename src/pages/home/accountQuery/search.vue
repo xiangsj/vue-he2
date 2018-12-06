@@ -46,6 +46,7 @@ export default {
     let date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
+    var day = date.getDate() < 10 ? '0'+date.getDate() : date.getDate()
     return {
       companyObj: {
         CompanyID: "",
@@ -54,7 +55,7 @@ export default {
       dateBeginShow: false, // show
       dateBegin: year + "-" + month + "-01", // 选上显示值
       dateEndShow: false, // show
-      dateEnd: year + "-" + month + "-" + date.getDate(),
+      dateEnd: year + "-" + month + "-" + day,
       account: JSON.parse(this.$getCookie("account")),
       user: JSON.parse(this.$getCookie("user")),
       userObj: {
